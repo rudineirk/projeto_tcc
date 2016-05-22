@@ -5,7 +5,7 @@ LATEXMK = latexmk  -f -pdf -pdflatex="pdflatex -interaction=nonstopmode" -use-ma
 all : tcc.pdf
 
 clean :
-	rm -rf build/ *.aux *.bbl *.blg *.dvi *.lof *.log *.lot *.backup *.toc *.pdf *.brf *.ps
+	rm -rf build/ *.aux *.bbl *.blg *.dvi *.lof *.loq *.log *.lot *.backup *.toc *.pdf *.brf *.ps
 
 view :
 	xdg-open tcc.pdf
