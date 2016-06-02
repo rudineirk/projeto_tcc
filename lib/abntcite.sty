@@ -8,7 +8,7 @@
 %%
 
 \NeedsTeXFormat{LaTeX2e}
-\input{cvs-id.def}
+\input{lib/cvs-id.def}
 \CVSExtract$Id: abntcite.sty,v 1.30 2006/04/25 15:57:42 gweber Exp $
 \CVSPackage{abntcite}{\space Chamadas de referencias no texto (NBR10520, NBR10522)} %substitui \ProvidesPackage (replaces \ProvidesPackage)
 
@@ -17,15 +17,15 @@
 \RequirePackage{calc}
 
 %Pages from the abnTeX project
-\RequirePackage{abntex-abrev}
-\RequirePackage{abntex-text}
-\RequirePackage{abntex-default-design}
+\RequirePackage{lib/abntex-abrev}
+\RequirePackage{lib/abntex-text}
+\RequirePackage{lib/abntex-default-design}
 
 %%%%%%  Options Declaration  %%%%%%
 
 
 %----------------------------------------------------------------
-%    Extracted from substr.sty (2000-06-15) 
+%    Extracted from substr.sty (2000-06-15)
 %----------------------------------------------------------------
 % Copyright 2000 Harald Harders <h.harders@tu-bs.de>
 % Look at www.ctan.org for original package
@@ -33,7 +33,7 @@
 % Commands:
 %
 % \IfSubStringInString{substring}{string}{true part}{false part}
-% This command searches <substring> in <string> and executes the 
+% This command searches <substring> in <string> and executes the
 % <true part> if it is and else the <else part>
 
 % expands the first and second argument with
@@ -124,7 +124,7 @@
 
 % cite text on demand (defaults depends on foot or not-foot)
 %  (also recall that options are executed in order of definition at
-%    \ProcessOptions) 
+%    \ProcessOptions)
 \DeclareOption{load-text-on-demand}{\setboolean{ABCItextondemand}{true}}
 \DeclareOption{load-text}{\setboolean{ABCItextondemand}{false}}
 
@@ -148,9 +148,9 @@
 \DeclareOption{citepos=inline}{\setboolean{ABNTovercite}{false}}
 
 %Options specific to the several versions of 10520
-\DeclareOption{nbr10520=1988}{\input{nbr10520-1988.def}}
-\DeclareOption{nbr10520=2001}{\input{nbr10520-2001.def}}
-\DeclareOption{nbr10520=2002}{\input{nbr10520-2002.def}}
+\DeclareOption{nbr10520=1988}{\input{lib/nbr10520-1988.def}}
+\DeclareOption{nbr10520=2001}{\input{lib/nbr10520-2001.def}}
+\DeclareOption{nbr10520=2002}{\input{lib/nbr10520-2002.def}}
 
 \DeclareOption{abnt-substyle=COPPE}
   {\newcommand{\bibtextitlecommand}[2]{``#2''}%
@@ -211,7 +211,7 @@
   %norm-dependent default options
   \ExecuteOptions{nbr10520=2002}
   }
-  
+
 %default for this version
 \ExecuteOptions{abntex=0.9}
 \ProcessOptions
@@ -267,7 +267,7 @@
 %       no changes to \bibliography
 
 \def\bibliography#1{%
-   
+
   \ifthenelse{\boolean{ABCIciteoptionwasused}
                \and\boolean{ABCIauto-abntoptions}}
    {
@@ -391,7 +391,7 @@
       \fi%
       \ignorespaces
     }
-  
+
     \def\@bibitem#1{
       \gdef\abntnextkey{#1}
   %    \ifthenelse{}{\item}{\item}
@@ -475,21 +475,21 @@
 \ifx\AbntCallType\AbntCallTypeALF % if alf
 
   \renewcommand{\@biblabel}[1]{}
-  
+
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %
   %               \cite[optional]{list of keys}
   %
-  %  Implicit citation - author in capital letters and year; 
+  %  Implicit citation - author in capital letters and year;
   %                       mechanism to deal with repeated names;
   %
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  
+
   \renewcommand{\@cite}[2]%
     {\citeopen{#1\ifthenelse{\equal{#2}{}}{}{,
           {\optionaltextstyle#2}}}\citeclose}
-  
+
   \DeclareRobustCommand{\cite}[2][]{%
   %
     \leavevmode
@@ -534,20 +534,20 @@
         }% end for
     }{#1}%
   }
-  
-  
+
+
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %
   %             \citeonline[optional]{list of keys}
   %
-  %  Inline (explicit) citation - author in "inline style" and year; 
+  %  Inline (explicit) citation - author in "inline style" and year;
   %                               mechanism to deal with repeated names;
   %
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  
+
   \newcommand{\@citeonline}[2]%
     {{#1\ifthenelse{\equal{#2}{}}{}{, {\optionaltextstyle#2}}}\citeclose}
-  
+
   \DeclareRobustCommand{\citeonline}[2][]{%
   %
     \leavevmode
@@ -564,11 +564,11 @@
              \csname b@\@citekey++YEAR\endcsname%
          \ifx\@citeprevious\@empty%
          \else%
-           \ifx\@citename\@citeprevious%       
+           \ifx\@citename\@citeprevious%
              \ABCIcitecommadefault% echoing ", "
            \else%
              \citeclose, % echoing "), "
-           \fi%   
+           \fi%
          \fi%
          % writing in aux file
          \if@filesw\immediate\write\@auxout{\string\citation{\@citekey}}\fi%
@@ -590,7 +590,7 @@
         }% end for
     }{#1}%
   }
-  
+
   % "overcite" compatibility
   \let\citen\citeonline
   \let\citenum\citeonline
@@ -672,24 +672,24 @@
    \newcommand{\citeifnotcited}[1]{%
      \def\ABCIcitelist{}%
      \@for\@citeb:=#1\do%
-        {%     
+        {%
          \@ifundefined{b@\@citeb}
            {\ABCIaddtocitelist{\@citeb}}
            {}%
         }%
      \expandafter\cite\expandafter{\ABCIcitelist}%
-   }     
+   }
 
    \newcommand{\citeonlineifnotcited}[1]{%
      \def\ABCIcitelist{}%
      \@for\@citeb:=#1\do%
-        {%     
+        {%
          \@ifundefined{b@\@citeb}
            {\ABCIaddtocitelist{\@citeb}}
            {}%
         }%
      \expandafter\citeonline\expandafter{\ABCIcitelist}%
-   }     
+   }
 
    \newcommand{\ABCIaddtocitelist}[1]{%
      \ifthenelse{\equal{\ABCIcitelist}{}}%
@@ -718,7 +718,7 @@
             \ifthenelse{\lengthtest{\ABCIauxlen<\minimumbiblabelwidth}}
                {\setlength{\ABCIauxlen}{\minimumbiblabelwidth-\ABCIauxlen}}
                {\setlength{\ABCIauxlen}{0cm}}%
-            {\biblabeltext\hspace{\ABCIauxlen}}%   
+            {\biblabeltext\hspace{\ABCIauxlen}}%
            }%
         }%
      }
@@ -780,7 +780,7 @@
        {\edef\ABCIcitelist{#1}}
        {\edef\ABCIcitelist{\ABCIcitelist,#1}}%
    }%
-  
+
 
   \fi
 \fi % end if alf
@@ -793,7 +793,7 @@
 %
 %                \citeyear{list of keys}
 %
-%  Citation by year 
+%  Citation by year
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -804,14 +804,14 @@
   \let\@citeprevious\@empty%
   \@for\@citekey:=#1\do %\@citekey contains the key
     {%
-%     \edef\@citekey{\expandafter\@firstofone\@citekey\@empty}%     
+%     \edef\@citekey{\expandafter\@firstofone\@citekey\@empty}%
      \expandafter\let\expandafter\@citename%
           \csname b@\@citekey++YEAR\endcsname%
      %compare previous name with current name and decide the punctuation marks
      %if first use do nothing
      \ifx\@citeprevious\@empty%
      \else%
-        , % echoing ", 
+        , % echoing ",
      \fi%
      % writing on aux file
      \if@filesw\immediate\write\@auxout{\string\citation{\@citekey}}\fi%
@@ -1010,7 +1010,7 @@
      \setlength{\itemindent}{-\bibindent}
      \setlength{\listparindent}{0cm}
      \ABCIthebiblihook
-     }     
+     }
   }
   {% mode num
    \ifthenelse{\boolean{ABCIbiblabelonmargin}}

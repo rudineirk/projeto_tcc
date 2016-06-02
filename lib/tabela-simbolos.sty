@@ -11,7 +11,7 @@
 
 
 \NeedsTeXFormat{LaTeX2e}
-\input{cvs-id.def}
+\input{lib/cvs-id.def}
 \CVSExtract$Id: tabela-simbolos.sty,v 1.12 2006/09/09 23:18:26 gweber Exp $
 \CVSPackage{tabelasimbolos}{\space Tabela de simbolos e siglas}
 
@@ -133,7 +133,7 @@
 
 % Auxiliary counter which helps maintaining and indexing by occurence, rather
 % than by some sorting criterium. The counter is added to the indexentry which is then
-% followed by an @. See latex documentation on indexentry, 
+% followed by an @. See latex documentation on indexentry,
 % e.g. "The LaTeX Companion", Mittelbach & Goossens, 2nd Ed., p.874.
 \newcounter{Ocorrencia}
 \setcounter{Ocorrencia}{1000}
@@ -253,7 +253,7 @@
 \IfFileExists{\jobname.sigla}{
 \begin{tabeladesiglas}%
 \printindex[sigla]
-\end{tabeladesiglas}}{Sua lista de siglas s\'o vai aparecer aqui quando for rodar o makeindex. 
+\end{tabeladesiglas}}{Sua lista de siglas s\'o vai aparecer aqui quando for rodar o makeindex.
 Veja a documenta\c c\~ao para mais detalhes.}}
 
 \newcommand{\listadesimbolos}{%
@@ -265,6 +265,6 @@ Veja a documenta\c c\~ao para mais detalhes.}}
 \PrintList{\SecondList}
 \PrintList{\ThirdList}}{%
 \printindex[symbols]}
-\end{tabeladesimbolos}}{Sua lista de s\'\i mbolos s\'o vai aparecer aqui quando for rodar o makeindex. 
+\end{tabeladesimbolos}}{Sua lista de s\'\i mbolos s\'o vai aparecer aqui quando for rodar o makeindex.
 Veja a documenta\c c\~ao para mais detalhes.}}
 

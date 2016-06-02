@@ -10,7 +10,7 @@
 %%
 \NeedsTeXFormat{LaTeX2e}
 
-\input{cvs-id.def}
+\input{lib/cvs-id.def}
 \CVSExtract$Id: abnt-UFPR.sty,v 1.3 2005/11/14 09:00:47 gweber Exp $
 \CVSPackage{abntUFPR}{} %substitui \ProvidesPackage (replaces \ProvidesPackage)
 
@@ -137,7 +137,7 @@
       #1\nobreak\dotfill \nobreak%
       \ifthenelse{\boolean{ABNTpagenumstyle}}
          {%
-          \hb@xt@\@pnumwidth{\hss 
+          \hb@xt@\@pnumwidth{\hss
             \ifthenelse{\not\equal{#2}{}}{{\normalfont p.\thinspace#2}}{}}\par
          }
          {%

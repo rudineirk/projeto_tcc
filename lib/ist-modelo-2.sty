@@ -195,7 +195,7 @@
 	\hskip -
 	\leftskip
 	{Quadro \normalfont #1} \quadfillnum{#2}}
-	
+
 % enables numbering of subsubsections.
 \setcounter{secnumdepth}{3}
 
@@ -321,7 +321,7 @@
     }
 
 
-				   
+
 \newcommand{\outrosPreTextuais}{
 
 % Dedicatória
@@ -380,9 +380,9 @@
 	\listofquadros
 	\chapter*{Lista de Abreviaturas e Siglas}
 	\begin{acronym}
-		\input{abreviaturas}
+		\input{conteudo/abreviaturas}
 	\end{acronym}
-	
+
 	\tableofcontents
 	\pagestyle{fancy}
 }
@@ -471,7 +471,7 @@
 
 }
 
-% Folha de Aprovacao 
+% Folha de Aprovacao
 \newcommand{\aprovacao}{
 	\clearpage\thispagestyle{empty}
 	\begin{center}
@@ -538,7 +538,7 @@
 \newcommand{\Anexos}{
 	\IfFileExists{anexos.tex}{
 		\clearpage\thispagestyle{empty}
-		\input{anexos.tex}
+		\input{conteudo/anexos.tex}
 		}
 	}
 \setlength{\parskip}{.0cm}
@@ -547,7 +547,7 @@
 % Recuo de paragrafo em 1.25cm
 \setlength{\parindent}{1.25cm}
 
-% Formato de enumerador 
+% Formato de enumerador
 \def\@enumerate{
   \itemsep 1pt
   \parskip 0pt

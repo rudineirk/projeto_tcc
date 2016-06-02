@@ -1,31 +1,31 @@
-\documentclass[12pt,floatnumber=continuous,espaco=umemeio]{abnt}
+\documentclass[12pt,floatnumber=continuous,espaco=umemeio]{lib/abnt}
 
-\usepackage{ist-modelo-2}
+\usepackage{lib/ist-modelo-2}
 
-\input{commands}
+\input{lib/commands}
 
 \begin{document}
- 
-	\input{parameters}
-	\capa 
-	\folhaderosto 
-	
+
+	\input{conteudo/parameters}
+	\capa
+	\folhaderosto
+
 	\aprovacao
 	\outrosPreTextuais
-	
+
 	\begin{resumo2}
-		\input{resumo}
+		\input{conteudo/resumo}
 	\end{resumo2}
-  
+
 	\begin{abstract2}
-		\input{abstract}
+		\input{conteudo/abstract}
 	\end{abstract2}
-	
+
 	\indices
 
-	\input{capitulos}
+	\input{conteudo/capitulos}
 
-	\bibliography{referencia}
-	\bibliographystyle{abnt-alf} 
-	
+	\bibliography{conteudo/referencia}
+	\bibliographystyle{lib/abnt-alf}
+
 \end{document}
