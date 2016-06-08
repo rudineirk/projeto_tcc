@@ -324,48 +324,36 @@
 
 
 \newcommand{\outrosPreTextuais}{
+  % Dedicatória
+  \clearpage\thispagestyle{empty}
+  \vspace*{14cm}
+  \begin{flushright}
+    \fraseDedicatoria
+	\end{flushright}
+  % FIM - Dedicatória
 
-% Dedicatória
-	\clearpage\thispagestyle{empty}
-	\vspace*{14cm}
-	%\begin{singlespace}
-		\begin{flushright}
-			%\begin{minipage}[r]{0.70\columnwidth}
-				\fraseDedicatoria
-			%\end{minipage}
-		\end{flushright}
-	%\end{singlespace}
-% FIM - Dedicatória
+  % Agradecimentos
+  \clearpage\thispagestyle{empty}
+  \begin{center}
+    \textsc{\textbf{{\textsf{AGRADECIMENTOS}}}}
+    \par\vfill
+    \fraseAgradecimento
+    \par\vfill
+  \end{center}
+  % FIM - Agradecimentos
 
-% Agradecimentos
-\clearpage\thispagestyle{empty}
-\begin{center}
-	\textsc{\textbf{{\textsf{AGRADECIMENTOS}}}}
-	\par\vfill
-	%\vspace*{2cm} % mudei este tamanho
-	%\begin{singlespace}
-		%\begin{flushright}
-			%\begin{minipage}[r]{\columnwidth} % mudei este tamanho
-				\fraseAgradecimento
-			%\end{minipage}
-		%\end{flushright}
-	%\end{singlespace}
-	\par\vfill
-\end{center}
-% FIM - Agradecimentos
-
-% Citaçao
-\clearpage\thispagestyle{empty}
-\vspace*{12cm}
-\begin{flushright}
-	\begin{minipage}[]{0.66\columnwidth}
-		\fraseCitacao
-		\begin{flushright}
-			\autorFraseCitacao
-		\end{flushright}
-	\end{minipage}
-\end{flushright}
-% FIM - Citaçao
+  % Citaçao
+  \clearpage\thispagestyle{empty}
+  \vspace*{12cm}
+  \begin{flushright}
+    \begin{minipage}[]{0.66\columnwidth}
+      \fraseCitacao
+      \begin{flushright}
+        \autorFraseCitacao
+      \end{flushright}
+    \end{minipage}
+  \end{flushright}
+  % FIM - Citaçao
 }
 
 \expandafter
