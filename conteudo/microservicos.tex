@@ -137,6 +137,75 @@ infraestrutura de serviços.
 
 \subsection{Microserviços}
 
+Microserviços surgiram de práticas aplicadas por empresas de escala global que
+operam na internet, muito antes de haver um nome para estas práticas. Estas
+práticas se enquadram como um subconjunto dos conceitos de \ac{SOA}, mas se
+diferencia em alguns pontos das tecnologias tradicionais por enforçar práticas
+que focam na entrega rápida e na produtividade dos times envolvidos com
+o produto.
+
+Segundo \citeonline{Newman2015}, arquiteturas de microserviços não se limitam
+somente a arquitetura de software, se estendendo sobre a forma como são
+realizadas as entregas de novas versões, no gerenciados os ambientes
+de operação, no versionamento do software como um todo e no armazenamento de
+dados da aplicação, como apresentado na figura \ref{fig:venn-microservices},
+que apresenta a i intersecção de conceitos que trabalham em conjunto para criar
+os microserviços.
+
+\begin{figure}[H]
+	\centering
+	\caption{Diagrama de conceitos de Microserviços}
+	\includegraphics[width=1.0\textwidth]{figuras/venn-microservices.png}
+
+	\label{fig:venn-microservices}
+	\footnotesize Fonte: \citeonline{Goldsmith2015}
+\end{figure}
+
+O baixo acoplamento neste formato de arquitetura é levado um passo a frente,
+realizando a separação de domínios da aplicação por meio de isolamento dos
+executáveis e do código que compõe os serviços, permitindo que serviços
+sejam escritos em linguagens diferentes, caso seja necessário. Isto pode
+ser útil caso seja necessário utilizar tecnologias diferentes em um
+serviços mais crítico, por motivos de performance, por exemplo.
+
+Outra prática aplicada que visa diminuir o acoplamento das rotinas do sistema
+é o isolamento da base de dados de cada domínio de aplicação. A recomendação é
+cada serviço ter sua própria base de dados e ser o único responsável por ela,
+impedindo assim que outros serviços realizem alterações indevidas na base de
+dados de outros serviços. A figura \ref{fig:db-monolith-microservices}
+apresenta um diagrama comparativo do armazenamento de dados de uma arquitetura
+monolítica e de microserviços:
+
+\begin{figure}[H]
+	\centering
+	\caption{Armazenamento de dados em monolítos e microserviços}
+	\includegraphics[width=1.0\textwidth]{figuras/decentralised-data.png}
+
+	\label{fig:db-monolith-microservices}
+	\footnotesize Fonte: \citeonline{Fowler2016}
+\end{figure}
+
+O versionamento e a entrega de atualizações neste modelo de arquitetura
+também se diferencia, por exigir que o versionamento dos serviços sejam
+independentes entre si. Isto permite que entregas de novas funcionalidades
+sejam realizadas independentemente de outros serviços, aumentado a
+produtividade dos times envolvidos, uma vez que cada um pode realizar entregas
+sem depender de prazos e atrasos de outras equipes.
+
+Este processo só funciona em escala com ferramentas de apoio bem definidas,
+como ferramentas de \ac{CI} e \ac{CD} aplicadas, além de times serem compostos
+por integrantes multidisciplinares. Muitos dos conceitos aplicados a
+microserviços tiveram algumas raízes nas metodologias ágeis, como Scrum, XP e
+Lean, o que torna a aplicação desta arquitetura nos produtos de uma empresa
+uma alteração na forma como a própria empresa trabalha.
+
+Os benefícios na produtividade e na qualidade do software entregue pode
+ser claramente vista na tese de mestrado de \citeonline{Lopes2015}, onde
+ele apresenta um estudo de caso de migração da arquitetura dos produtos
+de uma empresa para microserviços, na qual houveram aumentos significativos na
+velocidade de entrega de software funcional e na diminiuição dos bugs
+encontrados em produção.
+
 \section{REST}
 
 \section{MESSAGE QUEUES}
@@ -145,13 +214,9 @@ infraestrutura de serviços.
 
 \subsection{Brokerless}
 
-\section{BALANCEAMENTO DE CARGA}
-
 \section{DESCOBERTA DE SERVIÇOS}
 
 \section{CONTAINERS LINUX}
-
-\section{ORQUESTRAÇÃO DE MICROSERVIÇOS}
 
 \section{BANCO DE DADOS}
 
