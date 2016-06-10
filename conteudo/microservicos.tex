@@ -98,13 +98,14 @@ regra de negócio deve se tornar um serviço isolado somente se ela for utilizad
 por mais sistemas, caso contrário este serviço estaria somente adicionando
 complexidade ao sistema.
 
-Com a divisão da aplicação entre diversos processos, podem ocorrer falhas em
-partes da aplicação que comprometam alguns serviços, mas que não impeçam o
+Falhas em partes da aplicação são um risco que não pode ser mitigado de forma
+simples, pois diversos fatores externos a aplicação podem comprometer o bom
+funcionamento de um dos serviços, mas isto não deve comprometer o
 funcionamento de outras partes do sistema. No caso de sistemas monolíticos
 uma falha em uma parte da aplicação poderia matar o processo e indisponibilizar
 a aplicação como um todo, no caso de sistemas implementados com \ac{SOA}, os
 serviços devem continuar a disponibilizar, na medida do possível, suas
-funcionalidades mesmo que um serviço o qual este depende esteja com algum tipo
+funcionalidades mesmo que um serviço o qual este depende apresente algum tipo
 de problema.
 
 Manter estado de um cliente de um serviço consome recursos e tempo de
