@@ -208,6 +208,29 @@ encontrados em produção.
 
 \section{REST}
 
+\ac{REST} é um padrão de criação de \ac{API} que vem ganhando mercado com a
+adoção em massa por grandes empresas da internet. Ele define algumas práticas
+para estruturação das \ac{URL} por meio da utilização do que ele chama de
+recursos, que são elementos da aplicação responsáveis por armazenamento ou
+tomada de ações, que podem ser isolados a nível da regra de negócio que os
+engloba. Alguns exemplos de recursos são usuãrios, \emph{tickets} de um sistema
+de controle de bugs e notas fiscais de um software de \ac{ERP}.
+
+Cada recurso dentro da \ac{API} pode ter um conjunto de ações que podem ser
+aplicadas sobre ele, que são apresentadas por meio de métodos \ac{HTTP} ou
+por \emph{sub-URLs} para ações mais específicas. O conjunto de ações mais
+comuns é \ac{CRUD}, as quais são operações básicas de manipulação de dados,
+que são traduzidos para os métodos \emph{POST}, \emph{GET}, \emph{PUT} e
+\emph{DELETE} para utilização na \ac{API}.
+
+Como apresentado por \citeonline{Ignacio2009}, o padrão \ac{REST} funciona
+muito bem em conjunto com microserviços, por aplicar algumas práticas de
+separação de funcionalidades por meio de isolamento de recursos relacionados.
+No estudo de caso deste artigo, é apresentado a criação de uma \ac{API}
+\ac{REST} de pesquisa, na qual o resurso apresentado é o objeto alvo
+da pesquisa, o qual é repassado para microserviços que funcionam como
+intermediários para busca em motores de busca disponíveis no mercado.
+
 \section{MESSAGE QUEUES}
 
 \subsection{Brokered}
