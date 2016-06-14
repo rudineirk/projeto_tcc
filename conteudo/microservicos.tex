@@ -1,14 +1,8 @@
-\chapter{MICROSERVIÇOS}
+\chapter{TECNOLOGIAS}
 
-Microserviços são um formato de desenvolvimento de sistemas que trata o
-problema de isolamento dos domínios da aplicação por meio da distribuição
-da lógica entre pequenos processos isolados que trabalham em conjunto para a
-entrega da funcionalidade final esperada.
-
-Segundo \citeonline{Newman2015}, esta nova forma de trabalho otimiza o processo
-de desenvolvimento, uma vez que os microserviços normalmente tem sua base de
-código separada dos outros serviços, permitindo que o desenvolvedor realize
-alterações sem o risco de afetar outras áreas da aplicação.
+Para o desenvolvimento deste projeto, são necessárias diversas tecnologias e
+conceitos, os quais envolvem várias áreas da computação. Neste capítulo são
+abordados os principais assuntos relacionados ao foco principal deste documento.
 
 \section{ARQUITETURAS}
 
@@ -137,10 +131,15 @@ infraestrutura de serviços.
 
 \subsection{Microserviços}
 
-Microserviços surgiram de práticas aplicadas por empresas de escala global que
-operam na internet, muito antes de haver um nome para estas práticas. Estas
+Microserviços são um formato de desenvolvimento de sistemas que trata o
+problema de isolamento dos domínios da aplicação por meio da distribuição
+da lógica entre pequenos processos independentes que trabalham em conjunto
+para a entrega da funcionalidade final esperada.
+
+Esta arquitetura surgiu de práticas aplicadas por empresas de escala global que
+operam na internet, muito antes de haver uma classificação para tal. Estas
 práticas se enquadram como um subconjunto dos conceitos de \ac{SOA}, mas se
-diferencia em alguns pontos das tecnologias tradicionais por enforçar práticas
+diferenciam em alguns pontos das tecnologias tradicionais por enforçar práticas
 que focam na entrega rápida e na produtividade dos times envolvidos com
 o produto.
 
@@ -164,8 +163,8 @@ os microserviços.
 O baixo acoplamento neste formato de arquitetura é levado um passo a frente,
 realizando a separação de domínios da aplicação por meio de isolamento dos
 executáveis e do código que compõe os serviços, permitindo que serviços
-sejam escritos em linguagens diferentes, caso seja necessário. Isto pode
-ser útil caso seja necessário utilizar tecnologias diferentes em um
+sejam escritos em linguagens diferentes, caso seja necessário. Isto é útil
+quando existe a necessidade de utilizar tecnologias diferentes em um
 serviços mais crítico, por motivos de performance, por exemplo.
 
 Outra prática aplicada que visa diminuir o acoplamento das rotinas do sistema
@@ -198,6 +197,11 @@ por integrantes multidisciplinares. Muitos dos conceitos aplicados a
 microserviços tiveram algumas raízes nas metodologias ágeis, como Scrum, XP e
 Lean, o que torna a aplicação desta arquitetura nos produtos de uma empresa
 uma alteração na forma como a própria empresa trabalha.
+
+Segundo \citeonline{Newman2015}, esta nova forma de trabalho otimiza o processo
+de desenvolvimento, uma vez que os microserviços normalmente tem sua base de
+código separada dos outros serviços, permitindo que o desenvolvedor realize
+alterações sem o risco de afetar outras áreas da aplicação.
 
 Os benefícios na produtividade e na qualidade do software entregue pode
 ser claramente vista na tese de mestrado de \citeonline{Lopes2015}, onde
