@@ -167,23 +167,6 @@ sejam escritos em linguagens diferentes, caso seja necessário. Isto é útil
 quando existe a necessidade de utilizar tecnologias diferentes em um
 serviços mais crítico, por motivos de performance, por exemplo.
 
-Outra prática aplicada que visa diminuir o acoplamento das rotinas do sistema
-é o isolamento da base de dados de cada domínio de aplicação. A recomendação é
-cada serviço ter sua própria base de dados e ser o único responsável por ela,
-impedindo assim que outros serviços realizem alterações indevidas na base de
-dados de outros serviços. A figura \ref{fig:db-monolith-microservices}
-apresenta um diagrama comparativo do armazenamento de dados de uma arquitetura
-monolítica e de microserviços:
-
-\begin{figure}[H]
-	\centering
-	\caption{Armazenamento de dados em monolítos e microserviços}
-	\includegraphics[width=1.0\textwidth]{figuras/decentralised-data.png}
-
-	\label{fig:db-monolith-microservices}
-	\footnotesize Fonte: \citeonline{Fowler2016}
-\end{figure}
-
 O versionamento e a entrega de atualizações neste modelo de arquitetura
 também se diferencia, por exigir que o versionamento dos serviços sejam
 independentes entre si. Isto permite que entregas de novas funcionalidades
@@ -212,28 +195,39 @@ encontrados em produção.
 
 \section{REST}
 
-\ac{REST} é um padrão de criação de \ac{API} que vem ganhando mercado com a
+\ac{REST} é um padrão de criação de \ac{APIs} que vem ganhando mercado com a
 adoção em massa por grandes empresas da internet. Ele define algumas práticas
-para estruturação das \ac{URL} por meio da utilização do que ele chama de
+para estruturação das \ac{URLs} por meio da utilização do que ele chama de
 recursos, que são elementos da aplicação responsáveis por armazenamento ou
 tomada de ações, que podem ser isolados a nível da regra de negócio que os
-engloba. Alguns exemplos de recursos são usuãrios, \emph{tickets} de um sistema
-de controle de bugs e notas fiscais de um software de \ac{ERP}.
+engloba. Segundo \citeonline{Saudate2013}, este padrão pode ser considerado
+como uma aplicação de \ac{APIs} orientadas a recursos. Alguns exemplos
+de recursos são usuários, \emph{tickets} de um sistema de controle de bugs e
+notas fiscais de um software de \ac{ERP}.
 
 Cada recurso dentro da \ac{API} pode ter um conjunto de ações que podem ser
 aplicadas sobre ele, que são apresentadas por meio de métodos \ac{HTTP} ou
-por \emph{sub-URLs} para ações mais específicas. O conjunto de ações mais
-comuns é \ac{CRUD}, as quais são operações básicas de manipulação de dados,
+por sub-\ac{URLs} para ações mais específicas. O conjunto de ações mais
+comuns é o \ac{CRUD}, as quais são operações básicas de manipulação de dados,
 que são traduzidos para os métodos \emph{POST}, \emph{GET}, \emph{PUT} e
-\emph{DELETE} para utilização na \ac{API}.
+\emph{DELETE} para utilização nas \ac{APIs}.
 
-Como apresentado por \citeonline{Ignacio2009}, o padrão \ac{REST} funciona
-muito bem em conjunto com microserviços, por aplicar algumas práticas de
-separação de funcionalidades por meio de isolamento de recursos relacionados.
-No estudo de caso deste artigo, é apresentado a criação de uma \ac{API}
-\ac{REST} de pesquisa, na qual o resurso apresentado é o objeto alvo
-da pesquisa, o qual é repassado para microserviços que funcionam como
-intermediários para busca em motores de busca disponíveis no mercado.
+Um excelente exemplo de aplicação, como apresentado por
+\citeonline{Richardson2007}, é a \ac{API} da aplicação S3 da Amazon, que é
+um serviço de armazenamento de arquivos e dados. Nesta aplicação, são
+utilizados dois recursos principais, os \emph{Buckets} e os \emph{Objects},
+onde \emph{Objects} são as unidades de armazenamento de dados e \emph{Buckets}
+são containers que contém multiplas unidades de armazenamento, sendo cada
+um destes recursos manipulados por \ac{APIs} dedicadas para criação e
+manipulação dos mesmos.
+
+Como pode ser visualizado no artigo de  \citeonline{Ignacio2009}, o padrão
+\ac{REST} funciona muito bem em conjunto com microserviços, por aplicar algumas
+práticas de separação de funcionalidades por meio de isolamento de recursos
+relacionados. No estudo de caso deste artigo, é apresentado a criação de uma
+\ac{API} no estilo \ac{REST} de pesquisa, na qual o resurso apresentado é o
+objeto alvo da pesquisa, o qual é repassado para microserviços que funcionam
+como intermediários para busca em motores de busca disponíveis no mercado.
 
 \section{MESSAGE QUEUES}
 
@@ -247,4 +241,19 @@ intermediários para busca em motores de busca disponíveis no mercado.
 
 \section{BANCO DE DADOS}
 
-\subsection{NoSQL}
+Outra prática aplicada que visa diminuir o acoplamento das rotinas do sistema
+é o isolamento da base de dados de cada domínio de aplicação. A recomendação é
+cada serviço ter sua própria base de dados e ser o único responsável por ela,
+impedindo assim que outros serviços realizem alterações indevidas na base de
+dados de outros serviços. A figura \ref{fig:db-monolith-microservices}
+apresenta um diagrama comparativo do armazenamento de dados de uma arquitetura
+monolítica e de microserviços:
+
+\begin{figure}[H]
+	\centering
+	\caption{Armazenamento de dados em monolítos e microserviços}
+	\includegraphics[width=1.0\textwidth]{figuras/decentralised-data.png}
+
+	\label{fig:db-monolith-microservices}
+	\footnotesize Fonte: \citeonline{Fowler2016}
+\end{figure}
