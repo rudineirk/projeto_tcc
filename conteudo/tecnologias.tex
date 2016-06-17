@@ -122,13 +122,26 @@ instância do registro de serviços sem que haja paradas no sistema.
 
 Por fim o conceito que envolve uma alteração grande de paradigmas é a
 componibilidade de serviços, onde sistemas são construidos utilizando serviços
-como blocos de montagem, nos quais as camadas de serviço podem depender de
-outras camadas de serviços. Isto permite o reuso de lógica de aplicações
-completamente diferentes para compor uma nova aplicação, o que é possível
-somente se outros princípios como o baixo acoplamento e isolamento da regra de
-negócio forem aplicados corretamente. Uma grande vantagem da aplicação deste
-conceito é que diferentes aplicações podem compartilhar de uma mesma
-infraestrutura de serviços.
+como blocos de montagem, como pode é exemplificado na figura
+\ref{fig:soa-bussiness-rules}, onde serviços são utilizados para compor
+diferentes interfaces para as regras de negócio.
+
+\begin{figure}[H]
+	\centering
+	\caption{Composição da regra de negócio por meio de serviços}
+	\includegraphics[width=1.0\textwidth]{figuras/soa-bussiness-rules.png}
+
+	\label{fig:soa-bussiness-rules}
+	\footnotesize Fonte: \citeonline{Erl2008}
+\end{figure}
+
+Por meio deste conceito as camadas de serviço podem depender de outras camadas
+de serviços. Isto permite o reuso de lógica de aplicações completamente
+diferentes para compor uma nova aplicação, o que é possível somente se outros
+princípios como o baixo acoplamento e isolamento da regra de negócio forem
+aplicados corretamente. Uma grande vantagem da aplicação deste conceito é
+que diferentes aplicações podem compartilhar de uma mesma infraestrutura
+de serviços.
 
 \subsection{Microserviços}
 
