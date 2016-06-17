@@ -264,10 +264,72 @@ responsável por um grupo de dados possam disponibilizar o acesso a estes dados.
 
 \section{MESSAGE QUEUES}
 
-\subsection{Brokered}
+\ac{MQ} é um formato de envio e distribuição de mensagens entre processos,
+no qual é utilizado padrões independentes de linguagens de programação
+específicas, que permitem a comunicação entre sistemas que utilizam diferentes
+tecnologias. Esta comunicação é feita por meio de mensagens, as quais são
+geradas por um produtor e recebidas por um receptor ou assinante.
 
-\subsection{Brokerless}
+Segundo \citeonline{Videla2012}, exitem 3 principais padrões de comunicação
+utilizados em \ac{MQs}, send o primeiro chamado \emph{request-reply}, onde
+mensagens são enviadas de um processo para o outro e para cada mensagem o
+produtor espera receber uma mensagem de resposta do receptor. Pode ser feita
+uma analogia a uma chamada de função de uma linguagem de programação, onde os
+parâmetros são a mensagem enviada pelo produtor e o retorno da função é a
+mensagem de resposta.
 
-\section{DESCOBERTA DE SERVIÇOS}
+O segundo padrão é o \emph{work queue}, onde as mensagens são enviadas pelo
+produtor, mas este não espera uma resposta do receptor. Este formato é
+utilizado para tratamento de dados em que o momento de execução do
+processamento destes não é deterministico, ou seja, o produtor não utiliza
+os resultados da mensagem que ele enviou, ficando a cargo do do receptor
+encaminhar e/ou notificar interessados nos dados em questão.
+
+O último padrão de comunicação de \ac{MQs} é o \emph{publisher-subscriber},
+o qual funciona por meio de um produtor (o \emph{publisher}) que envia uma
+mensagem para um tópico, o qual assinantes ouvem para receber qualquer
+mensagem que seja enviado para este, como apresentado na figura
+\ref{fig:mq-pubsub}. Este formato de comunicação se assemelha ao conceito
+de \emph{broadcast} de redes de computadores, onde uma mensagem é enviada
+sem um destinatário específico, e todos que estiverem ouvindo podem receber
+esta mensagem.
+
+\begin{figure}[H]
+	\centering
+	\caption{Padrão publisher-subscriber de comunicação}
+	\includegraphics[width=1.0\textwidth]{figuras/mq-pubsub.png}
+
+	\label{fig:mq-pubsub}
+	\footnotesize Fonte: \citeonline{Microsoft2016}
+\end{figure}
+
+Para enteder o último padrão, é necessário antes entender os tipos de message
+queues existentes, as quais podem ser \emph{brokered} ou \emph{brokerless}.
+A diferença entre estes dois reside na existência ou não de um \emph{broker},
+respectivamente. Um \emph{broker} é em essência um distribuidor de mensagens
+centralizado, um meio no qual os serviços podem utilizar para enviar mensagens.
+
+A figura \ref{fig:mq-coupling} mostra uma representação visual destes dois
+modelos, sendo o primeiro a comunicação \emph{brokerless}, onde cada serviço
+precisa saber da existência dos outros para enviar mensagens, e o segundo é
+o modelo \emph{brokered}, onde o \emph{broker} é responsável por distribuir
+as mensagens entre os diferentes serviços.
+
+\begin{figure}[H]
+	\centering
+	\caption{Comunicação entre processos descentralizada e centralizada}
+	\includegraphics[width=1.0\textwidth]{figuras/mq-coupling.png}
+
+	\label{fig:mq-coupling}
+	\footnotesize Fonte: \citeonline{Microsoft2016}
+\end{figure}
+
+Existem algumas vantagens na utilização de \ac{MQs} centralizadas, sendo uma
+delas o baixo acoplamento da comunicaçao entre serviços, os quais não precisam
+diretamente se comunicar com outros serviços. Outra vantagem é o fato deste
+serviço de \ac{MQ} funcionar como um \emph{cache} de mensagens, se um serviço
+estiver estiver fora do ar as mensagens destinadas a este podem ser armazenadas
+temporariamente. Uma desvantagem é a inclusão de um ponto único de falha,
+uma vez que o serviço de \ac{MQ} se torna crítico para operação dos serviços.
 
 \section{CONTAINERS LINUX}
