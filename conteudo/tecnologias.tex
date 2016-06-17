@@ -196,22 +196,22 @@ encontrados em produção.
 
 \section{REST}
 
-\ac{REST} é um padrão de criação de \ac{APIs} que vem ganhando mercado com a
+\ac{REST} é um padrão de criação de \acp{API} que vem ganhando mercado com a
 adoção em massa por grandes empresas da internet. Ele define algumas práticas
-para estruturação das \ac{URLs} por meio da utilização do que ele chama de
+para estruturação das \acp{URL} por meio da utilização do que ele chama de
 recursos, que são elementos da aplicação responsáveis por armazenamento ou
 tomada de ações, que podem ser isolados a nível da regra de negócio que os
 engloba. Segundo \citeonline{Saudate2013}, este padrão pode ser considerado
-como uma aplicação de \ac{APIs} orientadas a recursos. Alguns exemplos
+como uma aplicação de \acp{API} orientadas a recursos. Alguns exemplos
 de recursos são usuários, \emph{tickets} de um sistema de controle de bugs e
 notas fiscais de um software de \ac{ERP}.
 
 Cada recurso dentro da \ac{API} pode ter um conjunto de ações que podem ser
 aplicadas sobre ele, que são apresentadas por meio de métodos \ac{HTTP} ou
-por sub-\ac{URLs} para ações mais específicas. O conjunto de ações mais
+por sub-\acp{URL} para ações mais específicas. O conjunto de ações mais
 comuns é o \ac{CRUD}, as quais são operações básicas de manipulação de dados,
 que são traduzidos para os métodos \emph{POST}, \emph{GET}, \emph{PUT} e
-\emph{DELETE} para utilização nas \ac{APIs}.
+\emph{DELETE} para utilização nas \acp{API}.
 
 Um excelente exemplo de aplicação, como apresentado por
 \citeonline{Richardson2007}, é a \ac{API} da aplicação S3 da Amazon, que é
@@ -219,7 +219,7 @@ um serviço de armazenamento de arquivos e dados. Nesta aplicação, são
 utilizados dois recursos principais, os \emph{Buckets} e os \emph{Objects},
 onde \emph{Objects} são as unidades de armazenamento de dados e \emph{Buckets}
 são containers que contém multiplas unidades de armazenamento, sendo cada
-um destes recursos manipulados por \ac{APIs} dedicadas para criação e
+um destes recursos manipulados por \acp{API} dedicadas para criação e
 manipulação dos mesmos.
 
 Como pode ser visualizado no artigo de  \citeonline{Ignacio2009}, o padrão
@@ -259,7 +259,7 @@ mesmos.
 Este problema não deve existir dentro da arquitetura de microserviços, pois o
 acesso aos dados não é feito diretamente por todas as partes da aplicação que
 utilizam. Para tal são utilizados sistemas de comunicação entre os serviços,
-que funcionam como \ac{APIs} internas da aplicação, que permitem que o serviço
+que funcionam como \acp{API} internas da aplicação, que permitem que o serviço
 responsável por um grupo de dados possam disponibilizar o acesso a estes dados.
 
 \section{MESSAGE QUEUES}
@@ -271,7 +271,7 @@ tecnologias. Esta comunicação é feita por meio de mensagens, as quais são
 geradas por um produtor e recebidas por um receptor ou assinante.
 
 Segundo \citeonline{Videla2012}, exitem 3 principais padrões de comunicação
-utilizados em \ac{MQs}, send o primeiro chamado \emph{request-reply}, onde
+utilizados em \acp{MQ}, send o primeiro chamado \emph{request-reply}, onde
 mensagens são enviadas de um processo para o outro e para cada mensagem o
 produtor espera receber uma mensagem de resposta do receptor. Pode ser feita
 uma analogia a uma chamada de função de uma linguagem de programação, onde os
@@ -285,7 +285,7 @@ processamento destes não é deterministico, ou seja, o produtor não utiliza
 os resultados da mensagem que ele enviou, ficando a cargo do do receptor
 encaminhar e/ou notificar interessados nos dados em questão.
 
-O último padrão de comunicação de \ac{MQs} é o \emph{publisher-subscriber},
+O último padrão de comunicação de \acp{MQ} é o \emph{publisher-subscriber},
 o qual funciona por meio de um produtor (o \emph{publisher}) que envia uma
 mensagem para um tópico, o qual assinantes ouvem para receber qualquer
 mensagem que seja enviado para este, como apresentado na figura
@@ -324,7 +324,7 @@ as mensagens entre os diferentes serviços.
 	\footnotesize Fonte: \citeonline{Microsoft2016}
 \end{figure}
 
-Existem algumas vantagens na utilização de \ac{MQs} centralizadas, sendo uma
+Existem algumas vantagens na utilização de \acp{MQ} centralizadas, sendo uma
 delas o baixo acoplamento da comunicaçao entre serviços, os quais não precisam
 diretamente se comunicar com outros serviços. Outra vantagem é o fato deste
 serviço de \ac{MQ} funcionar como um \emph{cache} de mensagens, se um serviço
