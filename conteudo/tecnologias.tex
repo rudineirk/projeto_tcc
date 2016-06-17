@@ -249,6 +249,19 @@ monolítica e de microserviços:
 	\footnotesize Fonte: \citeonline{Fowler2016}
 \end{figure}
 
+Em outras arquiteturas, são aplicadas grandes estruturas relacionais de banco
+de dados, onde o relacionamento entre os diversos dados da aplicação são
+aplicados a estrutura de armazenamento de dados. Isto gera alguns problemas,
+o mais grave sendo a incerteza de quais partes da aplicação utilizam uma
+seção dos dados, o que pode gerar inconsistencias na gravação e leitura dos
+mesmos.
+
+Este problema não deve existir dentro da arquitetura de microserviços, pois o
+acesso aos dados não é feito diretamente por todas as partes da aplicação que
+utilizam. Para tal são utilizados sistemas de comunicação entre os serviços,
+que funcionam como \ac{APIs} internas da aplicação, que permitem que o serviço
+responsável por um grupo de dados possam disponibilizar o acesso a estes dados.
+
 \section{MESSAGE QUEUES}
 
 \subsection{Brokered}
