@@ -4,7 +4,7 @@
 O desenvolvimento de uma interface de administração de servidores Linux
 envolve diversas tecnologias e uma gama de serviços que devem ser
 administrados, isto gera uma base de código relativamente grande, o que
-dificulta o isolamento dos domínios de aplicação dentro da arquitetura
+dificulta o isolamento dos domínios de aplicação na arquitetura
 do sistema. Segundo \citeonline{Newman2015}, isto ocorre em todas as aplicações
 que utilizam uma arquitetura monolítica, em escalas variáveis, mas sempre
 geram problemas como mistura de código de domínios diferentes, dificultando
@@ -29,7 +29,7 @@ de software funcional, uma vez que podem ser feitas entregas pequenas e
 rápidas, diminuindo assim o \emph{Time to Market}.
 
 O principal objetivo deste projeto é o desenvolvimento de uma interface
-de administração de servidores modular utilizando técnicas de desenvolvimento
+de administração de servidores modular, utilizando técnicas de desenvolvimento
 de software modernas. Para tal, são realizadas as seguintes etapas que compõe
 a execução do mesmo:
 
@@ -40,30 +40,24 @@ a execução do mesmo:
   \item desenhar a arquitetura inicial da interface de administração de \\
     servidores modular;
   \item desenvolver o protótipo da aplicação da arquitetura;
-  \item realizar um estudo de caso para prova de conceito.
+  \item realizar um estudo de caso da aplicação da arquitetura escolhida.
 \end{alineas}
 
-Para execução deste trabalho são aplicadas duas metodologias, a primeira
+Para a execução deste trabalho são aplicadas duas metodologias, a primeira
 é a pesquisa bibliográfica, onde é realizado a consulta de referencial
 teórico e estudo de casos de sucesso no uso de arquiteturas de microserviços.
 
 A segunda parte é um estudo de caso, onde as informações coletadas
 na primeira etapa são utilizadas para elaboração da arquitetura da interface
-de administração de servidores modular e desenvolvimento um protótipo
+de administração de servidores modular e para desenvolvimento de um protótipo
 utilizando esta.
 
-No capítulo \ref{chp:tecnologias}, são apresentados os principais conceitos
+No primeiro capítulo é apresentado as motivações e os objetivos deste trabalho.
+No capítulo \ref{chp:tecnologias} são apresentados os principais conceitos
 e tecnologias envolvendo microserviços, abordando um pouco sobre arquiteturas
-e práticas que originaram o conceito de microserviços. Ele inicia tratando
-das arquiteturas de software mais conhecidas, avançando para padrões de
-\acp{API} e armazenamento de dados, tecnologias de comunicação entre serviços
-e ferramentas de isolamento de ambientes para microserviços (containers).
-
-O capítulo \ref{chp:projeto} é dividido em três partes, sendo todas sobre
-o projeto em si. A primeira trata do desenho da arquitetura do sistema, das
-tecnologias aplicadas e da estrutura de geração de métricas e monitoramento de
-falhas na aplicação. Na segunda parte, é apresentado a execução do protótipo
-com suas partes integrantes, as rotinas de gerenciamento, a geração de
-relatórios e o monitoramento de status do servidor e serviços. A última parte
-trata da análise dos resultados obtidos, apresentando os dados obtidos na
-execução do projeto e dificuldades encontradas.
+e práticas que originaram o conceito de microserviços. O capítulo
+\ref{chp:arquitetura} se trata do desenho da arquitetura do sistema. No
+capítulo \ref{chp:resultados} é apresentando os resultados obtidos na execução
+do projeto e dificuldades encontradas. Por último entra a conclusão do
+projeto, onde é realizado uma avaliação geral do trabalho e dos resultados
+encontrados.

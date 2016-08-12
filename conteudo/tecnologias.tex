@@ -31,7 +31,7 @@ ciclo de vida de um projeto, e muitas vezes a separação a nível de código j�
 Os problemas deste formato iniciam conforme a base de código cresce e a demanda
 das funcionalidades aumentam. Uma grande base de código que deve ser empacotada
 e levada a produção de uma única vez cria uma grande inércia no desenvolvimento
-de novas funcionalidades, pois alterações em uma funcionalidade ter sua
+de novas funcionalidades, pois alterações em uma funcionalidade tem sua
 liberação atrasada por causa de alterações em outras partes do código não
 relacionadas, mas que fazem parte do mesmo repositório de código.
 
@@ -249,9 +249,9 @@ Outra prática aplicada que visa diminuir o acoplamento das rotinas do sistema
 é o isolamento da base de dados de cada domínio de aplicação. A recomendação é
 cada serviço ter sua própria base de dados e ser o único responsável por ela,
 impedindo assim que outros serviços realizem alterações indevidas na base de
-dados de outros serviços. A figura \ref{fig:db-monolith-microservices}
-apresenta um diagrama comparativo do armazenamento de dados de uma arquitetura
-monolítica e de microserviços:
+dados de outros serviços. Na figura \ref{fig:db-monolith-microservices}
+é apresentado um diagrama comparativo do armazenamento de dados de uma
+arquitetura monolítica e de microserviços:
 
 \begin{figure}[H]
 	\centering
@@ -322,7 +322,7 @@ A diferença entre estes dois reside na existência ou não de um \emph{broker},
 respectivamente. Um \emph{broker} é em essência um distribuidor de mensagens
 centralizado, um meio no qual os serviços podem utilizar para enviar mensagens.
 
-A figura \ref{fig:mq-coupling} mostra uma representação visual destes dois
+Na figura \ref{fig:mq-coupling} é exibido uma representação visual destes dois
 modelos, sendo o primeiro a comunicação \emph{brokerless}, onde cada serviço
 precisa saber da existência dos outros para enviar mensagens, e o segundo é
 o modelo \emph{brokered}, onde o \emph{broker} é responsável por distribuir
