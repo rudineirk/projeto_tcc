@@ -7,11 +7,12 @@ abordados os principais assuntos relacionados ao foco principal deste documento.
 
 \section{ARQUITETURAS}
 
-Historicamente houveram diversas tentativas de criar arquiteturas de softwares
-resilentes e manteníveis, muitas as quais sofreram com a ação de novas de
-tecnologias disponíveis, como acesso a virtualização instantânea de baixo custo,
-e algumas mudanças de paradigmas de estruturação dos projetos (maior foco na
-escalabilidade do que na otimização de baixo nível).
+Historicamente houve diversas tentativas de criar arquiteturas de softwares
+resistente a falhas e manteníveis, mas a criação de novas tecnologias, como
+acesso a virtualização instantânea de baixo custo, e algumas mudanças de
+paradigmas de estruturação dos projetos (maior foco na escalabilidade
+do que na otimização de baixo nível) criaram a necessidade de estas
+arquiteruras se adaptarem e evoluirem para atender.
 
 \subsection{Monolítica}
 
@@ -25,15 +26,16 @@ tendo em vista que o custo de manutenção envolve somente a manutenção deste
 Segundo \citeonline{Erl2008}, este modelo é válido e recomendado para novos
 projetos, considerando que nem sempre as linhas de separação entre as regras
 de negócio estão bem definidas. Este processo ocorre naturalmente durante o
-ciclo de vida de um projeto, e muitas vezes a separação a nível de código já
-é suficiente a nível de isolamento de domínios.
+ciclo de vida de um projeto, e muitas vezes a separação por bibliotecas e
+módulos no código já é suficiente para o isolamento de domínios.
 
 Os problemas deste formato iniciam conforme a base de código cresce e a demanda
-das funcionalidades aumentam. Uma grande base de código que deve ser empacotada
-e levada a produção de uma única vez cria uma grande inércia no desenvolvimento
-de novas funcionalidades, pois alterações em uma funcionalidade tem sua
-liberação atrasada por causa de alterações em outras partes do código não
-relacionadas, mas que fazem parte do mesmo repositório de código.
+de novas funcionalidades aumentam. Uma grande base de código que deve ser
+empacotada e levada a produção de uma única vez cria uma grande inércia
+no desenvolvimento de novas funcionalidades, pois alterações em uma
+funcionalidade tem sua liberação atrasada por causa de alterações em
+outras partes do código não relacionadas, mas que fazem parte do mesmo
+repositório de código.
 
 Esta arquitetura atende muito bem alguns tipos de produtos, mas aplicações
 expostas para internet que podem ter milhares de acessos simultâneos expõe o
@@ -48,10 +50,10 @@ manutenção do sistema, o que reflete diretamente no negócio que depende deste
 \subsection{SOA}
 
 Para criar o isolamento das aplicações necessário para atender as novas
-necessidades do mercado, foram criados um conjunto de conceitos que englobam o
-que é chamado de \ac{SOA}. Estes conceitos definem algumas regras e diretrizes
-para isolamento de domínios de aplicações e comunicação entre as diversas partes
-do sistema.
+necessidades destes ambientes, foram criados um conjunto de conceitos
+que englobam o que é chamado de \ac{SOA}. Estes conceitos definem algumas
+regras e diretrizes para isolamento de domínios de aplicações e comunicação
+entre as diversas partes do sistema.
 
 Segundo \citeonline{Erl2008}, este formato de arquitetura segue alguns
 princípios que determinam a classificação de um sistema como \ac{SOA},
@@ -68,51 +70,54 @@ os quais são:
   \item componibilidade de serviços.
 \end{alineas}
 
-Os contratos de comunicação padronizados se referem ao estabelecimento de
-formatos de dados e métodos de interação entre os serviços. Um dos padrỗes
+Contratos de comunicação padronizados se referem ao estabelecimento de
+formatos de dados e métodos de interação entre os serviços. Um dos padrões
 que tiveram um uso elevado é o \ac{SOAP}, que define um formato padronizado
 de comunicação de aplicações utilizando dados no formato \ac{XML}. Este padrão
-era flexível, e permitia a criação de implementações mais específicas, como o
-\ac{WSDL}, que implementa um protocolo \ac{RPC} utilizando este padrão como
+é flexível, e permite a criação de implementações mais específicas, como o
+\ac{WSDL}, que expõe um protocolo \ac{RPC} utilizando este padrão como
 meio.
 
-O baixo nível de acoplamento engloba o isolamento de domínios de aplicação e as
-interdependências entre serviços, os quais não devem depender da forma como são
-implementados outros serviços. Isto conflita em alguns pontos com contratos de
-comunicação utilizando \ac{RPC}, pois o mesmo simula o funcionamento de um
-sistema monolítico.
+Baixo nível de acoplamento é um conceito que aborda o isolamento de domínios
+de aplicação e as interdependências entre serviços, os quais não devem
+depender da forma como são implementados outros serviços. Isto conflita
+em alguns pontos com contratos de comunicação utilizando \ac{RPC}, pois o
+mesmo simula o funcionamento de um sistema monolítico.
 
-Um serviço não deve expor contratos de comunicação que dependam da forma como
-ele são implementados, esta é a definição básica de abstração da regra de
-negócio, na qual um serviço deve expor funcionalidades e não a sua
-implementação.
+Abstração da regra de negócio é a forma como os serviços devem expor
+seus contratos de comunicação, onde um serviço deve expor funcionalidades
+e não a sua implementação, permitindo que um serviço seja alterado internamente
+sem que isto afete outros serviços dependentes do serviço em questão.
 
-A reusabilidade de um serviço deve-se ao fato que existe poucas vantagens em
+Reusabilidade de um serviço deve-se ao fato que existe poucas vantagens em
 isolar uma regra de negócio utilizada exclusivamente por um único serviço. Uma
 regra de negócio deve se tornar um serviço isolado somente se ela for utilizada
 por mais sistemas, caso contrário este serviço estaria somente adicionando
 complexidade ao sistema.
 
-Falhas em partes da aplicação são um risco que não pode ser mitigado de forma
-simples, pois diversos fatores externos a aplicação podem comprometer o bom
-funcionamento de um dos serviços, mas isto não deve comprometer o
-funcionamento de outras partes do sistema. No caso de sistemas monolíticos
-uma falha em uma parte da aplicação poderia matar o processo e indisponibilizar
+Autonomia de um serviço refere-se ao fato que falhas em partes de aplicação
+são um risco que não pode ser mitigado de forma simples. Para isto, serviços
+devem estar preparados para situações de falha em outros serviços, onde
+o serviço precisa entregar sua funcionalidade independente de outros serviços
+estarem operacionais. No caso de sistemas monolíticos uma falha
+em uma parte da aplicação poderia matar o processo e indisponibilizar
 a aplicação como um todo, no caso de sistemas implementados com \ac{SOA}, os
 serviços devem continuar a disponibilizar, na medida do possível, suas
 funcionalidades mesmo que um serviço o qual este depende apresente algum tipo
 de problema.
 
-Manter estado de um cliente de um serviço consome recursos e tempo de
+Inexistência de manutenção de estados é um conceito que existe porque
+manter estado de um cliente de um serviço consome recursos e tempo de
 computação que podem ser evitados caso não seja mantido estados. Para tal,
 cada requisição na comunicação deve carregar todas as informações necessárias
 para realizaçao da operação. Este conceito de comunicação é aplicado em diversos
-protocolos de comunicação assincronos, como por exemplo o \ac{HTTP}, os quais
-por limitações físicas não podem manter estados a fim aumentar sua resilência
-em casos de falhas de comunicação.
+protocolos de comunicação assincronos, como por exemplo o \ac{HTTP}, os quais,
+por limitações físicas, não podem manter estados a fim aumentar sua
+resistência a falhas em casos de erros de comunicação.
 
-Um sistema composto por diversos serviços deve conseguir descobrir onde os
-serviços estão rodando e como acessa-los. Isto pode ser feito por meio de um
+Descoberta de serviços refere-se a possibilidade de um sistema composto
+por diversos serviços deve conseguir descobrir onde os serviços estão
+rodando e como acessa-los. Isto pode ser feito por meio de um
 registro de serviços, que armazena uma lista de serviços atualmente em execução.
 Esta funcionalidade também é utilizada para alta disponibilidade e distribuição
 de carga, uma vez que este registro pode apontar para mais de uma instância do
@@ -120,11 +125,9 @@ mesmo serviço. Um exemplo prático das vantagens deste princípio é uma manobr
 de manutenção em um servidor, onde pode ser removido o apontamento de uma
 instância do registro de serviços sem que haja paradas no sistema.
 
-Por fim o conceito que envolve uma alteração grande de paradigmas é a
-componibilidade de serviços, onde sistemas são construidos utilizando serviços
-como blocos de montagem, como pode é exemplificado na figura
-\ref{fig:soa-bussiness-rules}, onde serviços são utilizados para compor
-diferentes interfaces para as regras de negócio.
+Componibilidade de serviços engloba alguns conceitos de \ac{OOP} na criação
+de serviços, onde um serviço que expõe uma regra de negócio pode ser composto
+por funcionalidades expostas por outros serviços.
 
 \begin{figure}[H]
 	\centering
@@ -140,7 +143,7 @@ de serviços. Isto permite o reuso de lógica de aplicações completamente
 diferentes para compor uma nova aplicação, o que é possível somente se outros
 princípios como o baixo acoplamento e isolamento da regra de negócio forem
 aplicados corretamente. Uma grande vantagem da aplicação deste conceito é
-que diferentes aplicações podem compartilhar de uma mesma infraestrutura
+que diferentes aplicações podem compartilhar uma mesma infraestrutura
 de serviços.
 
 \subsection{Microserviços}
@@ -153,7 +156,7 @@ para a entrega da funcionalidade final esperada.
 Esta arquitetura surgiu de práticas aplicadas por empresas de escala global que
 operam na internet, muito antes de haver uma classificação para tal. Estas
 práticas se enquadram como um subconjunto dos conceitos de \ac{SOA}, mas se
-diferenciam em alguns pontos das tecnologias tradicionais por enforçar práticas
+diferenciam em alguns pontos das tecnologias tradicionais por impor práticas
 que focam na entrega rápida e na produtividade dos times envolvidos com
 o produto.
 
