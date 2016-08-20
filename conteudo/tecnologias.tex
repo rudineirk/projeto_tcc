@@ -164,7 +164,7 @@ Segundo \citeonline{Newman2015}, arquiteturas de microserviços não se limitam
 somente a arquitetura de software, se estendendo sobre a forma como são
 realizadas as entregas de novas versões, no gerenciados os ambientes
 de operação, no versionamento do software como um todo e no armazenamento de
-dados da aplicação, como apresentado na figura \ref{fig:venn-microservices},
+dados da aplicação, como apresentado na Figura \ref{fig:venn-microservices},
 que apresenta a intersecção de conceitos que trabalham em conjunto para criar
 os microserviços.
 
@@ -204,15 +204,15 @@ código separada dos outros serviços, permitindo que o desenvolvedor realize
 alterações sem o risco de afetar outras áreas da aplicação.
 
 Os benefícios na produtividade e na qualidade do software entregue pode
-ser claramente vista na tese de mestrado de \citeonline{Lopes2015}, onde
-ele apresenta um estudo de caso de migração da arquitetura dos produtos
-de uma empresa para microserviços, na qual houveram aumentos significativos na
-velocidade de entrega de software funcional e na diminiuição dos bugs
-encontrados em produção.
+ser claramente vista na tese de mestrado de \citeonline{Lopes2015}, um estudo
+de caso de migração da arquitetura dos produtos de uma empresa para
+microserviços, na qual houveram aumentos significativos na velocidade de
+entrega de software funcional e na diminiuição dos bugs encontrados em
+produção.
 
-\section{REST}
+\section{Representational State Transfer}
 
-\ac{REST} é um padrão de criação de \acp{API} que vem ganhando mercado com a
+\ac{REST} é um padrão de criação de \acp{API} que se popularizou com a
 adoção em massa por grandes empresas da internet. Ele define algumas práticas
 para estruturação das \acp{URL} por meio da utilização do que ele chama de
 recursos, que são elementos da aplicação responsáveis por armazenamento ou
@@ -238,12 +238,12 @@ são containers que contém multiplas unidades de armazenamento, sendo cada
 um destes recursos manipulados por \acp{API} dedicadas para criação e
 manipulação dos mesmos.
 
-Como pode ser visualizado no artigo de  \citeonline{Ignacio2009}, o padrão
-\ac{REST} funciona muito bem em conjunto com microserviços, por aplicar algumas
-práticas de separação de funcionalidades por meio de isolamento de recursos
-relacionados. No estudo de caso deste artigo, é apresentado a criação de uma
-\ac{API} no estilo \ac{REST} de pesquisa, na qual o resurso apresentado é o
-objeto alvo da pesquisa, o qual é repassado para microserviços que funcionam
+Conforme \citeonline{Ignacio2009}, o padrão \ac{REST} funciona muito bem
+em conjunto com microserviços, por aplicar algumas práticas de separação
+de funcionalidades por meio de isolamento de recursos relacionados. No
+estudo de caso deste artigo, é apresentado a criação de uma \ac{API} no
+estilo \ac{REST} de pesquisa, na qual o resurso apresentado é o objeto
+alvo da pesquisa, o qual é repassado para microserviços que funcionam
 como intermediários para busca em motores de busca disponíveis no mercado.
 
 \section{BANCO DE DADOS}
@@ -252,7 +252,7 @@ Outra prática aplicada que visa diminuir o acoplamento das rotinas do sistema
 é o isolamento da base de dados de cada domínio de aplicação. A recomendação é
 cada serviço ter sua própria base de dados e ser o único responsável por ela,
 impedindo assim que outros serviços realizem alterações indevidas na base de
-dados de outros serviços. Na figura \ref{fig:db-monolith-microservices}
+dados de outros serviços. Na Figura \ref{fig:db-monolith-microservices}
 é apresentado um diagrama comparativo do armazenamento de dados de uma
 arquitetura monolítica e de microserviços:
 
@@ -304,7 +304,7 @@ encaminhar e/ou notificar interessados nos dados em questão.
 O último padrão de comunicação de \acp{MQ} é o \emph{publisher-subscriber},
 o qual funciona por meio de um produtor (o \emph{publisher}) que envia uma
 mensagem para um tópico, o qual assinantes ouvem para receber qualquer
-mensagem que seja enviado para este, como apresentado na figura
+mensagem que seja enviado para este, como apresentado na Figura
 \ref{fig:mq-pubsub}. Este formato de comunicação se assemelha ao conceito
 de \emph{broadcast} de redes de computadores, onde uma mensagem é enviada
 sem um destinatário específico, e todos que estiverem ouvindo podem receber
@@ -325,7 +325,7 @@ A diferença entre estes dois reside na existência ou não de um \emph{broker},
 respectivamente. Um \emph{broker} é em essência um distribuidor de mensagens
 centralizado, um meio no qual os serviços podem utilizar para enviar mensagens.
 
-Na figura \ref{fig:mq-coupling} é exibido uma representação visual destes dois
+Na Figura \ref{fig:mq-coupling} é exibido uma representação visual destes dois
 modelos, sendo o primeiro a comunicação \emph{brokerless}, onde cada serviço
 precisa saber da existência dos outros para enviar mensagens, e o segundo é
 o modelo \emph{brokered}, onde o \emph{broker} é responsável por distribuir
@@ -333,7 +333,7 @@ as mensagens entre os diferentes serviços.
 
 \begin{figure}[H]
 	\centering
-	\caption{Comunicação entre processos descentralizada e centralizada}
+	\caption{Comunicação \emph{brokerless} e \emph{brokered}}
 	\includegraphics[width=1.0\textwidth]{figuras/mq-coupling.png}
 
 	\label{fig:mq-coupling}
@@ -366,10 +366,11 @@ O Docker é um conjunto de ferramenta de criação e distribuição de container
 que utiliza algumas tecnologias disponíveis no kernel Linux para criação de
 containers para rodar aplicações com segurança dentro de um \emph{sandbox},
 na qual a aplicação só consegue interagir com o seu próprio ambiente. A criação
-de containers é feita por meio do que ele chama de imagens, as quais podem ser
-distribuidas por meio do repositório público de imagens, no qual estão
-disponíveis imagens prontas para diversos serviços e tecnologias, ou criar
-um repositório privado.
+de containers é feita por meio de imagens, as quais são distribuidas em
+repositórios públicos de imagens, nos quais estão disponíveis imagens prontas
+para diversos serviços e tecnologias. Também existe a possibilidade de ser
+criado um repositório privado, caso alguma política de controle de licenças
+não permita a criação de repositórios públicos.
 
 A idéia de ter imagens públicas disponíveis para qualquer pessoa é a de
 utilizar containers como blocos de montar para aplicações. Por exemplo,
@@ -403,8 +404,8 @@ armazenadas separadamente para cada container. Este processo é invisível para
 a aplicação, a qual enxerga um sistema de arquivos normal.
 
 Por todos os serviços compartilharem o mesmo kernel, o isolamento precisa
-ser também a nível de processos. Segundo \citeonline{Newman2015}, o kernel
-Linux implementa uma tecnologia chamada \emph{cgroups}, que é uma forma de
-criar subárvores de processos isoladas dentro do kernel, as quais tem sua
-própria numeração dos processos. Desta forma cada container não conseguem
-interferir com processos do host e de outros containers.
+ser também a nível de processos. Conforme explica \citeonline{Newman2015},
+o kernel Linux implementa uma tecnologia chamada \emph{cgroups}, que é uma
+forma de criar subárvores de processos isoladas dentro do kernel, as quais
+tem sua própria numeração dos processos. Desta forma cada container não
+conseguem interferir com processos do host e de outros containers.
