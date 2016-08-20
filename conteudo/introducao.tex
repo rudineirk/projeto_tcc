@@ -1,6 +1,26 @@
 \chapter{INTRODUÇÃO}
 \label{chp:intro}
 
+Para administradores de sistema, as ferramentas as quais eles utilizam são
+críticas para a execução do seu trabalho, onde uma falha pode parar a execução
+de algum serviço crítico da empresa na qual ele trabalha, gerando custos para
+a mesma. Para administração destes serviços, existem empresas que fornecem
+produtos que provem interfaces de administração dos serviços, os quais tem
+como principal foco expor as funcionalidades dos serviços de forma que
+facilite a tarefa de administração.
+
+Este trabalho se baseia no desenvolvimento da segunda iteração de uma
+interface de administração de servidores. O projeto desta segunda versão
+foi iniciado sem se basear no código existente da primeira versão, por esta
+apresentar alguns problemas críticos estruturais. Isto se deve ao fato da
+empresa responsável pelo produto ter iniciado como uma tercerizada de
+administração de serviços, mas em certo ponto moveu seu foco para o
+desenvolvimento de um produto próprio. Este produto, o objetivo deste
+trabalho, iniciou-se com base em \emph{scripts} desenvolvidos antes da empresa
+ter funcionários dedicados a desenvolvimento, sem os cuidados devidos de
+estruturação de código e escolhas de tecnologias, sendo estas as principais
+causa dos problemas estruturais existentes no produto.
+
 O desenvolvimento de uma interface de administração de servidores Linux
 envolve diversas tecnologias e uma gama de serviços que devem ser
 administrados, isto gera uma base de código relativamente grande, o que
@@ -51,7 +71,7 @@ A segunda parte é um estudo de caso, onde as informações coletadas
 na primeira etapa são utilizadas para elaboração da arquitetura da interface
 de administração de servidores modular e para desenvolvimento de um protótipo.
 
-Este trabalho é composto por cinco capítulos, no primeiro capítulo é
+Este trabalho está dividido em cinco capítulos, no primeiro capítulo é
 apresentado as motivações e os objetivos deste trabalho. No capítulo
 \ref{chp:tecnologias} são apresentados os principais conceitos e tecnologias
 envolvendo microserviços, abordando um pouco sobre arquiteturas
