@@ -8,11 +8,12 @@ abordados os principais assuntos relacionados ao foco principal deste documento.
 \section{ARQUITETURAS}
 
 Historicamente houve diversas tentativas de criar arquiteturas de softwares
-resistente a falhas e manteníveis, mas a criação de novas tecnologias, como
-acesso a virtualização instantânea de baixo custo, e algumas mudanças de
-paradigmas de estruturação dos projetos (maior foco na escalabilidade
-do que na otimização de baixo nível) criaram a necessidade de estas
-arquiteruras se adaptarem e evoluirem para atender.
+resistente a falhas e manteníveis. Segundo \citeonline{Josuttis2007}, a
+criação de novas tecnologias, como acesso a virtualização instantânea de
+baixo custo, e algumas mudanças de paradigmas de estruturação dos projetos
+(maior foco na escalabilidade do que na otimização de baixo nível) criaram
+a necessidade de estas arquiteruras se adaptarem e evoluirem suprir estes
+novos requisitos.
 
 \subsection{Monolítica}
 
@@ -47,7 +48,7 @@ funcionalidades, uma vez que o software é composto de um único binário. Estes
 recursos alocados desnecessariamente aumentam muito o custo de operação e
 manutenção do sistema, o que reflete diretamente no negócio que depende deste.
 
-\subsection{SOA}
+\subsection{Service oriented architecture}
 
 Para criar o isolamento das aplicações necessário para atender as novas
 necessidades destes ambientes, foram criados um conjunto de conceitos
@@ -210,7 +211,15 @@ microserviços, na qual houveram aumentos significativos na velocidade de
 entrega de software funcional e na diminiuição dos bugs encontrados em
 produção.
 
-\section{Representational State Transfer}
+\section{TECNOLOGIAS APLICADAS}
+
+Para a aplicação da arquitetura de microserviços, é necessário uma gama de
+tecnologias e conceitos. Neste capítulo serão abordados os conceitos criação
+de APIs externas expostas pela aplicação, as tecnologias de comunicação entre
+microserviços, os padrões de armazenamento de dados e uma das plataformas de
+execução destas aplicações.
+
+\subsection{Representational State Transfer}
 
 \ac{REST} é um padrão de criação de \acp{API} que se popularizou com a
 adoção em massa por grandes empresas da internet. Ele define algumas práticas
@@ -242,43 +251,11 @@ Conforme \citeonline{Ignacio2009}, o padrão \ac{REST} funciona muito bem
 em conjunto com microserviços, por aplicar algumas práticas de separação
 de funcionalidades por meio de isolamento de recursos relacionados. No
 estudo de caso deste artigo, é apresentado a criação de uma \ac{API} no
-estilo \ac{REST} de pesquisa, na qual o resurso apresentado é o objeto
+estilo \ac{REST} de pesquisa, na qual o recurso apresentado é o objeto
 alvo da pesquisa, o qual é repassado para microserviços que funcionam
 como intermediários para busca em motores de busca disponíveis no mercado.
 
-\section{BANCO DE DADOS}
-
-Outra prática aplicada que visa diminuir o acoplamento das rotinas do sistema
-é o isolamento da base de dados de cada domínio de aplicação. A recomendação é
-cada serviço ter sua própria base de dados e ser o único responsável por ela,
-impedindo assim que outros serviços realizem alterações indevidas na base de
-dados de outros serviços. Na Figura \ref{fig:db-monolith-microservices}
-é apresentado um diagrama comparativo do armazenamento de dados de uma
-arquitetura monolítica e de microserviços:
-
-\begin{figure}[H]
-	\centering
-	\caption{Armazenamento de dados em monolítos e microserviços}
-	\includegraphics[width=1.0\textwidth]{figuras/decentralised-data.png}
-
-	\label{fig:db-monolith-microservices}
-	\footnotesize Fonte: \citeonline{Fowler2016}
-\end{figure}
-
-Em outras arquiteturas, são aplicadas grandes estruturas relacionais de banco
-de dados, onde o relacionamento entre os diversos dados da aplicação são
-aplicados a estrutura de armazenamento de dados. Isto gera alguns problemas,
-o mais grave sendo a incerteza de quais partes da aplicação utilizam uma
-seção dos dados, o que pode gerar inconsistencias na gravação e leitura dos
-mesmos.
-
-Este problema não deve existir dentro da arquitetura de microserviços, pois o
-acesso aos dados não é feito diretamente por todas as partes da aplicação que
-utilizam. Para tal são utilizados sistemas de comunicação entre os serviços,
-que funcionam como \acp{API} internas da aplicação, que permitem que o serviço
-responsável por um grupo de dados possam disponibilizar o acesso a estes dados.
-
-\section{MESSAGE QUEUES}
+\subsection{Message queues}
 
 \ac{MQ} é um formato de envio e distribuição de mensagens entre processos,
 no qual é utilizado padrões independentes de linguagens de programação
@@ -348,7 +325,39 @@ estiver estiver fora do ar as mensagens destinadas a este podem ser armazenadas
 temporariamente. Uma desvantagem é a inclusão de um ponto único de falha,
 uma vez que o serviço de \ac{MQ} se torna crítico para operação dos serviços.
 
-\section{CONTAINERS LINUX}
+\subsection{Banco de dados}
+
+Outra prática aplicada que visa diminuir o acoplamento das rotinas do sistema
+é o isolamento da base de dados de cada domínio de aplicação. A recomendação é
+cada serviço ter sua própria base de dados e ser o único responsável por ela,
+impedindo assim que outros serviços realizem alterações indevidas na base de
+dados de outros serviços. Na Figura \ref{fig:db-monolith-microservices}
+é apresentado um diagrama comparativo do armazenamento de dados de uma
+arquitetura monolítica e de microserviços:
+
+\begin{figure}[H]
+	\centering
+	\caption{Armazenamento de dados em monolítos e microserviços}
+	\includegraphics[width=1.0\textwidth]{figuras/decentralised-data.png}
+
+	\label{fig:db-monolith-microservices}
+	\footnotesize Fonte: \citeonline{Fowler2016}
+\end{figure}
+
+Em outras arquiteturas, são aplicadas grandes estruturas relacionais de banco
+de dados, onde o relacionamento entre os diversos dados da aplicação são
+aplicados a estrutura de armazenamento de dados. Isto gera alguns problemas,
+o mais grave sendo a incerteza de quais partes da aplicação utilizam uma
+seção dos dados, o que pode gerar inconsistencias na gravação e leitura dos
+mesmos.
+
+Este problema não deve existir dentro da arquitetura de microserviços, pois o
+acesso aos dados não é feito diretamente por todas as partes da aplicação que
+utilizam. Para tal são utilizados sistemas de comunicação entre os serviços,
+que funcionam como \acp{API} internas da aplicação, que permitem que o serviço
+responsável por um grupo de dados possam disponibilizar o acesso a estes dados.
+
+\subsection{Containers Linux}
 
 Containers são uma nova tecnologia de criação de ambientes isolados que tem
 como objetivo substituir máquinas virtuais em algumas situações. Máquinas

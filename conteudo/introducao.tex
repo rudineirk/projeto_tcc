@@ -21,6 +21,15 @@ ter funcionários dedicados a desenvolvimento, sem os cuidados devidos de
 estruturação de código e escolhas de tecnologias, sendo estas as principais
 causa dos problemas estruturais existentes no produto.
 
+Segundo \citeonline{Hochstadt2006}, a reescrita de um sistema que teve seu
+início baseado em \emph{scripts} nem sempre resolve problemas existentes,
+além de poder criar novos problemas. A forma correta de aproximar um problema
+de manutenção de um sistema legado é a re-análise das regras de negócio
+associadas ao mesmo, para então ser tomada a decisão de correção do sistema
+antigo ou reescrita deste. Para este projeto, a análise foi realizada
+previamente e foi decidido pela reescrita do sistema, mas esta análise
+não faz parte do escopo deste documento.
+
 O desenvolvimento de uma interface de administração de servidores Linux
 envolve diversas tecnologias e uma gama de serviços que devem ser
 administrados, isto gera uma base de código relativamente grande, o que
@@ -37,12 +46,6 @@ Segundo \citeonline{Fowler2016}, arquiteturas de microserviços reduzem
 alguns dos problemas provenientes do aumento da complexidade de uma aplicação
 por meio da divisão da aplicação em pequenos serviços com uma camada leve
 de comunicação entre si.
-
-Ao contrário de aplicações tradicionais utilizando arquitetura
-\ac{SOA}, que expõe interfaces \ac{RPC} detalhadas que simulam o funcionamento
-de uma arquitetura monolítica, segundo \citeonline{Erl2008}, são expostas
-\ac{API} no estilo \ac{REST} que facilitam o uso por outras aplicações e
-por terceiros.
 
 O isolamento de domínios da aplicação diminui a inércia do fluxo de entrega
 de software funcional, uma vez que podem ser feitas entregas pequenas e
