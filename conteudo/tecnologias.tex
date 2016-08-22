@@ -7,12 +7,12 @@ abordados os principais assuntos relacionados ao foco principal deste documento.
 
 \section{ARQUITETURAS}
 
-Historicamente houve diversas tentativas de criar arquiteturas de softwares
-resistente a falhas e manteníveis. Segundo \citeonline{Josuttis2007}, a
-criação de novas tecnologias, como acesso a virtualização instantânea de
-baixo custo, e algumas mudanças de paradigmas de estruturação dos projetos
-(maior foco na escalabilidade do que na otimização de baixo nível) criaram
-a necessidade de estas arquiteruras se adaptarem e evoluirem suprir estes
+Segundo \citeonline{Tanenbaum2007}, houve diversas tentativas de criar
+arquiteturas de softwares resistente a falhas e manteníveis. A criação de
+novas tecnologias, como acesso a virtualização instantânea de baixo custo,
+e algumas mudanças de paradigmas de estruturação dos projetos (maior foco
+na escalabilidade do que na otimização de baixo nível) criaram a
+necessidade destas arquiteturas se adaptarem e evoluirem suprir estes
 novos requisitos.
 
 \subsection{Monolítica}
@@ -30,23 +30,24 @@ de negócio estão bem definidas. Este processo ocorre naturalmente durante o
 ciclo de vida de um projeto, e muitas vezes a separação por bibliotecas e
 módulos no código já é suficiente para o isolamento de domínios.
 
-Os problemas deste formato iniciam conforme a base de código cresce e a demanda
-de novas funcionalidades aumentam. Uma grande base de código que deve ser
-empacotada e levada a produção de uma única vez cria uma grande inércia
-no desenvolvimento de novas funcionalidades, pois alterações em uma
-funcionalidade tem sua liberação atrasada por causa de alterações em
-outras partes do código não relacionadas, mas que fazem parte do mesmo
-repositório de código.
+Segundo \citeonline{Nygard2007}, os problemas deste formato iniciam conforme
+a base de código cresce e a demanda de novas funcionalidades aumentam. Uma
+grande base de código que deve ser empacotada e levada a produção de uma
+única vez cria uma grande inércia no desenvolvimento de novas
+funcionalidades, pois alterações em uma funcionalidade tem sua liberação
+atrasada por causa de alterações em outras partes do código não
+relacionadas, mas que fazem parte do mesmo repositório de código.
 
 Esta arquitetura atende muito bem alguns tipos de produtos, mas aplicações
 expostas para internet que podem ter milhares de acessos simultâneos expõe o
-principal ponto fraco deste formato: escalabilidade. Este problema ocorre
-quando uma funcionalidade do monolíto tem um aumento de demanda maior que o
-limite físico de uma única máquina, sendo necessário alocar outra instância
-da aplicação, mas para isto é necessário alocar recursos para todas as
-funcionalidades, uma vez que o software é composto de um único binário. Estes
-recursos alocados desnecessariamente aumentam muito o custo de operação e
-manutenção do sistema, o que reflete diretamente no negócio que depende deste.
+principal ponto fraco deste formato: escalabilidade. Segundo
+\citeonline{Namiot2014}, este problema ocorre quando uma funcionalidade do
+monolíto tem um aumento de demanda maior que o limite físico de uma única
+máquina, sendo necessário alocar outra instância da aplicação, mas para isto
+é necessário alocar recursos para todas as funcionalidades, uma vez que o
+software é composto de um único binário. Estes recursos alocados
+desnecessariamente aumentam muito o custo de operação e manutenção do
+sistema, o que reflete diretamente no negócio que depende deste.
 
 \subsection{Service oriented architecture}
 
