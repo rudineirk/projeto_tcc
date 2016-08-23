@@ -153,10 +153,11 @@ mesma infraestrutura de serviços.
 
 \subsection{Microserviços}
 
-Microserviços são um formato de desenvolvimento de sistemas que trata o
-problema de isolamento dos domínios da aplicação por meio da distribuição
-da lógica entre pequenos processos independentes que trabalham em conjunto
-para a entrega da funcionalidade final esperada.
+Microserviços, segundo \citeonline{Boner2016}, são um formato de
+desenvolvimento de sistemas que trata o problema de isolamento dos domínios
+da aplicação por meio da distribuição da lógica entre pequenos processos
+independentes que trabalham em conjunto para a entrega da funcionalidade
+final esperada.
 
 Esta arquitetura surgiu de práticas aplicadas por empresas de escala global que
 operam na internet, muito antes de haver uma classificação para tal. Estas
@@ -182,34 +183,39 @@ os microserviços.
 	\footnotesize Fonte: \citeonline{Goldsmith2015}
 \end{figure}
 
-O baixo acoplamento neste formato de arquitetura é levado um passo a frente,
-realizando a separação de domínios da aplicação por meio de isolamento dos
-executáveis e do código que compõe os serviços, permitindo que serviços
-sejam escritos em linguagens diferentes, caso seja necessário. Isto é útil
-quando existe a necessidade de utilizar tecnologias diferentes em um
-serviços mais crítico, por motivos de performance, por exemplo.
+O baixo acoplamento neste formato de arquitetura é levado um passo a frente.
+Segundo \citeonline{Newman2015}, realizando a separação de domínios da
+aplicação por meio de isolamento dos executáveis e do código que compõe os
+serviços, esta arquitetura permite que serviços sejam escritos em linguagens
+diferentes, o que permite de utilizar tecnologias diferentes caso exista
+a necessidade.
 
-O versionamento e a entrega de atualizações neste modelo de arquitetura
-também se diferencia, por exigir que o versionamento dos serviços sejam
-independentes entre si. Isto permite que entregas de novas funcionalidades
-sejam realizadas independentemente de outros serviços, aumentado a
-produtividade dos times envolvidos, uma vez que cada um pode realizar entregas
-sem depender de prazos e atrasos de outras equipes.
+Esta separação da aplicação a nível de regras de negócio é chamada de \ac{DDD},
+e não é exclusiva de microserviços. Segundo \citeonline{Millet2015}, \ac{DDD}
+é um processo que alinha o código da aplicação com o domínio do problema
+a ser resolvido, facilitando o entendimento em futuras manutenções e
+alterações nesta aplicação. O desenvolvimento de serviços focados em uma
+única regra de negócio reduz a carga de conhecimento que o desenvolvedor
+precisa estar ciente antes de realizar alterações em uma base de código.
 
-Este processo só funciona em escala com ferramentas de apoio bem definidas,
-como ferramentas de \ac{CI} e \ac{CD} aplicadas, além de times serem compostos
-por integrantes multidisciplinares. Muitos dos conceitos aplicados a
-microserviços tiveram algumas raízes nas metodologias ágeis, como Scrum, XP e
-Lean, o que torna a aplicação desta arquitetura nos produtos de uma empresa
-uma alteração na forma como a própria empresa trabalha.
+Conforme explica \citeonline{Stine2015}, o versionamento e a entrega de
+atualizações neste modelo de arquitetura também se diferencia, por exigir
+que o versionamento dos serviços sejam independentes entre si. Isto permite
+que entregas de novas funcionalidades sejam realizadas independentemente de
+outros serviços, aumentado a produtividade dos times envolvidos, uma vez que
+cada um pode realizar entregas sem depender de prazos e atrasos de outras
+equipes.
 
-Segundo \citeonline{Newman2015}, esta nova forma de trabalho otimiza o processo
-de desenvolvimento, uma vez que os microserviços normalmente tem sua base de
-código separada dos outros serviços, permitindo que o desenvolvedor realize
-alterações sem o risco de afetar outras áreas da aplicação.
+Segundo \citeonline{Stine2015}, a aplicação desta arquitetura só funciona
+quando há uma alteração nos processos e na cultura de toda a área técnica
+de uma empresa, pois envolvem a aplicação de técnicas de \ac{CI} e \ac{CD},
+além de times serem compostos por integrantes multidisciplinares. Muitos dos
+conceitos aplicados a microserviços tiveram algumas raízes nas metodologias
+ágeis, como Scrum, XP e Lean, o que torna a aplicação desta arquitetura nos
+produtos de uma empresa uma alteração na forma como a própria empresa trabalha.
 
 Os benefícios na produtividade e na qualidade do software entregue pode
-ser claramente vista na tese de mestrado de \citeonline{Lopes2015}, um estudo
+ser claramente vistos na tese de mestrado de \citeonline{Lopes2015}, um estudo
 de caso de migração da arquitetura dos produtos de uma empresa para
 microserviços, na qual houveram aumentos significativos na velocidade de
 entrega de software funcional e na diminiuição dos bugs encontrados em
