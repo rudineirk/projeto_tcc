@@ -85,7 +85,9 @@ conceito que aborda o isolamento de domínios de aplicação e as
 interdependências entre serviços, os quais não devem depender da forma
 como são implementados outros serviços. Isto conflita em alguns pontos
 com contratos de comunicação utilizando \ac{RPC}, pois o mesmo simula
-o funcionamento de um sistema monolítico.
+o funcionamento de um sistema monolítico. Para tal, é utilizado
+\emph{middlewares} chamados \ac{ESB}, os quais permitem comunicação
+assíncrona entre os serviços que compõe o sistema.
 
 Abstração da regra de negócio é a forma como os serviços devem expor
 seus contratos de comunicação, onde um serviço deve expor funcionalidades
@@ -271,7 +273,8 @@ como intermediários para busca em motores de busca disponíveis no mercado.
 no qual é utilizado padrões independentes de linguagens de programação
 específicas, que permitem a comunicação entre sistemas que utilizam diferentes
 tecnologias. Esta comunicação é feita por meio de mensagens, as quais são
-geradas por um produtor e recebidas por um receptor ou assinante.
+geradas por um produtor e recebidas por um receptor ou assinante. Estes
+softwares fornecem algumas funcionalidades similares aos \acp{ESB} do \ac{SOA}.
 
 Segundo \citeonline{Videla2012}, exitem 3 principais padrões de comunicação
 utilizados em \acp{MQ}, send o primeiro chamado \emph{request-reply}, onde
