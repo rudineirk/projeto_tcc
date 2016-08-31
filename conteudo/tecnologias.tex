@@ -267,6 +267,38 @@ estilo \ac{REST} de pesquisa, na qual o recurso apresentado é o objeto
 alvo da pesquisa, o qual é repassado para microserviços que funcionam
 como intermediários para busca em motores de busca disponíveis no mercado.
 
+\subsection{Banco de dados}
+
+Segundo \citeonline{Boner2016}, uma prática aplicada que visa diminuir o
+acoplamento das rotinas do sistema é o isolamento da base de dados de cada
+domínio de aplicação. A recomendação é cada serviço ter sua própria base de
+dados e seja o único responsável por ela, impedindo assim que outros serviços
+realizem alterações indevidas nos dados de outros domínios. Na Figura
+\ref{fig:db-monolith-microservices} é apresentado um diagrama comparativo do
+armazenamento de dados de uma arquitetura monolítica e de microserviços:
+
+\begin{figure}[H]
+	\centering
+	\caption{Armazenamento de dados em monolítos e microserviços}
+	\includegraphics[width=1.0\textwidth]{figuras/decentralised-data.png}
+
+	\label{fig:db-monolith-microservices}
+	\footnotesize Fonte: \citeonline{Fowler2016}
+\end{figure}
+
+Em outras arquiteturas, são aplicadas grandes estruturas relacionais de banco
+de dados, onde o relacionamento entre os diversos dados da aplicação são
+aplicados a estrutura de armazenamento de dados. Isto gera alguns problemas,
+o mais grave sendo a incerteza de quais partes da aplicação utilizam uma
+seção dos dados, o que pode gerar inconsistencias na gravação e leitura dos
+mesmos.
+
+Conforme explica \citeonline{Newman2015}, este problema não deve existir
+dentro da arquitetura de microserviços, pois o acesso aos dados de outros
+domínios da aplicação devem ser feitos por meio do microserviço responsável.
+Para tal, são utilizados sistemas de comunicação entre os serviços, como por
+exemplo as \acp{MQ}, que funcionam como \acp{API} internas da aplicação.
+
 \subsection{Message queues}
 
 \ac{MQ} é um formato de envio e distribuição de mensagens entre processos,
@@ -339,38 +371,6 @@ um \emph{cache} de mensagens, se um serviço estiver estiver fora do ar as
 mensagens destinadas a este podem ser armazenadas temporariamente. Uma
 desvantagem é a inclusão de um ponto único de falha, uma vez que o serviço
 de \ac{MQ} se torna crítico para operação dos serviços.
-
-\subsection{Banco de dados}
-
-Outra prática aplicada que visa diminuir o acoplamento das rotinas do sistema
-é o isolamento da base de dados de cada domínio de aplicação. A recomendação é
-cada serviço ter sua própria base de dados e ser o único responsável por ela,
-impedindo assim que outros serviços realizem alterações indevidas na base de
-dados de outros serviços. Na Figura \ref{fig:db-monolith-microservices}
-é apresentado um diagrama comparativo do armazenamento de dados de uma
-arquitetura monolítica e de microserviços:
-
-\begin{figure}[H]
-	\centering
-	\caption{Armazenamento de dados em monolítos e microserviços}
-	\includegraphics[width=1.0\textwidth]{figuras/decentralised-data.png}
-
-	\label{fig:db-monolith-microservices}
-	\footnotesize Fonte: \citeonline{Fowler2016}
-\end{figure}
-
-Em outras arquiteturas, são aplicadas grandes estruturas relacionais de banco
-de dados, onde o relacionamento entre os diversos dados da aplicação são
-aplicados a estrutura de armazenamento de dados. Isto gera alguns problemas,
-o mais grave sendo a incerteza de quais partes da aplicação utilizam uma
-seção dos dados, o que pode gerar inconsistencias na gravação e leitura dos
-mesmos.
-
-Este problema não deve existir dentro da arquitetura de microserviços, pois o
-acesso aos dados não é feito diretamente por todas as partes da aplicação que
-utilizam. Para tal são utilizados sistemas de comunicação entre os serviços,
-que funcionam como \acp{API} internas da aplicação, que permitem que o serviço
-responsável por um grupo de dados possam disponibilizar o acesso a estes dados.
 
 \subsection{Containers Linux}
 
