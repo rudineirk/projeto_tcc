@@ -291,14 +291,14 @@ processamento destes não é deterministico, ou seja, o produtor não utiliza
 os resultados da mensagem que ele enviou, ficando a cargo do do receptor
 encaminhar e/ou notificar interessados nos dados em questão.
 
-O último padrão de comunicação de \acp{MQ} é o \emph{publisher-subscriber},
-o qual funciona por meio de um produtor (o \emph{publisher}) que envia uma
-mensagem para um tópico, o qual assinantes ouvem para receber qualquer
-mensagem que seja enviado para este, como apresentado na Figura
-\ref{fig:mq-pubsub}. Este formato de comunicação se assemelha ao conceito
-de \emph{broadcast} de redes de computadores, onde uma mensagem é enviada
-sem um destinatário específico, e todos que estiverem ouvindo podem receber
-esta mensagem.
+O último padrão de comunicação de \acp{MQ} é o \emph{publisher-subscriber}.
+Conforme explica \citeonline{Newman2015}, este padrão funciona por meio de
+um produtor (o \emph{publisher}) que envia uma mensagem para um tópico, o
+qual assinantes ouvem para receber qualquer mensagem que seja enviado para
+este, como apresentado na Figura \ref{fig:mq-pubsub}. Este formato de
+comunicação se assemelha ao conceito de \emph{broadcast} de redes de
+computadores, onde uma mensagem é enviada sem um destinatário específico,
+e todos que estiverem ouvindo podem receber esta mensagem.
 
 \begin{figure}[H]
 	\centering
@@ -310,10 +310,11 @@ esta mensagem.
 \end{figure}
 
 Para enteder o último padrão, é necessário antes entender os tipos de \acp{MQ}
-existentes, as quais podem ser \emph{brokered} ou \emph{brokerless}.
-A diferença entre estes dois reside na existência ou não de um \emph{broker},
-respectivamente. Um \emph{broker} é em essência um distribuidor de mensagens
-centralizado, um meio no qual os serviços podem utilizar para enviar mensagens.
+existentes, as quais podem ser \emph{brokered} ou \emph{brokerless}. Segundo
+\citeonline{Hintjens2013}, a diferença entre estes dois reside na existência
+ou não de um \emph{broker}, respectivamente. Um \emph{broker} é em essência um
+distribuidor de mensagens centralizado, um meio no qual os serviços podem
+utilizar para enviar mensagens.
 
 Na Figura \ref{fig:mq-coupling} é exibido uma representação visual destes dois
 modelos, sendo o primeiro a comunicação \emph{brokerless}, onde cada serviço
@@ -330,13 +331,14 @@ as mensagens entre os diferentes serviços.
 	\footnotesize Fonte: \citeonline{Microsoft2016}
 \end{figure}
 
-Existem algumas vantagens na utilização de \acp{MQ} centralizadas, sendo uma
-delas o baixo acoplamento da comunicaçao entre serviços, os quais não precisam
-diretamente se comunicar com outros serviços. Outra vantagem é o fato deste
-serviço de \ac{MQ} funcionar como um \emph{cache} de mensagens, se um serviço
-estiver estiver fora do ar as mensagens destinadas a este podem ser armazenadas
-temporariamente. Uma desvantagem é a inclusão de um ponto único de falha,
-uma vez que o serviço de \ac{MQ} se torna crítico para operação dos serviços.
+Segundo \citeonline{Videla2012}, existem algumas vantagens na utilização
+de \acp{MQ} centralizadas, sendo uma delas o baixo acoplamento da comunicaçao
+entre serviços, os quais não precisam diretamente se comunicar com outros
+serviços. Outra vantagem é o fato deste serviço de \ac{MQ} funcionar como
+um \emph{cache} de mensagens, se um serviço estiver estiver fora do ar as
+mensagens destinadas a este podem ser armazenadas temporariamente. Uma
+desvantagem é a inclusão de um ponto único de falha, uma vez que o serviço
+de \ac{MQ} se torna crítico para operação dos serviços.
 
 \subsection{Banco de dados}
 
