@@ -376,11 +376,27 @@ de \ac{MQ} se torna crítico para operação dos serviços.
 \subsection{Containers Linux}
 
 Containers são uma nova tecnologia de criação de ambientes isolados que tem
-como objetivo substituir máquinas virtuais em algumas situações. Máquinas
-virtuais e containers compartilham o conceito de isolamento de ambientes, mas
-este é o limite das semelhanças entres os dois, pois o primeiro foca na
-emulação de uma máquina física completa, e o segundo foca somente no
-isolamento de arquivos e bibliotecas utilizadas por uma aplicação.
+como objetivo substituir máquinas virtuais em algumas situações. Segundo
+\citeonline{Turnbull2015}, máquinas virtuais e containers compartilham o
+conceito de isolamento de ambientes, mas este é o limite das semelhanças
+entres os dois, pois o primeiro foca na emulação de uma máquina física
+completa, e o segundo foca somente no isolamento de arquivos e bibliotecas
+utilizadas por uma aplicação.
+
+As camadas destas tecnologias podem ser visualizadas na Figura
+\ref{fig:docker-vs-vm}, sendo que os containers apresentam somente as camadas
+de bibliotecas do sistema e a aplicação em si. As máquinas virtuais, além das
+mesmas camadas dos containers, apresentam a camada de virtualização de
+hardware e do sistema operacional.
+
+\begin{figure}[H]
+	\centering
+	\caption{Comparativo de máquinas virtual e containers Docker}
+	\includegraphics[width=1.0\textwidth]{figuras/docker-vs-vm.png}
+
+	\label{fig:docker-vs-vm}
+	\footnotesize Fonte: Adaptado de \citeonline{Docker2015}
+\end{figure}
 
 O conceito de criação de ambientes isolados já existia a bastante tempo, mas
 por falta de ferramentas para facilitar sua utilização e algumas limitações
@@ -397,40 +413,35 @@ tecnologias. Também existe a possibilidade de ser criado um repositório
 privado, caso alguma política de controle de licenças não permita a criação
 de repositórios públicos.
 
-A idéia de ter imagens públicas disponíveis para qualquer pessoa é a de
-utilizar containers como blocos de montar para aplicações. Por exemplo,
-em uma aplicação web, pode ser criado um container para rodar o servidor de
-aplicação e utilizar imagens disponíveis para o serviço de banco de dados e
-o servidor de arquivos estáticos. A comunicação entre estes containers é feita
-por meio de uma rede virtual entre os containers que permite a comunicação
-entre os mesmos como se estivessem rodando em máquinas separadas.
+Segundo \citeonline{Newman2015} o isolamento de bibliotecas e dependências por
+meio de containers permite executar aplicações distintas dentro da mesma
+máquina sem que exista conflitos de versões dos requisitos para rodar estas
+aplicações. Isto é feito por meio da utilização de instalações de sistemas
+operacionais mínimas dentro de cada container, sem kernel e arquivos
+desnecessários para operação das aplicações.
 
-O isolamento de bibliotecas e dependências por meio de containers permite
-executar aplicações distintas dentro da mesma máquina sem que exista
-conflitos de versões dos requisitos para rodar estas aplicações. Isto é feito
-por meio da utilização de instalações de sistemas operacionais mínimas dentro
-de cada container, sem kernel e arquivos desnecessários para operação das
-aplicações.
-
-Isto normalmente usaria muito espaço para manter um sistema completo para
-cada serviço da aplicação, mas o Docker cria o que ele chamda de camadas
-de arquinos, na qual cada imagem é composto por camadas que podem ser
-reutilizadas por imagens derivadas. Por exemplo, existe imagens das
-versões da distribuição Linux Debian, que são utilizados pelos criadores da
-imagem do banco de dados PostgreSQL e da imagem do servidor web Apache.
-Ao utilizar estas duas últimas imagens na mesma máquina, o espaço em disco
-da camada do Debian será utilizada uma única vez, para cada container será
-adicionado somente a diferença de espaço em disco necessário para os arquivos
-específicos da imagem do container.
+Normalmente seria utilizado muito espaço para manter um sistema completo para
+cada serviço da aplicação, conforme explica \citeonline{Turnbull2015}, a
+solução para este problema foi a criação camadas sistemas de arquivos, onde
+cada imagem é composto por camadas que podem ser reutilizadas por imagens
+derivadas. Por exemplo, a distribuição Linux Debian disponibiliza imagens
+base, que são utilizados pelos criadores da imagem do banco de dados
+PostgreSQL e da imagem do servidor web Apache. Ao utilizar estas duas últimas
+imagens na mesma máquina, o espaço em disco da camada do Debian será utilizada
+uma única vez, para cada container será adicionado somente a diferença de
+espaço em disco necessário para os arquivos específicos da imagem do container.
 
 Ao rodar o container, as camadas da imagem são montadas no disco em modo
 somente leitura, sendo que alterações realizadas dentro do container são
 armazenadas separadamente para cada container. Este processo é invisível para
-a aplicação, a qual enxerga um sistema de arquivos normal.
+a aplicação, a qual enxerga somente um sistema de arquivos normal.
 
 Por todos os serviços compartilharem o mesmo kernel, o isolamento precisa
-ser também a nível de processos. Conforme explica \citeonline{Newman2015},
+ser também a nível de processos. Segundo \citeonline{Newman2015},
 o kernel Linux implementa uma tecnologia chamada \emph{cgroups}, que é uma
-forma de criar subárvores de processos isoladas dentro do kernel, as quais
-tem sua própria numeração dos processos. Desta forma cada container não
-conseguem interferir com processos do host e de outros containers.
+forma de criar subárvores de processos isoladas dentro do kernel,
+as quais tem sua própria numeração dos processos. Desta forma cada container
+não conseguem interferir com processos do host e de outros containers. Para os
+containers se comunicarem, o Docker disponibiliza uma rede virtual entre os
+containers que permite a comunicação entre os mesmos, simulando o funcionamento
+da arquitetura com máquinas virtuais.
