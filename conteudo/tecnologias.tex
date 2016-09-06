@@ -377,7 +377,7 @@ de \ac{MQ} se torna crítico para operação dos serviços.
 
 Containers são uma nova tecnologia de criação de ambientes isolados que tem
 como objetivo substituir máquinas virtuais em algumas situações. Segundo
-\citeonline{Turnbull2015}, máquinas virtuais e containers compartilham o
+\citeonline{Matthias2015}, máquinas virtuais e containers compartilham o
 conceito de isolamento de ambientes, mas este é o limite das semelhanças
 entres os dois, pois o primeiro foca na emulação de uma máquina física
 completa, e o segundo foca somente no isolamento de arquivos e bibliotecas
@@ -403,7 +403,7 @@ por falta de ferramentas para facilitar sua utilização e algumas limitações
 de segurança não permitiram a proliferação destas ferramentas antes da criação
 do Docker.
 
-Segundo \citeonline{Turnbull2015}, o Docker é um conjunto de ferramentas de
+Segundo \citeonline{Matthias2015}, o Docker é um conjunto de ferramentas de
 criação e distribuição de containers, que utiliza algumas tecnologias
 disponíveis no kernel Linux para criação de containers para rodar aplicações
 com segurança dentro de um \emph{sandbox}. A criação de containers é feita por
@@ -413,15 +413,15 @@ tecnologias. Também existe a possibilidade de ser criado um repositório
 privado, caso alguma política de controle de licenças não permita a criação
 de repositórios públicos.
 
-Segundo \citeonline{Newman2015} o isolamento de bibliotecas e dependências por
-meio de containers permite executar aplicações distintas dentro da mesma
-máquina sem que exista conflitos de versões dos requisitos para rodar estas
-aplicações. Isto é feito por meio da utilização de instalações de sistemas
-operacionais mínimas dentro de cada container, sem kernel e arquivos
-desnecessários para operação das aplicações.
+Conforme explica \citeonline{Turnbull2015} o isolamento de bibliotecas e
+dependências por meio de containers permite executar aplicações distintas
+dentro da mesma máquina sem que exista conflitos de versões dos requisitos
+para rodar estas aplicações. Isto é feito por meio da utilização de
+instalações de sistemas operacionais mínimas dentro de cada container, sem
+kernel e arquivos desnecessários para operação das aplicações.
 
 Normalmente seria utilizado muito espaço para manter um sistema completo para
-cada serviço da aplicação, conforme explica \citeonline{Turnbull2015}, a
+cada serviço da aplicação, conforme explica \citeonline{Matthias2015}, a
 solução para este problema foi a criação camadas sistemas de arquivos, onde
 cada imagem é composto por camadas que podem ser reutilizadas por imagens
 derivadas. Por exemplo, a distribuição Linux Debian disponibiliza imagens
@@ -437,7 +437,7 @@ armazenadas separadamente para cada container. Este processo é invisível para
 a aplicação, a qual enxerga somente um sistema de arquivos normal.
 
 Por todos os serviços compartilharem o mesmo kernel, o isolamento precisa
-ser também a nível de processos. Segundo \citeonline{Newman2015},
+ser também a nível de processos. Segundo \citeonline{Matthias2015},
 o kernel Linux implementa uma tecnologia chamada \emph{cgroups}, que é uma
 forma de criar subárvores de processos isoladas dentro do kernel,
 as quais tem sua própria numeração de processos. Desta forma cada container
