@@ -440,8 +440,8 @@ Por todos os serviços compartilharem o mesmo kernel, o isolamento precisa
 ser também a nível de processos. Segundo \citeonline{Newman2015},
 o kernel Linux implementa uma tecnologia chamada \emph{cgroups}, que é uma
 forma de criar subárvores de processos isoladas dentro do kernel,
-as quais tem sua própria numeração dos processos. Desta forma cada container
+as quais tem sua própria numeração de processos. Desta forma cada container
 não conseguem interferir com processos do host e de outros containers. Para os
 containers se comunicarem, o Docker disponibiliza uma rede virtual entre os
-containers que permite a comunicação entre os mesmos, simulando o funcionamento
-da arquitetura com máquinas virtuais.
+containers que permite a comunicação entre os mesmos, simulando o formato
+de comunicação das arquiteturas com máquinas virtuais.
