@@ -12,7 +12,7 @@ arquiteturas de softwares resistente a falhas e manteníveis. A criação de
 novas tecnologias, como acesso a virtualização instantânea de baixo custo,
 e algumas mudanças de paradigmas de estruturação dos projetos (maior foco
 na escalabilidade do que na otimização de baixo nível) criaram a
-necessidade destas arquiteturas se adaptarem e evoluirem suprir estes
+necessidade destas arquiteturas se adaptarem e evoluirem para suprir estes
 novos requisitos.
 
 \subsection{Monolítica}
@@ -30,9 +30,9 @@ de negócio estão bem definidas. Este processo ocorre naturalmente durante o
 ciclo de vida de um projeto, e muitas vezes a separação por bibliotecas e
 módulos no código já é suficiente para o isolamento de domínios.
 
-Segundo \citeonline{Nygard2007}, os problemas deste formato iniciam conforme
+\citeonline{Nygard2007} relata que os problemas deste formato iniciam conforme
 a base de código cresce e a demanda de novas funcionalidades aumentam. Uma
-grande base de código que deve ser empacotada e levada a produção de uma
+grande base de código que deve ser empacotada e levada à produção de uma
 única vez cria uma grande inércia no desenvolvimento de novas
 funcionalidades, pois alterações em uma funcionalidade tem sua liberação
 atrasada por causa de alterações em outras partes do código não
@@ -94,7 +94,7 @@ seus contratos de comunicação, onde um serviço deve expor funcionalidades
 e não a sua implementação, permitindo que um serviço seja alterado internamente
 sem que isto afete outros serviços dependentes do serviço em questão.
 
-Reusabilidade de um serviço, conforme explica \citeonline{Erl2008} deve-se
+Reusabilidade de um serviço, conforme explica \citeonline{Erl2008}, deve-se
 ao fato que existe poucas vantagens em isolar uma regra de negócio utilizada
 exclusivamente por um único serviço. Uma regra de negócio deve se tornar um
 serviço isolado somente se ela for utilizada por mais sistemas, caso
@@ -104,27 +104,27 @@ Autonomia de um serviço refere-se ao fato que falhas em partes de aplicação
 são um risco que não pode ser mitigado de forma simples. Para isto, serviços
 devem estar preparados para situações de falha em outros serviços, onde
 o serviço precisa entregar sua funcionalidade independente de outros serviços
-estarem operacionais. No caso de sistemas monolíticos uma falha
+estarem operacionais. No caso de sistemas monolíticos, uma falha
 em uma parte da aplicação poderia matar o processo e indisponibilizar
-a aplicação como um todo, no caso de sistemas implementados com \ac{SOA}, os
-serviços devem continuar a disponibilizar, na medida do possível, suas
-funcionalidades mesmo que um serviço o qual este depende apresente algum tipo
-de problema.
+a aplicação como um todo, ao contrário de sistemas implementados com
+\ac{SOA}, onde os serviços devem continuar a disponibilizar suas
+funcionalidades, na medida do possível, mesmo que um serviço o qual este
+depende apresente algum tipo de problema.
 
-Inexistência de manutenção de estados, segund \citeonline{Richardson2007}, é
-um conceito que existe porque manter estado de um cliente de um serviço
-consome recursos e tempo de computação que podem ser evitados caso não seja
-mantido estados. Para tal, cada requisição na comunicação deve carregar
-todas as informações necessárias para realizaçao da operação. Este conceito
-de comunicação é aplicado em diversos protocolos de comunicação assincronos,
-como por exemplo o \ac{HTTP}, os quais, por limitações físicas, não podem
-manter estados a fim aumentar sua resistência a falhas em casos de erros de
-comunicação.
+Inexistência de manutenção de estados, segundo \citeonline{Richardson2007}, é
+um conceito que existe pois manter o estado de um cliente em um serviço
+reflete em consumo de recursos e tempo de computação, que podem ser evitados
+caso não seja mantido estados. Para tal, a realização de cada requisição na
+comunicação deve carregar todas as informações necessárias para realizaçao da
+operação. Este conceito de comunicação é aplicado em diversos protocolos de
+comunicação assincronos, como o \ac{HTTP}, os quais, por limitações físicas,
+não podem manter estados a fim de aumentar sua resistência a falhas em casos
+de erros de comunicação.
 
 Descoberta de serviços, conforme explica \citeonline{Newman2015}, é a
-possibilidade de um sistema composto por diversos serviços deve conseguir
-descobrir onde os serviços estão rodando e como acessa-los. Isto pode ser
-feito por meio de um registro de serviços, que armazena uma lista de serviços
+forma como um sistema, composto por diversos serviços, consegue descobrir onde
+os outros serviços estão rodando e como acessá-los. Isto pode ser feito por
+meio de um registro de serviços, que armazena uma lista de serviços
 atualmente em execução. Esta funcionalidade também é utilizada para alta
 disponibilidade e distribuição de carga, uma vez que este registro pode
 apontar para mais de uma instância do mesmo serviço. Um exemplo prático das
@@ -134,7 +134,9 @@ que haja paradas no sistema.
 
 Componibilidade de serviços engloba alguns conceitos de \ac{OOP} na criação
 de serviços, onde um serviço que expõe uma regra de negócio pode ser composto
-por funcionalidades expostas por outros serviços.
+por funcionalidades expostas por outros serviços. Na Figura
+\ref{fig:soa-bussiness-rules} pode ser visualizado um diagrama, que exemplifica
+a composição das regras de negócio por diversos serviços.
 
 \begin{figure}[H]
 	\centering
@@ -148,7 +150,7 @@ por funcionalidades expostas por outros serviços.
 Segundo \citeonline{Erl2008}, por meio deste conceito as camadas de serviço
 podem depender de outras camadas de serviços. Isto permite o reuso de lógica
 de aplicações completamente diferentes para compor uma nova aplicação, o que
-é possível somente se outros princípios como o baixo acoplamento e isolamento
+é possível somente se outros princípios, como o baixo acoplamento e isolamento
 da regra de negócio forem aplicados corretamente. Uma grande vantagem da
 aplicação deste conceito é que diferentes aplicações podem compartilhar uma
 mesma infraestrutura de serviços.
@@ -170,7 +172,7 @@ o produto.
 
 Segundo \citeonline{Newman2015}, arquiteturas de microserviços não se limitam
 somente a arquitetura de software, se estendendo sobre a forma como são
-realizadas as entregas de novas versões, no gerenciados os ambientes
+realizadas as entregas de novas versões, no gerenciamento dos ambientes
 de operação, no versionamento do software como um todo e no armazenamento de
 dados da aplicação, como apresentado na Figura \ref{fig:venn-microservices},
 que apresenta a intersecção de conceitos que trabalham em conjunto para criar
@@ -226,8 +228,8 @@ produção.
 \section{TECNOLOGIAS APLICADAS}
 
 Para a aplicação da arquitetura de microserviços, é necessário uma gama de
-tecnologias e conceitos. Neste capítulo serão abordados os conceitos criação
-de APIs externas expostas pela aplicação, as tecnologias de comunicação entre
+tecnologias e conceitos. Neste capítulo serão abordados os conceitos de criação
+de APIs externas expostas pela aplicação e as tecnologias de comunicação entre
 microserviços, os padrões de armazenamento de dados e uma das plataformas de
 execução destas aplicações.
 
@@ -296,8 +298,8 @@ mesmos.
 Conforme explica \citeonline{Newman2015}, este problema não deve existir
 dentro da arquitetura de microserviços, pois o acesso aos dados de outros
 domínios da aplicação devem ser feitos por meio do microserviço responsável.
-Para tal, são utilizados sistemas de comunicação entre os serviços, como por
-exemplo as \acp{MQ}, que funcionam como \acp{API} internas da aplicação.
+Para tal, são utilizados sistemas de comunicação entre os serviços, como
+as \acp{MQ}, que funcionam como \acp{API} internas da aplicação.
 
 \subsection{Message queues}
 
@@ -310,7 +312,7 @@ ou assinante. Estes softwares fornecem algumas funcionalidades similares aos
 \acp{ESB} do \ac{SOA}.
 
 Segundo \citeonline{Videla2012}, exitem 3 principais padrões de comunicação
-utilizados em \acp{MQ}, send o primeiro chamado \emph{request-reply}, onde
+utilizados em \acp{MQ}, sendo o primeiro chamado \emph{request-reply}, onde
 mensagens são enviadas de um processo para o outro e para cada mensagem o
 produtor espera receber uma mensagem de resposta do receptor. Pode ser feita
 uma analogia a uma chamada de função de uma linguagem de programação, onde os
@@ -326,11 +328,11 @@ encaminhar e/ou notificar interessados nos dados em questão.
 
 O último padrão de comunicação de \acp{MQ} é o \emph{publisher-subscriber}.
 Conforme explica \citeonline{Newman2015}, este padrão funciona por meio de
-um produtor (o \emph{publisher}) que envia uma mensagem para um tópico, o
-qual assinantes ouvem para receber qualquer mensagem que seja enviado para
-este, como apresentado na Figura \ref{fig:mq-pubsub}. Este formato de
-comunicação se assemelha ao conceito de \emph{broadcast} de redes de
-computadores, onde uma mensagem é enviada sem um destinatário específico,
+um produtor (o \emph{publisher}) que envia uma mensagem para um tópico, no
+qual assinantes sobrescreveram para receber qualquer mensagem que seja
+enviado para este, como apresentado na Figura \ref{fig:mq-pubsub}. Este
+formato de comunicação se assemelha ao conceito de \emph{broadcast} de redes
+de computadores, onde uma mensagem é enviada sem um destinatário específico,
 e todos que estiverem ouvindo podem receber esta mensagem.
 
 \begin{figure}[H]
@@ -368,7 +370,7 @@ Segundo \citeonline{Videla2012}, existem algumas vantagens na utilização
 de \acp{MQ} centralizadas, sendo uma delas o baixo acoplamento da comunicaçao
 entre serviços, os quais não precisam diretamente se comunicar com outros
 serviços. Outra vantagem é o fato deste serviço de \ac{MQ} funcionar como
-um \emph{cache} de mensagens, se um serviço estiver estiver fora do ar as
+um \emph{cache} de mensagens, se um serviço estiver fora do ar as
 mensagens destinadas a este podem ser armazenadas temporariamente. Uma
 desvantagem é a inclusão de um ponto único de falha, uma vez que o serviço
 de \ac{MQ} se torna crítico para operação dos serviços.
@@ -408,10 +410,10 @@ criação e distribuição de containers, que utiliza algumas tecnologias
 disponíveis no kernel Linux para criação de containers para rodar aplicações
 com segurança dentro de um \emph{sandbox}. A criação de containers é feita por
 meio de imagens, as quais são distribuidas em repositórios públicos de imagens,
-nos quais estão disponíveis imagens prontas para diversos serviços e
-tecnologias. Também existe a possibilidade de ser criado um repositório
-privado, caso alguma política de controle de licenças não permita a criação
-de repositórios públicos.
+que disponibilizam imagens prontas para diversos serviços e tecnologias.
+Também existe a possibilidade de ser criado um repositório privado, caso
+alguma política de controle de licenças não permita a criação de repositórios
+públicos.
 
 Conforme explica \citeonline{Turnbull2015} o isolamento de bibliotecas e
 dependências por meio de containers permite executar aplicações distintas
@@ -422,8 +424,8 @@ kernel e arquivos desnecessários para operação das aplicações.
 
 Normalmente seria utilizado muito espaço para manter um sistema completo para
 cada serviço da aplicação, conforme explica \citeonline{Matthias2015}, a
-solução para este problema foi a criação camadas sistemas de arquivos, onde
-cada imagem é composto por camadas que podem ser reutilizadas por imagens
+solução para este problema foi a criação de camadas de sistemas de arquivos,
+onde cada imagem é composto por camadas que podem ser reutilizadas por imagens
 derivadas. Por exemplo, a distribuição Linux Debian disponibiliza imagens
 base, que são utilizados pelos criadores da imagem do banco de dados
 PostgreSQL e da imagem do servidor web Apache. Ao utilizar estas duas últimas

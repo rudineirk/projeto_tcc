@@ -4,7 +4,7 @@
 Para administradores de sistema, as ferramentas as quais eles utilizam são
 críticas para a execução do seu trabalho, onde uma falha pode parar a execução
 de algum serviço crítico da empresa na qual ele trabalha, gerando custos para
-a mesma. Para administração destes serviços, existem empresas que fornecem
+a mesma. Para administrar estes serviços, existem empresas que fornecem
 produtos que provem interfaces de administração dos serviços, os quais tem
 como principal foco expor as funcionalidades dos serviços de forma que
 facilite a tarefa de administração.
@@ -15,11 +15,13 @@ foi iniciado sem se basear no código existente da primeira versão, por esta
 apresentar alguns problemas críticos estruturais. Isto se deve ao fato da
 empresa responsável pelo produto ter iniciado como uma tercerizada de
 administração de serviços, mas em certo ponto moveu seu foco para o
-desenvolvimento de um produto próprio. Este produto, o objetivo deste
-trabalho, iniciou-se com base em \emph{scripts} desenvolvidos antes da empresa
-ter funcionários dedicados a desenvolvimento, sem os cuidados devidos de
-estruturação de código e escolhas de tecnologias, sendo estas as principais
-causa dos problemas estruturais existentes no produto.
+desenvolvimento de um produto próprio. Este produto iniciou com base em
+\emph{scripts} desenvolvidos antes da empresa ter funcionários dedicados a
+desenvolvimento, sem os cuidados devidos de estruturação de código e escolhas
+de tecnologias, sendo estas as principais causa dos problemas estruturais
+existentes no produto. Este trabalho procura responder a seguinte pergunta:
+É possível criar uma interface de administração de servidores utilizando
+práticas modernas de desenvolvimento de software?
 
 Segundo \citeonline{Hochstadt2006}, a reescrita de um sistema que teve seu
 início baseado em \emph{scripts} nem sempre resolve problemas existentes,
@@ -37,10 +39,7 @@ dificulta o isolamento dos domínios de aplicação na arquitetura
 do sistema. Segundo \citeonline{Newman2015}, isto ocorre em todas as aplicações
 que utilizam uma arquitetura monolítica, em escalas variáveis, mas sempre
 geram problemas como mistura de código de domínios diferentes, dificultando
-a correção de bugs e implementação de novas funcionalidades. Este trabalho
-procura responder a seguinte pergunta: É possível criar uma interface de
-administração de servidores utilizando práticas modernas de desenvolvimento
-de software?
+a correção de bugs e implementação de novas funcionalidades.
 
 Segundo \citeonline{Fowler2016}, arquiteturas de microserviços reduzem
 alguns dos problemas provenientes do aumento da complexidade de uma aplicação
@@ -51,8 +50,8 @@ O isolamento de domínios da aplicação diminui a inércia do fluxo de entrega
 de software funcional, uma vez que podem ser feitas entregas pequenas e
 rápidas, diminuindo assim o \emph{Time to Market}.
 
-O principal objetivo deste projeto é o desenvolvimento de uma interface
-de administração de servidores modular, utilizando técnicas de desenvolvimento
+O principal objetivo deste projeto é desenvolver uma interface de
+administração de servidores modular, utilizando técnicas de desenvolvimento
 de software modernas. Para tal, são realizadas as seguintes etapas que compõe
 a execução do mesmo:
 
