@@ -4,16 +4,16 @@
 Para administradores de sistema, as ferramentas as quais eles utilizam são
 críticas para a execução do seu trabalho, onde uma falha pode parar a execução
 de algum serviço crítico da empresa na qual ele trabalha, gerando custos para
-a mesma. Para administrar estes serviços, existem empresas que fornecem
-produtos que provem interfaces de administração dos serviços, os quais tem
-como principal foco expor as funcionalidades dos serviços de forma que
-facilite a tarefa de administração.
+a mesma. Para administrar estes serviços existem empresas que fornecem
+produtos que provem interfaces de administração, as quais têm como principal
+foco expor as funcionalidades dos serviços de forma que facilite a tarefa
+de administração.
 
 Este trabalho se baseia no desenvolvimento da segunda iteração de uma
 interface de administração de servidores. O projeto desta segunda versão
 foi iniciado sem se basear no código existente da primeira versão, por esta
 apresentar alguns problemas críticos estruturais. Isto se deve ao fato da
-empresa responsável pelo produto ter iniciado como uma tercerizada de
+empresa responsável pelo produto ter iniciado como uma terceirizada de
 administração de serviços, mas em certo ponto moveu seu foco para o
 desenvolvimento de um produto próprio. Este produto iniciou com base em
 \emph{scripts} desenvolvidos antes da empresa ter funcionários dedicados a
@@ -25,12 +25,12 @@ práticas modernas de desenvolvimento de software?
 
 Segundo \citeonline{Hochstadt2006}, a reescrita de um sistema que teve seu
 início baseado em \emph{scripts} nem sempre resolve problemas existentes,
-além de poder criar novos problemas. A forma correta de aproximar um problema
-de manutenção de um sistema legado é a re-análise das regras de negócio
-associadas ao mesmo, para então ser tomada a decisão de correção do sistema
-antigo ou reescrita deste. Para este projeto, a análise foi realizada
-previamente e foi decidido pela reescrita do sistema, mas esta análise
-não faz parte do escopo deste documento.
+além de poder criar problemas que não existiam antes. A forma correta de
+aproximar um problema de manutenção de um sistema legado é a reanálise das
+regras de negócio associadas ao mesmo, para então ser tomada a decisão de
+correção do sistema antigo ou reescrita deste. Para este projeto, a análise
+foi realizada previamente e foi decidido pela reescrita do sistema, mas esta
+análise não faz parte do escopo deste documento.
 
 O desenvolvimento de uma interface de administração de servidores Linux
 envolve diversas tecnologias e uma gama de serviços que devem ser
@@ -39,9 +39,9 @@ dificulta o isolamento dos domínios de aplicação na arquitetura
 do sistema. Segundo \citeonline{Newman2015}, isto ocorre em todas as aplicações
 que utilizam uma arquitetura monolítica, em escalas variáveis, mas sempre
 geram problemas como mistura de código de domínios diferentes, dificultando
-a correção de bugs e implementação de novas funcionalidades.
+a correção de \emph{bugs} e implementação de novas funcionalidades.
 
-Segundo \citeonline{Fowler2016}, arquiteturas de microserviços reduzem
+Segundo \citeonline{Fowler2016}, arquiteturas de microsserviços reduzem
 alguns dos problemas provenientes do aumento da complexidade de uma aplicação
 por meio da divisão da aplicação em pequenos serviços com uma camada leve
 de comunicação entre si.
@@ -57,7 +57,7 @@ a execução do mesmo:
 
 \begin{alineas}
   \item analisar arquiteturas de software e técnicas de estruturação \\
-    de microserviços;
+    de microsserviços;
   \item escolher tecnologias que serão utilizadas;
   \item desenhar a arquitetura inicial da interface de administração de \\
     servidores modular;
@@ -67,7 +67,7 @@ a execução do mesmo:
 
 Para a execução deste trabalho são aplicadas duas metodologias, a primeira
 é a pesquisa bibliográfica, onde é realizado a consulta de referencial
-teórico e estudo de casos de sucesso no uso de arquiteturas de microserviços.
+teórico e estudo de casos de sucesso no uso de arquiteturas de microsserviços.
 
 A segunda parte é um estudo de caso, onde as informações coletadas
 na primeira etapa são utilizadas para elaboração da arquitetura da interface
@@ -76,8 +76,8 @@ de administração de servidores modular e para desenvolvimento de um protótipo
 Este trabalho está dividido em cinco capítulos, no primeiro capítulo é
 apresentado as motivações e os objetivos deste trabalho. No capítulo
 \ref{chp:tecnologias} são apresentados os principais conceitos e tecnologias
-envolvendo microserviços, abordando um pouco sobre arquiteturas
-e práticas que originaram o conceito de microserviços. O capítulo
+envolvendo microsserviços, abordando um pouco sobre arquiteturas
+e práticas que originaram o conceito de microsserviços. O capítulo
 \ref{chp:arquitetura} se trata do desenho da arquitetura do sistema. No
 capítulo \ref{chp:resultados} é apresentando os resultados obtidos na execução
 do projeto e dificuldades encontradas. Por último a conclusão do projeto,

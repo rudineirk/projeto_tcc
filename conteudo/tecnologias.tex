@@ -1,4 +1,4 @@
-\chapter{MICROSERVIÇOS: CONCEITOS E TECNOLOGIAS}
+\chapter{MICROSSERVIÇOS: CONCEITOS E TECNOLOGIAS}
 \label{chp:tecnologias}
 
 Para o desenvolvimento deste projeto, são necessárias diversas tecnologias e
@@ -8,11 +8,11 @@ abordados os principais assuntos relacionados ao foco principal deste documento.
 \section{ARQUITETURAS}
 
 Segundo \citeonline{Tanenbaum2007}, houve diversas tentativas de criar
-arquiteturas de softwares resistente a falhas e manteníveis. A criação de
+arquiteturas de softwares resistente a falhas e manuteníveis. A criação de
 novas tecnologias, como acesso a virtualização instantânea de baixo custo,
 e algumas mudanças de paradigmas de estruturação dos projetos (maior foco
 na escalabilidade do que na otimização de baixo nível) criaram a
-necessidade destas arquiteturas se adaptarem e evoluirem para suprir estes
+necessidade destas arquiteturas se adaptarem e evoluírem para suprir estes
 novos requisitos.
 
 \subsection{Monolítica}
@@ -42,7 +42,7 @@ Esta arquitetura atende muito bem alguns tipos de produtos, mas aplicações
 expostas para internet que podem ter milhares de acessos simultâneos expõe o
 principal ponto fraco deste formato: escalabilidade. Segundo
 \citeonline{Namiot2014}, este problema ocorre quando uma funcionalidade do
-monolíto tem um aumento de demanda maior que o limite físico de uma única
+monólito tem um aumento de demanda maior que o limite físico de uma única
 máquina, sendo necessário alocar outra instância da aplicação, mas para isto
 é necessário alocar recursos para todas as funcionalidades, uma vez que o
 software é composto de um único binário. Estes recursos alocados
@@ -95,7 +95,7 @@ e não a sua implementação, permitindo que um serviço seja alterado intername
 sem que isto afete outros serviços dependentes do serviço em questão.
 
 Reusabilidade de um serviço, conforme explica \citeonline{Erl2008}, deve-se
-ao fato que existe poucas vantagens em isolar uma regra de negócio utilizada
+ao fato que existem poucas vantagens em isolar uma regra de negócio utilizada
 exclusivamente por um único serviço. Uma regra de negócio deve se tornar um
 serviço isolado somente se ela for utilizada por mais sistemas, caso
 contrário este serviço estaria somente adicionando complexidade ao sistema.
@@ -106,24 +106,24 @@ devem estar preparados para situações de falha em outros serviços, onde
 o serviço precisa entregar sua funcionalidade independente de outros serviços
 estarem operacionais. No caso de sistemas monolíticos, uma falha
 em uma parte da aplicação poderia matar o processo e indisponibilizar
-a aplicação como um todo, ao contrário de sistemas implementados com
-\ac{SOA}, onde os serviços devem continuar a disponibilizar suas
-funcionalidades, na medida do possível, mesmo que um serviço o qual este
-depende apresente algum tipo de problema.
+a aplicação como um todo. Em de sistemas implementados com \ac{SOA}, os
+serviços devem continuar a disponibilizar, na medida do possível, suas
+funcionalidades mesmo que um serviço o qual este depende, apresente algum tipo
+de problema.
 
 Inexistência de manutenção de estados, segundo \citeonline{Richardson2007}, é
-um conceito que existe pois manter o estado de um cliente em um serviço
-reflete em consumo de recursos e tempo de computação, que podem ser evitados
-caso não seja mantido estados. Para tal, a realização de cada requisição na
-comunicação deve carregar todas as informações necessárias para realizaçao da
-operação. Este conceito de comunicação é aplicado em diversos protocolos de
-comunicação assincronos, como o \ac{HTTP}, os quais, por limitações físicas,
+um conceito que existe pois manter o estado de um cliente em um serviço,
+reflete em um aumento no consumo de recursos e tempo de computação, que
+podem ser evitados caso não seja mantido estados. Para tal, cada requisição
+na comunicação deve carregar todas as informações necessárias para realização
+da operação. Este conceito de comunicação é aplicado em diversos protocolos
+de comunicação assincronos, como o \ac{HTTP}, os quais, por limitações físicas,
 não podem manter estados a fim de aumentar sua resistência a falhas em casos
 de erros de comunicação.
 
 Descoberta de serviços, conforme explica \citeonline{Newman2015}, é a
 forma como um sistema, composto por diversos serviços, consegue descobrir onde
-os outros serviços estão rodando e como acessá-los. Isto pode ser feito por
+estes serviços estão rodando e como acessá-los. Isto pode ser feito por
 meio de um registro de serviços, que armazena uma lista de serviços
 atualmente em execução. Esta funcionalidade também é utilizada para alta
 disponibilidade e distribuição de carga, uma vez que este registro pode
@@ -136,7 +136,8 @@ Componibilidade de serviços engloba alguns conceitos de \ac{OOP} na criação
 de serviços, onde um serviço que expõe uma regra de negócio pode ser composto
 por funcionalidades expostas por outros serviços. Na Figura
 \ref{fig:soa-bussiness-rules} pode ser visualizado um diagrama, que exemplifica
-a composição das regras de negócio por diversos serviços.
+a composição de uma aplicação a partir de serviços que disponibilizam seções
+das regras de negócio.
 
 \begin{figure}[H]
 	\centering
@@ -148,16 +149,16 @@ a composição das regras de negócio por diversos serviços.
 \end{figure}
 
 Segundo \citeonline{Erl2008}, por meio deste conceito as camadas de serviço
-podem depender de outras camadas de serviços. Isto permite o reuso de lógica
+podem depender de outras camadas de serviços. Isto permite o reúso de lógica
 de aplicações completamente diferentes para compor uma nova aplicação, o que
-é possível somente se outros princípios, como o baixo acoplamento e isolamento
-da regra de negócio forem aplicados corretamente. Uma grande vantagem da
-aplicação deste conceito é que diferentes aplicações podem compartilhar uma
-mesma infraestrutura de serviços.
+é possível somente se outros princípios, como o baixo acoplamento e o
+isolamento da regra de negócio forem aplicados corretamente. Uma grande
+vantagem da aplicação deste conceito é que diferentes aplicações podem
+compartilhar uma mesma infraestrutura de serviços.
 
-\subsection{Microserviços}
+\subsection{Microsserviços}
 
-Microserviços, segundo \citeonline{Boner2016}, são um formato de
+Microsserviços, segundo \citeonline{Boner2016}, são um formato de
 desenvolvimento de sistemas que trata o problema de isolamento dos domínios
 da aplicação por meio da distribuição da lógica entre pequenos processos
 independentes que trabalham em conjunto para a entrega da funcionalidade
@@ -170,17 +171,17 @@ diferenciam em alguns pontos das tecnologias tradicionais por impor práticas
 que focam na entrega rápida e na produtividade dos times envolvidos com
 o produto.
 
-Segundo \citeonline{Newman2015}, arquiteturas de microserviços não se limitam
+Segundo \citeonline{Newman2015}, arquiteturas de microsserviços não se limitam
 somente a arquitetura de software, se estendendo sobre a forma como são
-realizadas as entregas de novas versões, no gerenciamento dos ambientes
-de operação, no versionamento do software como um todo e no armazenamento de
-dados da aplicação, como apresentado na Figura \ref{fig:venn-microservices},
-que apresenta a intersecção de conceitos que trabalham em conjunto para criar
-os microserviços.
+realizadas as entregas de novas versões, o que envolve alterações no
+gerenciamento dos ambientes de operação, no versionamento do software como um
+todo e no armazenamento de dados da aplicação, como apresentado na Figura
+\ref{fig:venn-microservices}, que apresenta a intersecção de conceitos que
+trabalham em conjunto para criar os microsserviços.
 
 \begin{figure}[H]
 	\centering
-	\caption{Diagrama de conceitos de Microserviços}
+	\caption{Diagrama de conceitos de Microsserviços}
 	\includegraphics[width=1.0\textwidth]{figuras/venn-microservices.png}
 
 	\label{fig:venn-microservices}
@@ -194,8 +195,8 @@ serviços, esta arquitetura permite que serviços sejam escritos em linguagens
 diferentes, o que permite de utilizar tecnologias diferentes caso exista
 a necessidade.
 
-Esta separação da aplicação a nível de regras de negócio é chamada de \ac{DDD},
-e não é exclusiva de microserviços. Segundo \citeonline{Millet2015}, \ac{DDD}
+Esta separação da aplicação em nível de regras de negócio é chamada de \ac{DDD},
+e não é exclusiva de microsserviços. Segundo \citeonline{Millet2015}, \ac{DDD}
 é um processo que alinha o código da aplicação com o domínio do problema
 a ser resolvido, facilitando o entendimento em futuras manutenções e
 alterações nesta aplicação. O desenvolvimento de serviços focados em uma
@@ -214,26 +215,26 @@ Segundo \citeonline{Stine2015}, a aplicação desta arquitetura só funciona
 quando há uma alteração nos processos e na cultura de toda a área técnica
 de uma empresa, pois envolvem a aplicação de técnicas de \ac{CI} e \ac{CD},
 além de times serem compostos por integrantes multidisciplinares. Muitos dos
-conceitos aplicados a microserviços tiveram algumas raízes nas metodologias
+conceitos aplicados a microsserviços tiveram algumas raízes nas metodologias
 ágeis, como Scrum, XP e Lean, o que torna a aplicação desta arquitetura nos
 produtos de uma empresa uma alteração na forma como a própria empresa trabalha.
 
 Os benefícios na produtividade e na qualidade do software entregue pode
 ser claramente vistos na tese de mestrado de \citeonline{Lopes2015}, um estudo
 de caso de migração da arquitetura dos produtos de uma empresa para
-microserviços, na qual houveram aumentos significativos na velocidade de
-entrega de software funcional e na diminiuição dos bugs encontrados em
-produção.
+microsserviços, na qual houve aumentos significativos na velocidade de
+entrega de software funcional e a quantidade de bugs encontrados em
+produção foi reduzida significativamente.
 
 \section{TECNOLOGIAS APLICADAS}
 
-Para a aplicação da arquitetura de microserviços, é necessário uma gama de
+Para a aplicação da arquitetura de microsserviços, é necessário uma gama de
 tecnologias e conceitos. Neste capítulo serão abordados os conceitos de criação
 de APIs externas expostas pela aplicação e as tecnologias de comunicação entre
-microserviços, os padrões de armazenamento de dados e uma das plataformas de
+microsserviços, os padrões de armazenamento de dados e uma das plataformas de
 execução destas aplicações.
 
-\subsection{Representational State Transfer}
+\subsection{Representational state transfer}
 
 \ac{REST} é um padrão de criação de \acp{API} que se popularizou com a
 adoção em massa por grandes empresas da internet. Ele define algumas práticas
@@ -257,17 +258,18 @@ Um excelente exemplo de aplicação, como apresentado por
 um serviço de armazenamento de arquivos e dados. Nesta aplicação, são
 utilizados dois recursos principais, os \emph{Buckets} e os \emph{Objects},
 onde \emph{Objects} são as unidades de armazenamento de dados e \emph{Buckets}
-são containers que contém multiplas unidades de armazenamento, sendo cada
+são contêineres que contém múltiplas unidades de armazenamento, sendo cada
 um destes recursos manipulados por \acp{API} dedicadas para criação e
 manipulação dos mesmos.
 
 Conforme \citeonline{Ignacio2009}, o padrão \ac{REST} funciona muito bem
-em conjunto com microserviços, por aplicar algumas práticas de separação
+em conjunto com microsserviços, por aplicar algumas práticas de separação
 de funcionalidades por meio de isolamento de recursos relacionados. No
-estudo de caso deste artigo, é apresentado a criação de uma \ac{API} no
-estilo \ac{REST} de pesquisa, na qual o recurso apresentado é o objeto
-alvo da pesquisa, o qual é repassado para microserviços que funcionam
-como intermediários para busca em motores de busca disponíveis no mercado.
+estudo de caso deste artigo, é apresentado a criação de uma \ac{API}, no
+estilo \ac{REST}, de pesquisa em sistemas de busca de websites. O recurso
+apresentado nesta \ac{API} é o alvo desta consulta, o qual é repassado para
+outros microsserviços, que funcionam como intermediários para pesquisa em
+motores de busca disponíveis no mercado.
 
 \subsection{Banco de dados}
 
@@ -277,11 +279,11 @@ domínio de aplicação. A recomendação é cada serviço ter sua própria base
 dados e seja o único responsável por ela, impedindo assim que outros serviços
 realizem alterações indevidas nos dados de outros domínios. Na Figura
 \ref{fig:db-monolith-microservices} é apresentado um diagrama comparativo do
-armazenamento de dados de uma arquitetura monolítica e de microserviços:
+armazenamento de dados de uma arquitetura monolítica e de microsserviços:
 
 \begin{figure}[H]
 	\centering
-	\caption{Armazenamento de dados em monolítos e microserviços}
+	\caption{Armazenamento de dados em monólitos e microsserviços}
 	\includegraphics[width=1.0\textwidth]{figuras/decentralised-data.png}
 
 	\label{fig:db-monolith-microservices}
@@ -289,15 +291,15 @@ armazenamento de dados de uma arquitetura monolítica e de microserviços:
 \end{figure}
 
 Em outras arquiteturas, são aplicadas grandes estruturas relacionais de banco
-de dados, onde o relacionamento entre os diversos dados da aplicação são
-aplicados a estrutura de armazenamento de dados. Isto gera alguns problemas,
-o mais grave sendo a incerteza de quais partes da aplicação utilizam uma
-seção dos dados, o que pode gerar inconsistencias na gravação e leitura dos
-mesmos.
+de dados, onde as associações entre os diversos dados do sistema são
+aplicadas ao armazenamento de dados. Isto gera alguns problemas, sendo o mais
+grave a incerteza de quais partes da aplicação utilizam uma seção dos dados,
+o que pode causar como consequência inconsistências na gravação e leitura
+dos mesmos.
 
 Conforme explica \citeonline{Newman2015}, este problema não deve existir
-dentro da arquitetura de microserviços, pois o acesso aos dados de outros
-domínios da aplicação devem ser feitos por meio do microserviço responsável.
+dentro da arquitetura de microsserviços, pois o acesso aos dados de outros
+domínios da aplicação devem ser feitos por meio do microsserviço responsável.
 Para tal, são utilizados sistemas de comunicação entre os serviços, como
 as \acp{MQ}, que funcionam como \acp{API} internas da aplicação.
 
@@ -322,8 +324,8 @@ mensagem de resposta.
 O segundo padrão é o \emph{work queue}, onde as mensagens são enviadas pelo
 produtor, mas este não espera uma resposta do receptor. Este formato é
 utilizado para tratamento de dados em que o momento de execução do
-processamento destes não é deterministico, ou seja, o produtor não utiliza
-os resultados da mensagem que ele enviou, ficando a cargo do do receptor
+processamento destes não é determinístico, ou seja, o produtor não utiliza
+os resultados da mensagem que ele enviou, ficando a cargo do receptor
 encaminhar e/ou notificar interessados nos dados em questão.
 
 O último padrão de comunicação de \acp{MQ} é o \emph{publisher-subscriber}.
@@ -344,7 +346,7 @@ e todos que estiverem ouvindo podem receber esta mensagem.
 	\footnotesize Fonte: \citeonline{Microsoft2016}
 \end{figure}
 
-Para enteder o último padrão, é necessário antes entender os tipos de \acp{MQ}
+Para entender o último padrão, é necessário antes entender os tipos de \acp{MQ}
 existentes, as quais podem ser \emph{brokered} ou \emph{brokerless}. Segundo
 \citeonline{Hintjens2013}, a diferença entre estes dois reside na existência
 ou não de um \emph{broker}, respectivamente. Um \emph{broker} é em essência um
@@ -367,7 +369,7 @@ as mensagens entre os diferentes serviços.
 \end{figure}
 
 Segundo \citeonline{Videla2012}, existem algumas vantagens na utilização
-de \acp{MQ} centralizadas, sendo uma delas o baixo acoplamento da comunicaçao
+de \acp{MQ} centralizadas, sendo uma delas o baixo acoplamento da comunicação
 entre serviços, os quais não precisam diretamente se comunicar com outros
 serviços. Outra vantagem é o fato deste serviço de \ac{MQ} funcionar como
 um \emph{cache} de mensagens, se um serviço estiver fora do ar as
@@ -375,25 +377,25 @@ mensagens destinadas a este podem ser armazenadas temporariamente. Uma
 desvantagem é a inclusão de um ponto único de falha, uma vez que o serviço
 de \ac{MQ} se torna crítico para operação dos serviços.
 
-\subsection{Containers Linux}
+\subsection{Contêineres Linux}
 
-Containers são uma nova tecnologia de criação de ambientes isolados que tem
+Contêineres são uma nova tecnologia de criação de ambientes isolados que tem
 como objetivo substituir máquinas virtuais em algumas situações. Segundo
-\citeonline{Matthias2015}, máquinas virtuais e containers compartilham o
+\citeonline{Matthias2015}, máquinas virtuais e contêineres compartilham o
 conceito de isolamento de ambientes, mas este é o limite das semelhanças
-entres os dois, pois o primeiro foca na emulação de uma máquina física
-completa, e o segundo foca somente no isolamento de arquivos e bibliotecas
-utilizadas por uma aplicação.
+entre as duas tecnologias, pois a primeira foca na emulação de uma máquina
+física completa, e o segundo foca somente no isolamento de arquivos e
+bibliotecas utilizadas por uma aplicação.
 
 As camadas destas tecnologias podem ser visualizadas na Figura
-\ref{fig:docker-vs-vm}, sendo que os containers apresentam somente as camadas
+\ref{fig:docker-vs-vm}, sendo que os contêineres apresentam somente as camadas
 de bibliotecas do sistema e a aplicação em si. As máquinas virtuais, além das
-mesmas camadas dos containers, apresentam a camada de virtualização de
+mesmas camadas dos contêineres, apresentam a camada de virtualização de
 hardware e do sistema operacional.
 
 \begin{figure}[H]
 	\centering
-	\caption{Comparativo de máquinas virtual e containers Docker}
+	\caption{Comparativo de máquinas virtual e contêineres Docker}
 	\includegraphics[width=1.0\textwidth]{figuras/docker-vs-vm.png}
 
 	\label{fig:docker-vs-vm}
@@ -406,20 +408,20 @@ de segurança não permitiram a proliferação destas ferramentas antes da cria�
 do Docker.
 
 Segundo \citeonline{Matthias2015}, o Docker é um conjunto de ferramentas de
-criação e distribuição de containers, que utiliza algumas tecnologias
-disponíveis no kernel Linux para criação de containers para rodar aplicações
-com segurança dentro de um \emph{sandbox}. A criação de containers é feita por
-meio de imagens, as quais são distribuidas em repositórios públicos de imagens,
-que disponibilizam imagens prontas para diversos serviços e tecnologias.
-Também existe a possibilidade de ser criado um repositório privado, caso
-alguma política de controle de licenças não permita a criação de repositórios
-públicos.
+criação e distribuição de contêineres, que utiliza algumas tecnologias
+disponíveis no kernel Linux para rodar aplicações com segurança dentro de um
+\emph{sandbox}. A criação de contêineres é feita por meio de imagens, as quais
+são distribuídas em repositórios públicos, que disponibilizam imagens
+prontas para diversos serviços e tecnologias. Tendo em vista a necessidade
+de empresas privadas de manter seu código seguro, os desenvolvedores do
+Docker também criaram ferramentas que possibilitam a criação e utilização
+de repositórios privados de imagens.
 
 Conforme explica \citeonline{Turnbull2015} o isolamento de bibliotecas e
-dependências por meio de containers permite executar aplicações distintas
+dependências por meio de contêineres permite executar aplicações distintas
 dentro da mesma máquina sem que exista conflitos de versões dos requisitos
 para rodar estas aplicações. Isto é feito por meio da utilização de
-instalações de sistemas operacionais mínimas dentro de cada container, sem
+instalações de sistemas operacionais mínimas dentro de cada contêiner, sem
 kernel e arquivos desnecessários para operação das aplicações.
 
 Normalmente seria utilizado muito espaço para manter um sistema completo para
@@ -430,20 +432,20 @@ derivadas. Por exemplo, a distribuição Linux Debian disponibiliza imagens
 base, que são utilizados pelos criadores da imagem do banco de dados
 PostgreSQL e da imagem do servidor web Apache. Ao utilizar estas duas últimas
 imagens na mesma máquina, o espaço em disco da camada do Debian será utilizada
-uma única vez, para cada container será adicionado somente a diferença de
-espaço em disco necessário para os arquivos específicos da imagem do container.
+uma única vez, para cada contêiner será adicionado somente a diferença de
+espaço em disco necessário para os arquivos específicos da imagem do contêiner.
 
-Ao rodar o container, as camadas da imagem são montadas no disco em modo
-somente leitura, sendo que alterações realizadas dentro do container são
-armazenadas separadamente para cada container. Este processo é invisível para
+Ao rodar o contêiner, as camadas da imagem são montadas no disco em modo
+somente leitura, sendo que alterações realizadas dentro do contêiner são
+armazenadas separadamente para cada contêiner. Este processo é invisível para
 a aplicação, a qual enxerga somente um sistema de arquivos normal.
 
 Por todos os serviços compartilharem o mesmo kernel, o isolamento precisa
-ser também a nível de processos. Segundo \citeonline{Matthias2015},
+ser também em nível de processos. Segundo \citeonline{Matthias2015},
 o kernel Linux implementa uma tecnologia chamada \emph{cgroups}, que é uma
 forma de criar subárvores de processos isoladas dentro do kernel,
-as quais tem sua própria numeração de processos. Desta forma cada container
-não conseguem interferir com processos do host e de outros containers. Para os
-containers se comunicarem, o Docker disponibiliza uma rede virtual entre os
-containers que permite a comunicação entre os mesmos, simulando o formato
-de comunicação das arquiteturas com máquinas virtuais.
+as quais têm sua própria numeração de processos. Desta forma cada contêiner
+não consegue interferir com processos do host e de outros contêiners. Para os
+contêiners se comunicarem, o Docker disponibiliza uma rede virtual que permite
+a comunicação, simulando o formato de comunicação de rede das arquiteturas
+com máquinas virtuais.
