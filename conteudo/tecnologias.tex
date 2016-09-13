@@ -106,10 +106,10 @@ devem estar preparados para situações de falha em outros serviços, onde
 o serviço precisa entregar sua funcionalidade independente de outros serviços
 estarem operacionais. No caso de sistemas monolíticos, uma falha
 em uma parte da aplicação poderia matar o processo e indisponibilizar
-a aplicação como um todo. Em de sistemas implementados com \ac{SOA}, os
+a aplicação completamente. Em de sistemas implementados com \ac{SOA}, os
 serviços devem continuar a disponibilizar, na medida do possível, suas
 funcionalidades mesmo que um serviço o qual este depende, apresente algum tipo
-de problema.
+de falha.
 
 Inexistência de manutenção de estados, segundo \citeonline{Richardson2007}, é
 um conceito que existe pois manter o estado de um cliente em um serviço,
@@ -117,7 +117,7 @@ reflete em um aumento no consumo de recursos e tempo de computação, que
 podem ser evitados caso não seja mantido estados. Para tal, cada requisição
 na comunicação deve carregar todas as informações necessárias para realização
 da operação. Este conceito de comunicação é aplicado em diversos protocolos
-de comunicação assincronos, como o \ac{HTTP}, os quais, por limitações físicas,
+de comunicação assíncronos, como o \ac{HTTP}, os quais, por limitações físicas,
 não podem manter estados a fim de aumentar sua resistência a falhas em casos
 de erros de comunicação.
 
@@ -266,7 +266,7 @@ Conforme \citeonline{Ignacio2009}, o padrão \ac{REST} funciona muito bem
 em conjunto com microsserviços, por aplicar algumas práticas de separação
 de funcionalidades por meio de isolamento de recursos relacionados. No
 estudo de caso deste artigo, é apresentado a criação de uma \ac{API}, no
-estilo \ac{REST}, de pesquisa em sistemas de busca de websites. O recurso
+estilo \ac{REST}, de pesquisa em sistemas de busca de web sites. O recurso
 apresentado nesta \ac{API} é o alvo desta consulta, o qual é repassado para
 outros microsserviços, que funcionam como intermediários para pesquisa em
 motores de busca disponíveis no mercado.
@@ -409,9 +409,9 @@ do Docker.
 
 Segundo \citeonline{Matthias2015}, o Docker é um conjunto de ferramentas de
 criação e distribuição de contêineres, que utiliza algumas tecnologias
-disponíveis no kernel Linux para rodar aplicações com segurança dentro de um
-\emph{sandbox}. A criação de contêineres é feita por meio de imagens, as quais
-são distribuídas em repositórios públicos, que disponibilizam imagens
+disponíveis no kernel Linux para executar as aplicações com segurança dentro
+de um \emph{sandbox}. A criação de contêineres é feita por meio de imagens,
+as quais são distribuídas em repositórios públicos, que disponibilizam imagens
 prontas para diversos serviços e tecnologias. Tendo em vista a necessidade
 de empresas privadas de manter seu código seguro, os desenvolvedores do
 Docker também criaram ferramentas que possibilitam a criação e utilização
@@ -420,7 +420,7 @@ de repositórios privados de imagens.
 Conforme explica \citeonline{Turnbull2015} o isolamento de bibliotecas e
 dependências por meio de contêineres permite executar aplicações distintas
 dentro da mesma máquina sem que exista conflitos de versões dos requisitos
-para rodar estas aplicações. Isto é feito por meio da utilização de
+para executar estas aplicações. Isto é feito por meio da utilização de
 instalações de sistemas operacionais mínimas dentro de cada contêiner, sem
 kernel e arquivos desnecessários para operação das aplicações.
 
@@ -435,7 +435,7 @@ imagens na mesma máquina, o espaço em disco da camada do Debian será utilizad
 uma única vez, para cada contêiner será adicionado somente a diferença de
 espaço em disco necessário para os arquivos específicos da imagem do contêiner.
 
-Ao rodar o contêiner, as camadas da imagem são montadas no disco em modo
+Ao executar o contêiner, as camadas da imagem são montadas no disco em modo
 somente leitura, sendo que alterações realizadas dentro do contêiner são
 armazenadas separadamente para cada contêiner. Este processo é invisível para
 a aplicação, a qual enxerga somente um sistema de arquivos normal.
