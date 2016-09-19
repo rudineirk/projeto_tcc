@@ -2,7 +2,7 @@
 \label{chp:tecnologias}
 
 Para o desenvolvimento deste projeto, são necessárias diversas tecnologias e
-conceitos, os quais envolvem várias áreas da computação. Neste capítulo são
+conceitos, os quais envolvem várias áreas da computação. Neste capítulo, são
 abordados os principais assuntos relacionados ao foco principal deste documento.
 
 \section{ARQUITETURAS}
@@ -30,22 +30,22 @@ de negócio estão bem definidas. Este processo ocorre naturalmente durante o
 ciclo de vida de um projeto, e muitas vezes a separação por bibliotecas e
 módulos no código já é suficiente para o isolamento de domínios.
 
-\citeonline{Nygard2007} relata que os problemas deste formato iniciam conforme
+\citeonline{Nygard2007}, relata que os problemas deste formato iniciam conforme
 a base de código cresce e a demanda de novas funcionalidades aumentam. Uma
 grande base de código que deve ser empacotada e levada à produção de uma
 única vez cria uma grande inércia no desenvolvimento de novas
-funcionalidades, pois alterações em uma funcionalidade tem sua liberação
-atrasada por causa de alterações em outras partes do código não
-relacionadas, mas que fazem parte do mesmo repositório de código.
+funcionalidades. Isto ocorre porque alterações em uma funcionalidade tem
+sua liberação atrasada devido a alterações em outras partes do código não
+relacionadas, mas que fazem parte do mesmo binário.
 
 Esta arquitetura atende muito bem alguns tipos de produtos, mas aplicações
-expostas para internet que podem ter milhares de acessos simultâneos expõe o
-principal ponto fraco deste formato: escalabilidade. Segundo
+expostas para internet, que podem ter milhares de acessos simultâneos,
+expõe o principal ponto fraco deste formato: escalabilidade. Segundo
 \citeonline{Namiot2014}, este problema ocorre quando uma funcionalidade do
 monólito tem um aumento de demanda maior que o limite físico de uma única
-máquina, sendo necessário alocar outra instância da aplicação, mas para isto
-é necessário alocar recursos para todas as funcionalidades, uma vez que o
-software é composto de um único binário. Estes recursos alocados
+máquina. Neste caso, é necessário alocar outra instância da aplicação,
+mas para isto é necessário alocar recursos para todas as funcionalidades,
+uma vez que o software é composto de um único binário. Estes recursos alocados
 desnecessariamente aumentam muito o custo de operação e manutenção do
 sistema, o que reflete diretamente no negócio que depende deste.
 
@@ -173,10 +173,10 @@ o produto.
 
 Segundo \citeonline{Newman2015}, arquiteturas de microsserviços não se limitam
 somente a arquitetura de software, se estendendo sobre a forma como são
-realizadas as entregas de novas versões, o que envolve alterações no
+realizadas as entregas de novas versões. Isto envolve alterações no
 gerenciamento dos ambientes de operação, no versionamento do software como um
-todo e no armazenamento de dados da aplicação, como apresentado na Figura
-\ref{fig:venn-microservices}, que apresenta a intersecção de conceitos que
+todo e no armazenamento de dados da aplicação. Na Figura
+\ref{fig:venn-microservices} é apresentado intersecção de conceitos que
 trabalham em conjunto para criar os microsserviços.
 
 \begin{figure}[H]
@@ -192,16 +192,17 @@ O baixo acoplamento neste formato de arquitetura é levado um passo a frente.
 Segundo \citeonline{Newman2015}, realizando a separação de domínios da
 aplicação por meio de isolamento dos executáveis e do código que compõe os
 serviços, esta arquitetura permite que serviços sejam escritos em linguagens
-diferentes, o que permite de utilizar tecnologias diferentes caso exista
+diferentes, o que permite utilizar tecnologias diferentes caso exista
 a necessidade.
 
-Esta separação da aplicação em nível de regras de negócio é chamada de \ac{DDD},
-e não é exclusiva de microsserviços. Segundo \citeonline{Millet2015}, \ac{DDD}
-é um processo que alinha o código da aplicação com o domínio do problema
-a ser resolvido, facilitando o entendimento em futuras manutenções e
-alterações nesta aplicação. O desenvolvimento de serviços focados em uma
-única regra de negócio reduz a carga de conhecimento que o desenvolvedor
-precisa estar ciente antes de realizar alterações em uma base de código.
+Esta separação da aplicação, em nível de regras de negócio, é chamada
+de \ac{DDD}, e não é exclusiva de microsserviços.
+Segundo \citeonline{Millet2015}, \ac{DDD} é um processo que alinha o
+código da aplicação com o domínio do problema a ser resolvido,
+facilitando o entendimento em futuras manutenções e alterações nesta
+aplicação. O desenvolvimento de serviços focados em uma única regra de
+negócio reduz a carga de conhecimento que o desenvolvedor precisa estar
+ciente antes de realizar alterações em uma base de código.
 
 Conforme explica \citeonline{Stine2015}, o versionamento e a entrega de
 atualizações neste modelo de arquitetura também se diferencia, por exigir
