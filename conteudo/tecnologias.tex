@@ -196,21 +196,21 @@ diferentes, o que permite utilizar tecnologias diferentes caso exista
 a necessidade.
 
 Esta separação da aplicação, em nível de regras de negócio, é chamada
-de \ac{DDD}, e não é exclusiva de microsserviços.
-Segundo \citeonline{Millet2015}, \ac{DDD} é um processo que alinha o
+de \ac{DDD}, e não é exclusiva de microsserviços. Segundo
+\citeonline{Millet2015}, \ac{DDD} é um processo que alinha o
 código da aplicação com o domínio do problema a ser resolvido,
 facilitando o entendimento em futuras manutenções e alterações nesta
-aplicação. O desenvolvimento de serviços focados em uma única regra de
-negócio reduz a carga de conhecimento que o desenvolvedor precisa estar
+aplicação. O desenvolvimento de serviços, focados em uma única regra de
+negócio, reduz a carga de conhecimento que o desenvolvedor precisa estar
 ciente antes de realizar alterações em uma base de código.
 
 Conforme explica \citeonline{Stine2015}, o versionamento e a entrega de
-atualizações neste modelo de arquitetura também se diferencia, por exigir
+atualizações, neste modelo de arquitetura, também se diferencia, por exigir
 que o versionamento dos serviços sejam independentes entre si. Isto permite
 que entregas de novas funcionalidades sejam realizadas independentemente de
 outros serviços, aumentado a produtividade dos times envolvidos, uma vez que
-cada um pode realizar entregas sem depender de prazos e atrasos de outras
-equipes.
+cada um pode realizar entregas sem depender de prazos e eventuais atrasos
+de outras equipes.
 
 Segundo \citeonline{Stine2015}, a aplicação desta arquitetura só funciona
 quando há uma alteração nos processos e na cultura de toda a área técnica
@@ -221,11 +221,11 @@ conceitos aplicados a microsserviços tiveram algumas raízes nas metodologias
 produtos de uma empresa uma alteração na forma como a própria empresa trabalha.
 
 Os benefícios na produtividade e na qualidade do software entregue pode
-ser claramente vistos na tese de mestrado de \citeonline{Lopes2015}, um estudo
-de caso de migração da arquitetura dos produtos de uma empresa para
-microsserviços, na qual houve aumentos significativos na velocidade de
-entrega de software funcional e a quantidade de bugs encontrados em
-produção foi reduzida significativamente.
+ser claramente vistos na tese de mestrado de \citeonline{Lopes2015}. Neste
+estudo é apresentado uma migração da arquitetura dos produtos de uma empresa
+para microsserviços, na qual houve aumentos significativos na velocidade de
+entrega de software funcional e na redução da quantidade de bugs encontrados
+em produção.
 
 \section{TECNOLOGIAS APLICADAS}
 
@@ -237,22 +237,22 @@ execução destas aplicações.
 
 \subsection{Representational state transfer}
 
-\ac{REST} é um padrão de criação de \acp{API} que se popularizou com a
+\ac{REST} é um padrão de criação de \acp{API}, que se popularizou com a
 adoção em massa por grandes empresas da internet. Ele define algumas práticas
-para estruturação das \acp{URL} por meio da utilização do que ele chama de
-recursos, que são elementos da aplicação responsáveis por armazenamento ou
-tomada de ações, que podem ser isolados a nível da regra de negócio que os
-engloba. Segundo \citeonline{Saudate2013}, este padrão pode ser considerado
-como uma aplicação de \acp{API} orientadas a recursos. Alguns exemplos
-de recursos são usuários, \emph{tickets} de um sistema de controle de bugs e
-notas fiscais de um software de \ac{ERP}.
+para estruturação das \acp{URL} por meio da utilização de recursos, que são
+elementos da aplicação responsáveis por armazenamento ou tomada de ações, que
+podem ser isolados a nível da regra de negócio que os engloba. Segundo
+\citeonline{Saudate2013}, este padrão pode ser considerado como uma aplicação
+de \acp{API} orientadas a recursos. Alguns exemplos de recursos são usuários,
+\emph{tickets} de um sistema de controle de bugs e notas fiscais de um
+software de \ac{ERP}.
 
 Cada recurso dentro da \ac{API} pode ter um conjunto de ações que podem ser
 aplicadas sobre ele, que são apresentadas por meio de métodos \ac{HTTP} ou
 por sub-\acp{URL} para ações mais específicas. O conjunto de ações mais
 comuns é o \ac{CRUD}, as quais são operações básicas de manipulação de dados,
-que são traduzidos para os métodos \emph{POST}, \emph{GET}, \emph{PUT} e
-\emph{DELETE} para utilização nas \acp{API}.
+que são traduzidos para os métodos \ac{HTTP} \emph{POST}, \emph{GET},
+\emph{PUT} e \emph{DELETE} para utilização nas \acp{API}.
 
 Um excelente exemplo de aplicação, como apresentado por
 \citeonline{Richardson2007}, é a \ac{API} da aplicação S3 da Amazon, que é
@@ -356,7 +356,7 @@ utilizar para enviar mensagens.
 
 Na Figura \ref{fig:mq-coupling} é exibido uma representação visual destes dois
 modelos, sendo o primeiro a comunicação \emph{brokerless}, onde cada serviço
-precisa saber da existência dos outros para enviar mensagens, e o segundo é
+precisa saber da existência dos outros para enviar mensagens. O segundo é
 o modelo \emph{brokered}, onde o \emph{broker} é responsável por distribuir
 as mensagens entre os diferentes serviços.
 
