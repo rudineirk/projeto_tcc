@@ -6,18 +6,106 @@ arquitetura do projeto.
 
 \section{COMUNICAÇÃO ENTRE SERVIÇOS}
 
-explicar como foi realizado a comunicação entre serviços
+No primeiro protótipo a comunicação foi feita em \ac{HTTP}, sendo que a mesma api
+que era utilizada pela interface era utilizada entre os serviços. A limitação
+de identificação da localização para comunicação entre os containers ficou
+evidente neste formato.
+
+Na estrutura seguinte, foi adicionado um \ac{MQ} como meio de comunicação entre
+os serviços. Foi escolhido o RabbitMQ por utilizar o protocolo \ac{AMQP}, um
+padrão bem estabelecido de comunicação, e por ser muito utilizado por diversas
+empresas. Para expor a \ac{API}, que é utilizada pela interface, foram criados
+serviços de tradução do protocolo \ac{AMQP} para \ac{HTTP}.
+
+Este formato apresentou outro problema, todos os microserviços que expõe
+uma \ac{API} \ac{HTTP} precisariam vir em pares, aumentando o consumo de recursos.
+Para resolver isto, foi adicionado um componente único de tradução de protocolos,
+o \emph{API Gateway}.
+
+\section{API GATEWAY}
+
+O \emph{API Gateway} foi implementado inicialmente com um cadastro estático
+das rotas para os serviços, um mapeamento das \acp{URL} para os respectivos
+serviços que provem a funcionalidade.
 
 \begin{figure}[H]
 	\centering
 	\caption{Estrutura de comunicação entre os componentes}
 	\includegraphics[width=0.5\textwidth]{figuras/arquitetura_geral.png}
 
-	\label{fig:arch-geral}
+    \label{fig:arch-geral}
 	\footnotesize Fonte: \fonteOAutor
 \end{figure}
 
+Isto criou um problema que foi a necessidade de sempre que for adicionado um
+serviço seria necessário alterar o \emph{API Gateway} para adicionar a rota
+do mesmo. Por este motivo foi adicionado um sistema de registro de microserviços.
+
+O sistema de registro de microserviços permite que os microsserviços registrem
+suas rotas no \emph{API Gateway} dinamicamente, permitindo subir novos serviços
+no sistema sem reiniciar o \emph{API Gateway} e sem perda de requisições.
+
+\section{ARMAZENAMENTO DE DADOS}
+
+Para armazenamento de dados, foi avaliado a utilização de bancos de dados
+relacionais e bancos \emph{NoSQL} ou não estruturados. Para este projeto, foi
+escolhido o modelo \emph{NoSQL} de banco de dados, por não ser possível
+fazer muitos dos relacionamentos de dados via banco, por causa da regra
+de isolamento dos domínios de aplicação, limitando a utilização de
+relacionamentos de dados aos dados do próprio microsserviço.
+
+Outra vantagem na utilização de bancos \emph{NoSQL} é a performance, por
+estes bancos não realizarem muitas das validações de integridade dos dados,
+eles tem uma grande vantagem no quesito performance de leitura e escrita em
+relação aos bancos de dados relacionais. Uma desvantagem deste ponto é que
+a responsabilidade de validação da integridade dos dados é repassada para
+a aplicação que utiliza os dados, o que não é um problema na aplicação alvo
+deste trabalho.
+
+Para este trabalho foram avaliados os bancos de dados estruturados MySQL e
+PostgreSQL, e os bancos de dados \emph{NoSQL} MongoDB, CouchDB, Couchbase,
+Cassandra e RethinkDB. Os banco de dados estruturados foram eliminados
+pelos motivos citados acima, apesar de atenderem em situações de cadastros
+simples, nos testes de inserção de grandes quantidades de dados, como
+dados de ligações de um sistema de telefonia, tiveram sérios problemas de
+performance.
+
+Os bancos de dados Couchbase e CouchDB foram eliminados por causa de falta
+de suporte dos \emph{drivers} para as linguagens. O banco Cassandra foi
+eliminado por ser focado em ambientes onde existem clusters com distribuição
+de carga de banco de dados, o que não se aplica neste sistema, e por
+ser complexo de ser operado, devido ao foco a clusters.
+
+Por último, foram avaliados os bancos MongoDB e RethinkDB, que são muito
+similares, por serem orientados a documentos \ac{JSON}. O banco escolhido
+entre os dois foi o MongoDB, por alguns motivos. O primeiro ponto avaliado
+foi performance, onde o MongoDB ganha por uma diferença significativa. Outro
+ponto avaliado foi não haver nenhuma grande empresa utilizando o RethinkDB, e
+por ele ser desenvolvido por uma empresa pequena e não muito conhecida.
+Este último ponto de preocupação sobre o RethinkDB se confirmou na prática,
+pois próximo a dois meses após esta avaliação, a empresa responsável por ele
+anúnciou que estaria abandonando o projeto.
+
 \section{ESTRUTURA INTERNA SERVIÇOS}
+
+Os serviços inicialmente foram estruturados com acesso direto ao banco, sem uma
+bibliotecas e estruturas de apoio. Segundo XX os microserviços não devem
+compartilhar código, mas isto vai contra os conceitos de reutilização de
+código.
+
+Para isto, foram criadas bibliotecas de apoio que abstraem as bibliotecas
+de comunicação e interação com o banco, o que diminuiu muito a barreira
+de conhecimento necessário para criar um novo serviço. Isto se deve ao
+fato de que as bibliotecas permitem que quem vai desenvolver o
+microsserviço não precise entender os detalhes do funcionamento das
+bibliotecas de comunicação, que operam a um nível mais baixo de abstração.
+
+Para separação da lógica dentro da arquitetura foi utilizado uma separação
+em três níveis na arquitetura interna do serviço. O \emph{Endpoint} é a
+parte responsável por receber mensagens e devolver respostas para o \ac{MQ}.
+O \emph{Service} é o local onde as regras de negócio do microserviço são
+desenvolvidas. O \emph{DAO} é onde a lógica de armazenamento e busca dos
+dados no banco de dados é realizada.
 
 \begin{figure}[H]
 	\centering
@@ -28,9 +116,31 @@ explicar como foi realizado a comunicação entre serviços
 	\footnotesize Fonte: \fonteOAutor
 \end{figure}
 
-\section{ARMAZENAMENTO DE DADOS}
+Esta estrutura apresentou alguns problemas, como alto acoplamento e a
+comunicação sincrona entre os componentes. O alto acoplamento entre
+os componentes internos do serviço causaram alguma dificuldade de
+realização de testes unitários, por ser necessário a criação de
+componentes simulados para realização dos testes. Outro problema foi a
+comunicação sincrona entre os componentes, que interferiu diretamente
+na performance do serviço, por cada instância do serviço ficar bloqueada
+até a finalização do processamento de uma requisição.
 
-explicar como foi estruturado o armazenamento de dados
+Para resolver este problema, foi a reestruturação dos serviços utilizando
+uma arquitetura de atores. Os atores são componentes da aplicação que se
+comunicam entre si por meio de passagem de mensagens, similar a comunicação
+via \ac{MQ} entre seriços. Este formato tem a vantagem que os atores podem
+ser executados em diferentes threads ou até mesmo diferentes processos,
+além de permitir a criação de testes unitários somente com a simulação das
+mensagens de entrada e validação dos retornos.
+
+Nesta aplicação, os atores estão sendo executados com corotinas, que são
+pequenos processos que executam dentro de uma mesma \emph{thread}, mas não
+bloqueiam por liberar a \ac{CPU} quando encontram uma interação que envolve
+\ac{IO}, como comunicação com banco de dados e troca de mensagens com o
+\ac{MQ}. Para implementação destas corotinas, foi utilizado a biblioteca
+\emph{asyncio} do Python.
+
+<diagrama da arquitetura com atores>
 
 \section{PROCESSAMENTO DE DADOS}
 
