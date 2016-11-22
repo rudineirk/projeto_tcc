@@ -33,6 +33,30 @@ pois existe alguns gargalos da comunicação, como o \emph{API Gateway}, que
 tem sua performance bastante reduzida por não estar reutilizando a conexão
 com o \ac{MQ} entre
 
+Esta estrutura apresentou alguns problemas, como alto acoplamento e a
+comunicação sincrona entre os componentes. O alto acoplamento entre
+os componentes internos do serviço causaram alguma dificuldade de
+realização de testes unitários, por ser necessário a criação de
+componentes simulados para realização dos testes. Outro problema foi a
+comunicação sincrona entre os componentes, que interferiu diretamente
+na performance do serviço, por cada instância do serviço ficar bloqueada
+até a finalização do processamento de uma requisição.
+
+Para resolver este problema, foi a reestruturação dos serviços utilizando
+uma arquitetura de atores. Os atores são componentes da aplicação que se
+comunicam entre si por meio de passagem de mensagens, similar a comunicação
+via \ac{MQ} entre seriços. Este formato tem a vantagem que os atores podem
+ser executados em diferentes threads ou até mesmo diferentes processos,
+além de permitir a criação de testes unitários somente com a simulação das
+mensagens de entrada e validação dos retornos.
+
+Nesta aplicação, os atores estão sendo executados com corotinas, que são
+pequenos processos que executam dentro de uma mesma \emph{thread}, mas não
+bloqueiam por liberar a \ac{CPU} quando encontram uma interação que envolve
+\ac{IO}, como comunicação com banco de dados e troca de mensagens com o
+\ac{MQ}. Para implementação destas corotinas, foi utilizado a biblioteca
+\emph{asyncio} do Python.
+
 \section{GERENCIAMENTO DOS SERVIÇOS}
 
 Os serviços são gerenciados com uma interface de gerenciamento do Docker chamada

@@ -1,32 +1,68 @@
 \chapter{ARQUITETURA}
 \label{chp:arquitetura}
 
-Introdução com explicação geral de arquitetura de software, introduzir a
-arquitetura do projeto.
+A idéia para a realização deste trabalho se deve a uma necessidade que uma
+empresa teve de desenvolver uma nova versão do produto que esta vende. A
+versão anterior não estava atendendo algumas necessidades, como facilidade
+de manutenção e de integração de novas funcionalidades.
+
+A arquitetura da nova versão deste produto se baseia em microsserviços,
+por esta arquitetura facilitar a separação de regras de negócio por meio do
+isolamento do código em serviços. A funcionalidade que cada microsserviço
+entrega pode ser reutilizada para composição de outras aplicações,
+possibilitando o reuso de lógica de forma simples, sem sobrecarregar
+os recursos da máquina.
+
+O produto em questão, precisa prover duas principais funcionalidades, uma
+é uma interface web de administração de servidores, e outra é uma
+\ac{API} \ac{HTTP} para integração com terceiros. Para o desenvolvimento da
+interface, é possível reutilizar as mesmas \acp{API}, por isto o desenvolvimento
+do protótipo inicial se focou em abordar o software que é executado no servidor
+e nas \acp{API} que ele expõe.
+
+Para a entrega das funcionalidades do sistema, é necessário que os microsserviços
+se comuniquem entre si, para executar regras de negócio que fazem parte de outros
+serviços, a fim de compor a regra de negócio que o usuário necessita. Foram
+realizados testes com algumas possíveis soluções, que serão descritas na seção
+a seguir.
 
 \section{COMUNICAÇÃO ENTRE SERVIÇOS}
 
-No primeiro protótipo a comunicação foi feita em \ac{HTTP}, sendo que a mesma api
-que era utilizada pela interface era utilizada entre os serviços. A limitação
-de identificação da localização para comunicação entre os containers ficou
-evidente neste formato.
+A primeira tentativa de comunicação entre os serviços foi feita utilizando
+\acp{API} \ac{HTTP}, sendo que algumas destas \acp{API} eram expostas para
+utilização para terceiros. A comunicação desta forma é simples de ser desenvolvida,
+mas apresenta algumas limitações que não foi possível contornar, como a identificação
+da localização dos serviços para comunicação e o fato que somente era possível
+ser realizada comunicação de forma síncrona entre os serviços.
 
-Na estrutura seguinte, foi adicionado um \ac{MQ} como meio de comunicação entre
-os serviços. Foi escolhido o RabbitMQ por utilizar o protocolo \ac{AMQP}, um
-padrão bem estabelecido de comunicação, e por ser muito utilizado por diversas
-empresas. Para expor a \ac{API}, que é utilizada pela interface, foram criados
-serviços de tradução do protocolo \ac{AMQP} para \ac{HTTP}.
+Na estrutura seguinte, foi avaliado a utilização de um \ac{MQ} como meio de
+comunicação entre os serviços. Como alterativas, haviam protocolos de \ac{MQ}
+que utilizavam um \emph{broker} e outros \emph{brokerless}, ou seja, que
+utilizavam um servidor de distribuição de mensagens ou se comunicavam diretamente
+entre si. Como os protocolos \emph{brokerless} apresentavam alguns dos problemas
+das \acp{API} \ac{HTTP}, foi escolhido o RabbitMQ como servidor de \ac{MQ},
+por utilizar o protocolo \ac{AMQP}, um padrão bem estabelecido de comunicação,
+e por ser muito utilizado por diversas empresas.
 
-Este formato apresentou outro problema, todos os microserviços que expõe
-uma \ac{API} \ac{HTTP} precisariam vir em pares, aumentando o consumo de recursos.
-Para resolver isto, foi adicionado um componente único de tradução de protocolos,
+Este formato funcionou bem na comunicação entre serviços, por permitir comunicação
+síncrona e assíncrona entre serviços, mas gerou uma complicação, pois os serviços
+não exportavam mais \acp{API} \ac{HTTP}. Para resolver esta situação, a primeira
+tentativa foi adicionar serviços de tradução das mensagens \ac{AMQP} de borda para
+\ac{HTTP}, o que vai contra o principal objetivo do projeto, que é facilitar
+o desenvolvimento de novas funcionalidades e a manutenção do mesmo, pois seria
+necessário todos os serviços vir em pares, aumentando o consumo de recursos.
+Para resolver isto, foi adicionado um serviço único de tradução de protocolos,
 o \emph{API Gateway}.
 
 \section{API GATEWAY}
 
-O \emph{API Gateway} foi implementado inicialmente com um cadastro estático
-das rotas para os serviços, um mapeamento das \acp{URL} para os respectivos
-serviços que provem a funcionalidade.
+O \emph{API Gateway} tem como objetivo ser um mapeador genérico das mensagens
+\ac{AMQP} para \acp{API} \ac{HTTP}, sem ter conhecimento da implementação dos
+serviços. Para atender esta necessidade, foi implementado inicialmente com um
+mapeamento estático dos serviços, que continha as \acp{URL} para os respectivos
+serviços que provem a funcionalidade, provendo assim as \acp{API} necessárias.
+A arquitetura de comunicação entre os componentes pode ser vista na Figura
+\ref{fig:arch-geral}.
 
 \begin{figure}[H]
 	\centering
@@ -37,30 +73,33 @@ serviços que provem a funcionalidade.
 	\footnotesize Fonte: \fonteOAutor
 \end{figure}
 
-Isto criou um problema que foi a necessidade de sempre que for adicionado um
-serviço seria necessário alterar o \emph{API Gateway} para adicionar a rota
-do mesmo. Por este motivo foi adicionado um sistema de registro de microserviços.
-
-O sistema de registro de microserviços permite que os microsserviços registrem
-suas rotas no \emph{API Gateway} dinamicamente, permitindo subir novos serviços
-no sistema sem reiniciar o \emph{API Gateway} e sem perda de requisições.
+Do ponto de vista funcional, esta implementação atendia os requisitos, mas
+criou um problema, que foi a necessidade de sempre que for adicionado um
+serviço seria necessário alterar o \emph{API Gateway} para adicionar o mapeamento
+das \acp{API} do mesmo. Por este motivo foi adicionado um sistema de registro
+de microserviços. O sistema de registro de microserviços permite que os
+microsserviços registrem suas \acp{API} no \emph{API Gateway} dinamicamente,
+permitindo subir novos serviços no sistema sem reiniciar o \emph{API Gateway}
+e sem perda de requisições.
 
 \section{ARMAZENAMENTO DE DADOS}
 
 Para armazenamento de dados, foi avaliado a utilização de bancos de dados
 relacionais e bancos \emph{NoSQL} ou não estruturados. Para este projeto, foi
-escolhido o modelo \emph{NoSQL} de banco de dados, por não ser possível
-fazer muitos dos relacionamentos de dados via banco, por causa da regra
-de isolamento dos domínios de aplicação, limitando a utilização de
-relacionamentos de dados aos dados do próprio microsserviço.
+escolhido o modelo \emph{NoSQL} de banco de dados, por cada microsserviço
+ser responsável pelos dados relativos a sua regra de negócio, o que torna
+desnecessário criar relacionamentos complexos entre dados via banco,
+por causa da regra de isolamento dos domínios de aplicação.
 
 Outra vantagem na utilização de bancos \emph{NoSQL} é a performance, por
-estes bancos não realizarem muitas das validações de integridade dos dados,
-eles tem uma grande vantagem no quesito performance de leitura e escrita em
-relação aos bancos de dados relacionais. Uma desvantagem deste ponto é que
-a responsabilidade de validação da integridade dos dados é repassada para
-a aplicação que utiliza os dados, o que não é um problema na aplicação alvo
-deste trabalho.
+estes bancos não dependerem de diversas validações de integridade dos dados
+que os bancos de dados tradicionais utilizam, eles tem uma grande vantagem
+no quesito performance de leitura e escrita. Uma desvantagem deste ponto é
+que a responsabilidade de validação da integridade dos dados é repassada para
+a aplicação que utiliza os dados. Esta desvantagem pode também ser uma
+oportunidade, pois é possível realizar a validação dos dados em uma
+linguagem mais familiar para o desenvolvedor, ao repassar a responsabilidade
+de validação de dados para o microsserviço.
 
 Para este trabalho foram avaliados os bancos de dados estruturados MySQL e
 PostgreSQL, e os bancos de dados \emph{NoSQL} MongoDB, CouchDB, Couchbase,
@@ -88,24 +127,27 @@ anúnciou que estaria abandonando o projeto.
 
 \section{ESTRUTURA INTERNA SERVIÇOS}
 
-Os serviços inicialmente foram estruturados com acesso direto ao banco, sem uma
-bibliotecas e estruturas de apoio. Segundo XX os microserviços não devem
-compartilhar código, mas isto vai contra os conceitos de reutilização de
-código.
+Na primeira implementação dos serviços, foi realizada a utilização dos
+\emph{drivers} de acesso ao banco de dados e \ac{MQ} diretamente, o que
+funcionou bem nos primeiros microsserviços, mas causava a duplicação de código de
+inicialização destes \emph{drivers}. Embora alguns autores defendam que
+os microsserviços não devam compartilhar código, isto vai contra alguns
+fundamentos do desenvolvimento de software, como a reutilização de código.
 
-Para isto, foram criadas bibliotecas de apoio que abstraem as bibliotecas
-de comunicação e interação com o banco, o que diminuiu muito a barreira
-de conhecimento necessário para criar um novo serviço. Isto se deve ao
-fato de que as bibliotecas permitem que quem vai desenvolver o
-microsserviço não precise entender os detalhes do funcionamento das
+Como solução para este problema, foram criadas bibliotecas de apoio que
+abstraem as bibliotecas de comunicação e interação com o banco, o que
+diminuiu muito a barreira de conhecimento necessário para criar um novo
+serviço. Isto se deve ao fato de que as bibliotecas permitem que quem vai
+desenvolver o microsserviço não precise entender os detalhes do funcionamento das
 bibliotecas de comunicação, que operam a um nível mais baixo de abstração.
 
 Para separação da lógica dentro da arquitetura foi utilizado uma separação
-em três níveis na arquitetura interna do serviço. O \emph{Endpoint} é a
-parte responsável por receber mensagens e devolver respostas para o \ac{MQ}.
-O \emph{Service} é o local onde as regras de negócio do microserviço são
-desenvolvidas. O \emph{DAO} é onde a lógica de armazenamento e busca dos
-dados no banco de dados é realizada.
+em três níveis na arquitetura interna do serviço, conforme pode ser visualizado
+na Figura \ref{fig:arch-servico}. O \emph{Endpoint} é a parte responsável
+por receber mensagens e devolver respostas para o \ac{MQ}. O \emph{Service}
+é o local onde as regras de negócio do microserviço são desenvolvidas. O
+\ac{DAO} é onde a lógica de armazenamento e busca dos dados no banco de
+dados é realizada.
 
 \begin{figure}[H]
 	\centering
@@ -116,40 +158,11 @@ dados no banco de dados é realizada.
 	\footnotesize Fonte: \fonteOAutor
 \end{figure}
 
-Esta estrutura apresentou alguns problemas, como alto acoplamento e a
-comunicação sincrona entre os componentes. O alto acoplamento entre
-os componentes internos do serviço causaram alguma dificuldade de
-realização de testes unitários, por ser necessário a criação de
-componentes simulados para realização dos testes. Outro problema foi a
-comunicação sincrona entre os componentes, que interferiu diretamente
-na performance do serviço, por cada instância do serviço ficar bloqueada
-até a finalização do processamento de uma requisição.
-
-Para resolver este problema, foi a reestruturação dos serviços utilizando
-uma arquitetura de atores. Os atores são componentes da aplicação que se
-comunicam entre si por meio de passagem de mensagens, similar a comunicação
-via \ac{MQ} entre seriços. Este formato tem a vantagem que os atores podem
-ser executados em diferentes threads ou até mesmo diferentes processos,
-além de permitir a criação de testes unitários somente com a simulação das
-mensagens de entrada e validação dos retornos.
-
-Nesta aplicação, os atores estão sendo executados com corotinas, que são
-pequenos processos que executam dentro de uma mesma \emph{thread}, mas não
-bloqueiam por liberar a \ac{CPU} quando encontram uma interação que envolve
-\ac{IO}, como comunicação com banco de dados e troca de mensagens com o
-\ac{MQ}. Para implementação destas corotinas, foi utilizado a biblioteca
-\emph{asyncio} do Python.
-
-<diagrama da arquitetura com atores>
-
-\section{PROCESSAMENTO DE DADOS}
-
-explicar como foi realizado o processamento de dados
-
-\section{MÉTRICAS E MONITORAMENTO DE FALHAS}
-
-explicar a utilização das métricas e monitoramento
-
-\section{MONITORAMENTO DE STATUS DO SISTEMA}
-
-explicar a utilização do monitoramento do de falhas
+Esta estrutura funcionou de forma adequada, pois permitiu manter os domínios
+das aplicações isoladas, utilizando um nível de abstração dos componentes
+que não compromente a manutenção e facilita o desenvolvimento de novas
+funcionalidades. A declaração das \acp{API}, conforme mencionado na seção
+do \emph{API Gateway}, fica no \emph{Endpoint}, sendo ele responsável
+por toda interação com sistemas externos ao microsserviço. No capítulo
+seguinte será apresentado os resultados obtidos neste trabalho, além de
+melhorias futuras para o sistema.
