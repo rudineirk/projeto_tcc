@@ -45,14 +45,39 @@ por utilizar o protocolo \ac{AMQP}, um padrão bem estabelecido de comunicação
 e por ser muito utilizado por diversas empresas.
 
 Este formato funcionou bem na comunicação entre serviços, por permitir comunicação
-síncrona e assíncrona entre serviços, mas gerou uma complicação, pois os serviços
-não exportavam mais \acp{API} \ac{HTTP}. Para resolver esta situação, a primeira
-tentativa foi adicionar serviços de tradução das mensagens \ac{AMQP} de borda para
-\ac{HTTP}, o que vai contra o principal objetivo do projeto, que é facilitar
-o desenvolvimento de novas funcionalidades e a manutenção do mesmo, pois seria
-necessário todos os serviços vir em pares, aumentando o consumo de recursos.
-Para resolver isto, foi adicionado um serviço único de tradução de protocolos,
-o \emph{API Gateway}.
+síncrona e assíncrona entre serviços. Comunicação sincrona é utilizada nas operações
+de resultado imediato, como manipulação de um recurso, por exemplo, para criação
+da \ac{API} de gerenciamento de usuários, que tem operações \ac{CRUD}, que
+permitem a criação e manipulação de usuários.
+
+Mensagens assíncronas são utilizadas onde o remetente da mensagem não requer uma
+resposta imediata para uma operação. Um serviço de controle de chamadas de um
+sistema de telefonia é um bom exemplo, pois ele pode se comunicar com outro
+serviço de tarifação de chamadas de forma assíncrona, pois o registro destas
+informações de tarifação podem ser armazenadas no banco de dados em segundo
+plano.
+
+Este formato também permite que o receptor da mensagem não esteja
+presente no momento do envio da mesma, o que pode ocorrer em situações de
+manutenção ou atualização de um serviço, sendo que estas mensagens são
+armazenadas temporariamente pelo \ac{MQ}. Este formato é chamado de
+\emph{Work Queues}, onde dados são enfileirados para processamento
+posterior. A aplicação desta lógica é muito comunm em situações onde o
+produtor das mensagens gera dados mais rápido do que o consumidor consegue
+processar. Este problema normalmente é resolvido utilizando mais instâncias
+do consumidor, distribuindo as mensagens da \emph{Work Queues} entre as
+instâncias.
+
+A utilização de um sistema de mensagens facilitou a comunicação entre microsserviços,
+mas gerou uma complicação, pois os serviços não exportavam mais \acp{API} \ac{HTTP},
+as quais são utilizadas para interação com o servidor. Para resolver esta situação,
+a primeira tentativa foi adicionar serviços de tradução das mensagens \ac{AMQP} de
+para \ac{HTTP}, para cada serviço que deveria expor sua regra de negócio via \ac{API}.
+O problema neste caso é que se tornou necessário sempre desenvolver dois microsserviços
+para expor uma \ac{API|, o que vai contra o principal objetivo do projeto, que é facilitar
+o desenvolvimento de novas funcionalidades e a manutenção do mesmo, e aumentaria o
+consumo de recursos dos servidores. Para resolver isto, foi adicionado um serviço
+único de tradução de protocolos, o \emph{API Gateway}.
 
 \section{API GATEWAY}
 
