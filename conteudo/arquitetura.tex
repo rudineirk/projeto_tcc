@@ -74,7 +74,7 @@ as quais são utilizadas para interação com o servidor. Para resolver esta sit
 a primeira tentativa foi adicionar serviços de tradução das mensagens \ac{AMQP} de
 para \ac{HTTP}, para cada serviço que deveria expor sua regra de negócio via \ac{API}.
 O problema neste caso é que se tornou necessário sempre desenvolver dois microsserviços
-para expor uma \ac{API|, o que vai contra o principal objetivo do projeto, que é facilitar
+para expor uma \ac{API}, o que vai contra o principal objetivo do projeto, que é facilitar
 o desenvolvimento de novas funcionalidades e a manutenção do mesmo, e aumentaria o
 consumo de recursos dos servidores. Para resolver isto, foi adicionado um serviço
 único de tradução de protocolos, o \emph{API Gateway}.
