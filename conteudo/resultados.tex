@@ -1,19 +1,61 @@
 \chapter{RESULTADOS OBTIDOS}
 \label{chp:resultados}
 
+Neste capitulo será apresentado os resultados destes trabalho, abordando os
+ganhos de produtividade com esta arquitetura, o gerenciamento dos
+microsserviços, a performance, escalabilidade e tolerância a falhas do sistema.
+
 \section{PRODUTIVIDADE}
 
-ecolhido inicialmente único repositório, por ser mais simples, alternativas
-seriam um repositório por serviço ou um repositório por produto.
+Um dos grandes problemas da versão anterior do sistema era a dificuldade da
+manutenção e adição de agregar novas funcionalidades no sistema. A aplicação
+de padrões de projeto e de arquitetura de \emph{software} consistentes,
+como a arquitetura de microsserviços, tem como objetivo diminuir a quantidade
+de trabalho e conhecimento requerida para realização de alterações no código
+de uma aplicação.
 
-O código foi migrado para um repositório por produto por causa da manutenção
-de versões anteriores dos produtos poder ser realizada utilizando branches.
+Conforme pode ser visualizado na Figura \ref{fig:prod-dev}, no modelo antigo
+do sistema, a criação de uma nova \ac{API} de cadastro simples consumiria
+10 horas da equipe de desenvolvimento, contando os passos de planejamento,
+desenvolvimento, testes e liberação da aplicação para produção. Com a
+utilização da arquitetura de microserviços, este tempo foi reduzido para
+menos de 2 horas.
 
-A criação de uma nova \ac{API} de cadastro simples levaria, no modelo antigo,
-em torno de 10 horas para ser realizado o desenvolvimento e a liberação para
-utilização em produção. Com a utilização da arquitetura de microserviços, o
-tempo de desenvolvimento e de entrega da \ac{API} em produção foi reduzido para
-menos de 1 hora.
+\begin{figure}[H]
+	\centering
+	\caption{Ganhos de produtividade na utilização de microsserviços}
+	\includegraphics[width=0.7\textwidth]{figuras/prod-dev.png}
+
+	\label{fig:prod-dev}
+	\footnotesize Fonte: \fonteOAutor
+\end{figure}
+
+Para reduzir a carga de manutenção das ferramentas utilizadas no
+desenvolvimento, foi escolhido inicialmente a utilização de único
+repositório para todo o código do sistema. Este formato de utilização de
+repositórios é chamada de \emph{monorepo}. A principal vantagem deste
+formato é o aumento da produtividade do desenvolvedor por não ser necessário
+acessar diversos repositórios para visualizar todo o código que uma aplicação
+utiliza. Outra grande vantagem é ser possivel realizar alterações que afetam
+multiplos serviços com um único \emph{commit}, ou seja, dentro de um mesmo
+conjunto de alterações de código.
+
+Um erro de conceitualização de \emph{monorepos}, é o fato de o código de
+funcionalidades diferentes estar dentro de um mesmo repositório categoriza
+a aplicação como monolítica, o que não é correto, pois é possível
+realizar esta separação a nível de arquitetura de software. Isto é demostrado
+na prática por este modelo ser aplicado em empresas que são referências
+na área de desenvolvimento de software, como a Google, o Facebook e o Twitter,
+as quais mantém todo o código da empresa em um único repositório.
+
+Este formato não é perfeito, pois há algumas dificuldades para manutenção
+de versões anteriores de produtos, que é uma situação comum quando é
+liberado uma nova versão e a anterior ainda não encerrou seu ciclo de vida,
+ou seja, ainda é necessário a realização de correções de \emph{bugs}
+na versão anterior. Uma alternativa a este formato seria utilizar um
+repositório por serviço ou um repositório por produto, mas as vantagens
+de utilizar \emph{monorepos} no lugar de diversos repositórios ainda
+prevaleceu para este sistema.
 
 \section{GERENCIAMENTO DOS SERVIÇOS}
 
@@ -109,4 +151,3 @@ enfileradas para processamento são restauradas para a fila. Esta persistência 
 habilitada somente para chamadas \ac{RPC}, e consequentemente chamadas de \acp{API},
 pois não haveria um rementente para a mensagem, pois a conexão teria sido perdida,
 o que elimina a utilidade de manter estas mensagens.
-
