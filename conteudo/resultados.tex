@@ -57,11 +57,26 @@ repositório por serviço ou um repositório por produto, mas as vantagens
 de utilizar \emph{monorepos} no lugar de diversos repositórios ainda
 prevaleceu para este sistema.
 
+Para facilitar a entrega rápida de software, foi aplicado ferramentas de
+construção dos binários dos serviços de forma automatizada, que disponibilizam
+o software para aplicação em produção a cada conjunto de alterações que é
+enviado para o servidor de controle de versões do código. Esta técnica é
+chamada de \emph{Continuous Delivery}, onde as últimas alterações de código
+sempre estarão disponíveis para instalação em um servidor em produção, mas
+não necessariamente será instalado automaticamente a última versão no
+servidor que roda o software, podendo ser aplicadas atualizações com uma
+frequência menor.
+
 \section{GERENCIAMENTO DOS SERVIÇOS}
 
-Os serviços são gerenciados com uma interface de gerenciamento do Docker chamada
-Portainer, a qual permite a visualização do consumo de recursos e o status das
-instâncias dos serviços.
+Para gerenciamento dos containers Docker, foi utilizada a ferramenta Swarm,
+que é uma solução de \emph{clusters} nativa do Docker, que permite criação de
+serviços com base em containers de forma simplificada. Essa ferramenta é
+responsável por baixar, instalar e manter os serviços rodando, além de
+permitir o gerenciamento dos mesmos. Como o Docker e o Swarm tem somente
+ferramentas de gerenciamento via linha de comando, foi adicionado uma
+interface de gerenciamento web chamada Portainer, que pode ser vista na Figura
+\ref{fig:portainer-containers}.
 
 \begin{figure}[H]
 	\centering
@@ -72,39 +87,93 @@ instâncias dos serviços.
 	\footnotesize Fonte: \fonteOAutor
 \end{figure}
 
-Esta interface também permite executar serviços, mas esta funcionalidade não é
-utilizada, pois os serviços são provisionados utilizando uma ferramenta chamada
-Ansible, que realiza o provisionamento das configurações da máquina, e a
-instalação e configuração dos serviços necessários para rodar um produto.
+O Portainer permite visualizar o consumo de recursos e o status das instâncias
+dos serviços, como é demostrado na Figura \ref{fig:portainer-containers}.
+A grande vantagem da utilização de um sistema como esse, é o fato de ser
+possível alguém que não conheça em detalhes o funcionamento do Docker gerenciar
+os serviços do sistema. Além disto, esta interface simplifica a identificação
+de problemas e falhas nos serviços que compõe o sistema.
 
 \begin{figure}[H]
 	\centering
 	\caption{Monitoramento de consumo de recursos do conteiner}
-	\includegraphics[width=1.0\textwidth]{figuras/portainer-graph.png}
+	\includegraphics[width=0.7\textwidth]{figuras/portainer-graph.png}
 
 	\label{fig:portainer-graph}
 	\footnotesize Fonte: \fonteOAutor
 \end{figure}
 
+O Swarm permite também a criação de \emph{clusters} de máquinas, o que
+possibilita a distribuição de instâncias de serviços entre diferentes
+computadores dentro do \emph{cluster} de forma transparente. Do ponto de
+vista de gerenciamento dos containers, o serviço vai estar rodando no
+Swarm, não importando em que máquina física ele está executando. Como pode
+ocorrer falhas na máquina física ou nos próprios serviços, foram estudadas
+algumas formas de tolerância a estas falhas no sistema, que são apresentadas
+na seção seguinte.
+
+\section{TOLERÂNCIA A FALHAS}
+
+Um dos pilares de sistemas distribuidos é que nenhum sistema está totalmente
+seguro de falhas, o que pode ser feito é mitigar estas falhas. Um
+\emph{cluster} Swarm rodando em mais de uma máquina física tem algumas
+funcionalidades que auxiliam para garantir que um serviço nunca pare. Por
+distribuir as instâncias de um serviço entre as máquinas do cluster, caso
+ocorra uma falha em uma das máquinas ou em uma das instâncias do serviço, ele
+precisa somente desabilitar a instância com problemas para eliminar o ponto de
+falha.
+
+A nível de serviço, foi adicionado uma forma manutenção das conexões com
+outros componentes, que permite que outros componentes sejam reiniciados e
+a conexão é reestabelecida em alguns milisegundos. Isto se deve ao RabbitMQ,
+pois ele tem algumas garantias quanto a tolerância a falhas, ele faz a
+persistência de mensagens não processadas para o disco, caso ocorra alguma
+falha brusca, como uma queda de energia, ao iniciar novamente, as mensagens
+enfileradas para processamento são restauradas para a fila. Esta persistência
+não foi habilitada somente para chamadas \ac{RPC}, e consequentemente
+chamadas de \acp{API}, porque não haveria um rementente para a mensagem,
+levando em conta que a conexão teria sido perdida com a desconexão física
+do hardware, o que elimina a utilidade de manter estas mensagens.
+
 \section{PERFORMANCE}
 
-A performance de processamento de dados dos serviços está aceitável, e
-o consumo de recursos da máquina é bem pequeno para cada serviço, pois
-a quantidade de código carregada em memória é mínima.
+Na arquitetura de microsserviços, a performance individual de cada parte
+do sistema deixa de ser o foco, sendo as análises de performance realizadas
+a nível de sistema. Otimizações pontuais não são negligenciadas, mas é
+possivel contornar problemas de performance em produção aumentando a
+quantidade de instâncias de um serviço sendo executadas. Isto permite que
+seja reduzida a pressão sobre a equipe de desenvolvimento quanto a correções
+de problemas de performance, uma vez que estas correções não precisam ser
+aplicadas imediatamente.
 
-Isto se deve ao fato de cada serviço utilizar somente algumas
-bibliotecas mínimas para interação com o \ac{MQ}, de acesso ao banco de
-dados e de validação dos dados. Caso seja necessário, pode ser utilizado
-alguma biblioteca de apoio para a lógica da regra de negócio da
-aplicação, mas a recomendação para o desenvolvimento de um serviço
-é evitar bibliotecas externas caso não seja realmente necessário.
+Para alterar a quantidade de instâncias rodando no Swarm, é possível utilizar
+o Portainer para alterar a quantidade de instâncias de um serviço que está
+rodando no Swarm, exemplificado na Figura \ref{fig:portainer-replicas}.
+Para aumentar a quantidade de instâncias de um serviço utilizando esta
+ferramenta, é preciso alterar o campo \emph{Replicas} e salvar as novas
+configurações. Em uma questão de segundo, o Swarm deve subir
+automaticamente as novas instâncias do serviço.
 
-A performance da forma como foi desenvolvido atualmente não está ótima,
-pois existe alguns gargalos da comunicação, como o \emph{API Gateway}, que
-tem sua performance bastante reduzida por não estar reutilizando a conexão
-com o \ac{MQ} entre
+\begin{figure}[H]
+	\centering
+	\caption{Gerenciamento das instâncias de um serviço}
+	\includegraphics[width=0.7\textwidth]{figuras/portainer-replicas.png}
 
-Esta estrutura apresentou alguns problemas, como alto acoplamento e a
+	\label{fig:portainer-replicas}
+	\footnotesize Fonte: \fonteOAutor
+\end{figure}
+
+Quando a instância de um serviço inicia, ela automaticamente se registra
+no RabbitMQ. A partir deste registro, o RabbitMQ começa a distribuir a carga
+de trabalho automaticamente entre as instâncias do serviço. No caso de
+serviços que não utilizam a \ac{MQ} como meio de entrada, como o
+\emph{API Gateway}, é utilizado o endereço \ac{DNS} fornecido pelo Swarm
+para cada serviço, o qual realiza a distribuição das conexões entre as
+instâncias do serviço no modelo \emph{round-robin}, que entrega o
+endereço de rede de um dos containers rodando a cada requisição, alternando
+entre eles.
+
+A estrutura apresentou alguns problemas, como alto acoplamento e a
 comunicação sincrona entre os componentes. O alto acoplamento entre
 os componentes internos do serviço causaram alguma dificuldade de
 realização de testes unitários, por ser necessário a criação de
@@ -113,41 +182,12 @@ comunicação sincrona entre os componentes, que interferiu diretamente
 na performance do serviço, por cada instância do serviço ficar bloqueada
 até a finalização do processamento de uma requisição.
 
-Para resolver este problema, foi a reestruturação dos serviços utilizando
-uma arquitetura de atores. Os atores são componentes da aplicação que se
-comunicam entre si por meio de passagem de mensagens, similar a comunicação
-via \ac{MQ} entre seriços. Este formato tem a vantagem que os atores podem
-ser executados em diferentes threads ou até mesmo diferentes processos,
-além de permitir a criação de testes unitários somente com a simulação das
-mensagens de entrada e validação dos retornos.
-
-Nesta aplicação, os atores estão sendo executados com corotinas, que são
-pequenos processos que executam dentro de uma mesma \emph{thread}, mas não
-bloqueiam por liberar o processador quando encontram uma interação que envolve
-\ac{IO}, como comunicação com banco de dados e troca de mensagens com o
-\ac{MQ}.
-
-\section{ESCALABILIDADE}
-
-Por meio da utilização da \ac{MQ}, é possível subir multiplas instâncias de um serviço,
-sendo a carga de trabalho automaticamente distribuida entre as instâncias. No caso de
-serviços que não utilizam a \ac{MQ} como meio de entrada, como o \emph{API Gateway},
-é utilizado o endereço \ac{DNS} fornecido pelo Swarm, que realiza a distribuição das
-conexões entre as instâncias do serviço.
-
-Para alterar a quantidade de instâncias rodando, é possível utilizar a interface de
-gerenciamento do docker para alterar a quantidade de instâncias de um serviço.
-
-\section{TOLERÂNCIA A FALHAS}
-
-Foi implementado uma lógica de manutenção das conexões com a mensageria que permite
-que seja reiniciado o serviço da messageria e o serviço reestabelece a conexão dentro
-de alguns milisegundos.
-
-O RabbitMQ, a \ac{MQ} escolhida, também tem algumas garantias quanto a tolerância a
-falhas, ele faz a persistência de mensagens não processadas para o disco, caso ocorra
-alguma falha brusca, como uma queda de energia, ao iniciar novamente, as mensagens
-enfileradas para processamento são restauradas para a fila. Esta persistência não foi
-habilitada somente para chamadas \ac{RPC}, e consequentemente chamadas de \acp{API},
-pois não haveria um rementente para a mensagem, pois a conexão teria sido perdida,
-o que elimina a utilidade de manter estas mensagens.
+Para resolver este problema, uma alternativa estudada seria reestruturação
+dos serviços utilizando uma arquitetura de atores. Os atores são componentes
+da aplicação que se comunicam entre si por meio de passagem de mensagens,
+similar a comunicação via \ac{MQ} entre seriços. Este formato tem a vantagem
+que os atores podem ser executados em diferentes threads ou até mesmo
+diferentes processos, além de permitir a criação de testes unitários
+somente com a simulação das mensagens de entrada e validação dos retornos.
+Isto está planejado para ser realizado a curto prazo, pois a redução de
+uso de recursos de cada serviço é significativa.
