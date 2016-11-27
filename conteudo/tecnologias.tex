@@ -224,8 +224,8 @@ Os benefícios na produtividade e na qualidade do software entregue pode
 ser claramente vistos na tese de mestrado de \citeonline{Lopes2015}. Neste
 estudo é apresentado uma migração da arquitetura dos produtos de uma empresa
 para microsserviços, na qual houve aumentos significativos na velocidade de
-entrega de software funcional e na redução da quantidade de bugs encontrados
-em produção.
+entrega de software funcional e na redução da quantidade de \emph{bugs}
+encontrados em produção.
 
 \section{TECNOLOGIAS APLICADAS}
 
@@ -244,7 +244,7 @@ elementos da aplicação responsáveis por armazenamento ou tomada de ações, q
 podem ser isolados a nível da regra de negócio que os engloba. Segundo
 \citeonline{Saudate2013}, este padrão pode ser considerado como uma aplicação
 de \acp{API} orientadas a recursos. Alguns exemplos de recursos são usuários,
-\emph{tickets} de um sistema de controle de bugs e notas fiscais de um
+\emph{tickets} de um sistema de controle de \emph{bugs} e notas fiscais de um
 software de \ac{ERP}.
 
 Cada recurso dentro da \ac{API} pode ter um conjunto de ações que podem ser
@@ -259,7 +259,7 @@ Um excelente exemplo de aplicação, como apresentado por
 um serviço de armazenamento de arquivos e dados. Nesta aplicação, são
 utilizados dois recursos principais, os \emph{Buckets} e os \emph{Objects},
 onde \emph{Objects} são as unidades de armazenamento de dados e \emph{Buckets}
-são containers que contém múltiplas unidades de armazenamento, sendo cada
+são contêineres que contém múltiplas unidades de armazenamento, sendo cada
 um destes recursos manipulados por \acp{API} dedicadas para criação e
 manipulação dos mesmos.
 
@@ -379,25 +379,25 @@ mensagens destinadas a este podem ser armazenadas temporariamente. Uma
 desvantagem é a inclusão de um ponto único de falha, uma vez que o serviço
 de \ac{MQ} se torna crítico para operação dos serviços.
 
-\subsection{Containers Linux}
+\subsection{Contêineres Linux}
 
-Containers são uma nova tecnologia de criação de ambientes isolados que tem
+Contêineres são uma nova tecnologia de criação de ambientes isolados que tem
 como objetivo substituir máquinas virtuais em algumas situações. Segundo
-\citeonline{Matthias2015}, máquinas virtuais e containers compartilham o
+\citeonline{Matthias2015}, máquinas virtuais e contêineres compartilham o
 conceito de isolamento de ambientes, mas este é o limite das semelhanças
 entre as duas tecnologias, pois a primeira foca na emulação de uma máquina
 física completa, e o segundo foca somente no isolamento de arquivos e
 bibliotecas utilizadas por uma aplicação.
 
 As camadas destas tecnologias podem ser visualizadas na Figura
-\ref{fig:docker-vs-vm}, sendo que os containers apresentam somente as camadas
+\ref{fig:docker-vs-vm}, sendo que os contêineres apresentam somente as camadas
 de bibliotecas do sistema e a aplicação em si. As máquinas virtuais, além das
-mesmas camadas dos containers, apresentam a camada de virtualização de
+mesmas camadas dos contêineres, apresentam a camada de virtualização de
 hardware e do sistema operacional.
 
 \begin{figure}[H]
 	\centering
-	\caption{Comparativo de máquinas virtual e containers Docker}
+	\caption{Comparativo de máquinas virtual e contêineres Docker}
 	\includegraphics[width=0.8\textwidth]{figuras/docker-vs-vm.png}
 
 	\label{fig:docker-vs-vm}
@@ -410,9 +410,9 @@ de segurança não permitiram a proliferação destas ferramentas antes da cria�
 do Docker.
 
 Segundo \citeonline{Matthias2015}, o Docker é um conjunto de ferramentas de
-criação e distribuição de containers, que utiliza algumas tecnologias
+criação e distribuição de contêineres, que utiliza algumas tecnologias
 disponíveis no \emph{kernel} Linux para executar as aplicações com segurança
-dentro de um \emph{sandbox}. A criação de containers é feita por meio de
+dentro de um \emph{sandbox}. A criação de contêineres é feita por meio de
 imagens, as quais são distribuídas em repositórios públicos, que
 disponibilizam imagens prontas para diversos serviços e tecnologias. Tendo
 em vista a necessidade de empresas privadas de manter seu código seguro,
@@ -420,10 +420,10 @@ os desenvolvedores do Docker também criaram ferramentas que possibilitam a
 criação e utilização de repositórios privados de imagens.
 
 Conforme explica \citeonline{Turnbull2015} o isolamento de bibliotecas e
-dependências por meio de containers permite executar aplicações distintas
+dependências por meio de contêineres permite executar aplicações distintas
 dentro da mesma máquina sem que exista conflitos de versões dos requisitos
 para executar estas aplicações. Isto é feito por meio da utilização de
-instalações de sistemas operacionais mínimas dentro de cada container, sem
+instalações de sistemas operacionais mínimas dentro de cada contêiner, sem
 \emph{kernel} e arquivos desnecessários para operação das aplicações.
 
 Normalmente seria utilizado muito espaço para manter um sistema completo para
@@ -434,12 +434,12 @@ derivadas. Por exemplo, a distribuição Linux Debian disponibiliza imagens
 base, que são utilizados pelos criadores da imagem do banco de dados
 PostgreSQL e da imagem do servidor web Apache. Ao utilizar estas duas últimas
 imagens na mesma máquina, o espaço em disco da camada do Debian será utilizada
-uma única vez, para cada container será adicionado somente a diferença de
-espaço em disco necessário para os arquivos específicos da imagem do container.
+uma única vez, para cada contêiner será adicionado somente a diferença de
+espaço em disco necessário para os arquivos específicos da imagem do contêiner.
 
-Ao executar o container, as camadas da imagem são montadas no disco em modo
-somente leitura, sendo que alterações realizadas dentro do container são
-armazenadas separadamente para cada container. Este processo é invisível para
+Ao executar o contêiner, as camadas da imagem são montadas no disco em modo
+somente leitura, sendo que alterações realizadas dentro do contêiner são
+armazenadas separadamente para cada contêiner. Este processo é invisível para
 a aplicação, a qual enxerga somente um sistema de arquivos normal.
 
 Por todos os serviços compartilharem o mesmo \emph{kernel}, o isolamento
@@ -447,8 +447,8 @@ precisa ser também em nível de processos. Segundo \citeonline{Matthias2015},
 o \emph{kernel} Linux implementa uma tecnologia chamada \emph{cgroups},
 que é uma forma de criar subárvores de processos isoladas dentro
 do \emph{kernel}, as quais têm sua própria numeração de processos. Desta
-forma cada container não consegue interferir com processos do host e de
-outros containers. Para os containers se comunicarem, o Docker
+forma cada contêiner não consegue interferir com processos do host e de
+outros contêineres. Para os contêineres se comunicarem, o Docker
 disponibiliza uma rede virtual que permite a comunicação, simulando o
 formato de comunicação de rede das arquiteturas com máquinas virtuais.
 

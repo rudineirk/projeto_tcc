@@ -1,7 +1,7 @@
 \chapter{RESULTADOS OBTIDOS}
 \label{chp:resultados}
 
-Neste capitulo será apresentado os resultados destes trabalho, abordando os
+Neste capítulo será apresentado os resultados destes trabalho, abordando os
 ganhos de produtividade com esta arquitetura, o gerenciamento dos
 microsserviços, a performance, escalabilidade e tolerância a falhas do sistema.
 
@@ -18,7 +18,7 @@ Conforme pode ser visualizado na Figura \ref{fig:prod-dev}, no modelo antigo
 do sistema, a criação de uma nova \ac{API} de cadastro simples consumiria
 10 horas da equipe de desenvolvimento, contando os passos de planejamento,
 desenvolvimento, testes e liberação da aplicação para produção. Com a
-utilização da arquitetura de microserviços, este tempo foi reduzido para
+utilização da arquitetura de microsserviços, este tempo foi reduzido para
 menos de 2 horas.
 
 \begin{figure}[H]
@@ -36,17 +36,18 @@ repositório para todo o código do sistema. Este formato de utilização de
 repositórios é chamada de \emph{monorepo}. A principal vantagem deste
 formato é o aumento da produtividade do desenvolvedor por não ser necessário
 acessar diversos repositórios para visualizar todo o código que uma aplicação
-utiliza. Outra grande vantagem é ser possivel realizar alterações que afetam
-multiplos serviços com um único \emph{commit}, ou seja, dentro de um mesmo
+utiliza. Outra grande vantagem é ser possível realizar alterações que afetam
+múltiplos serviços com um único \emph{commit}, ou seja, dentro de um mesmo
 conjunto de alterações de código.
 
 Um erro de conceitualização de \emph{monorepos}, é o fato de o código de
 funcionalidades diferentes estar dentro de um mesmo repositório categoriza
 a aplicação como monolítica, o que não é correto, pois é possível
-realizar esta separação a nível de arquitetura de software. Isto é demostrado
-na prática por este modelo ser aplicado em empresas que são referências
-na área de desenvolvimento de software, como a Google, o Facebook e o Twitter,
-as quais mantém todo o código da empresa em um único repositório.
+realizar esta separação em nível de arquitetura de \emph{software}. Isto é
+demostrado na prática por este modelo ser aplicado em empresas que são
+referências na área de desenvolvimento de \emph{software}, como a Google,
+o Facebook e o Twitter, as quais mantém todo o código da empresa em um
+único repositório.
 
 Este formato não é perfeito, pois há algumas dificuldades para manutenção
 de versões anteriores de produtos, que é uma situação comum quando é
@@ -57,21 +58,21 @@ repositório por serviço ou um repositório por produto, mas as vantagens
 de utilizar \emph{monorepos} no lugar de diversos repositórios ainda
 prevaleceu para este sistema.
 
-Para facilitar a entrega rápida de software, foi aplicado ferramentas de
+Para facilitar a entrega rápida de \emph{software}, foi aplicado ferramentas de
 construção dos binários dos serviços de forma automatizada, que disponibilizam
-o software para aplicação em produção a cada conjunto de alterações que é
+o \emph{software} para aplicação em produção a cada conjunto de alterações que é
 enviado para o servidor de controle de versões do código. Esta técnica é
 chamada de \emph{Continuous Delivery}, onde as últimas alterações de código
 sempre estarão disponíveis para instalação em um servidor em produção, mas
 não necessariamente será instalado automaticamente a última versão no
-servidor que roda o software, podendo ser aplicadas atualizações com uma
+servidor que roda o \emph{software}, podendo ser aplicadas atualizações com uma
 frequência menor.
 
 \section{GERENCIAMENTO DOS SERVIÇOS}
 
-Para gerenciamento dos containers Docker, foi utilizada a ferramenta Swarm,
+Para gerenciamento dos contêineres Docker, foi utilizada a ferramenta Swarm,
 que é uma solução de \emph{clusters} nativa do Docker, que permite criação de
-serviços com base em containers de forma simplificada. Essa ferramenta é
+serviços com base em contêineres de forma simplificada. Essa ferramenta é
 responsável por baixar, instalar e manter os serviços rodando, além de
 permitir o gerenciamento dos mesmos. Como o Docker e o Swarm tem somente
 ferramentas de gerenciamento via linha de comando, foi adicionado uma
@@ -80,7 +81,7 @@ interface de gerenciamento web chamada Portainer, que pode ser vista na Figura
 
 \begin{figure}[H]
 	\centering
-	\caption{Gereciamento dos conteineres Docker}
+	\caption{Gerenciamento dos contêineres Docker}
 	\includegraphics[width=1.0\textwidth]{figuras/portainer-containers.png}
 
 	\label{fig:portainer-containers}
@@ -96,7 +97,7 @@ de problemas e falhas nos serviços que compõe o sistema.
 
 \begin{figure}[H]
 	\centering
-	\caption{Monitoramento de consumo de recursos do conteiner}
+	\caption{Monitoramento de consumo de recursos do contêiner}
 	\includegraphics[width=0.7\textwidth]{figuras/portainer-graph.png}
 
 	\label{fig:portainer-graph}
@@ -106,15 +107,15 @@ de problemas e falhas nos serviços que compõe o sistema.
 O Swarm permite também a criação de \emph{clusters} de máquinas, o que
 possibilita a distribuição de instâncias de serviços entre diferentes
 computadores dentro do \emph{cluster} de forma transparente. Do ponto de
-vista de gerenciamento dos containers, o serviço vai estar rodando no
-Swarm, não importando em que máquina física ele está executando. Como pode
+vista de gerenciamento dos contêineres, o serviço será executado no
+Swarm, não importando em que máquina física ele está instalado. Como pode
 ocorrer falhas na máquina física ou nos próprios serviços, foram estudadas
 algumas formas de tolerância a estas falhas no sistema, que são apresentadas
 na seção seguinte.
 
 \section{TOLERÂNCIA A FALHAS}
 
-Um dos pilares de sistemas distribuidos é que nenhum sistema está totalmente
+Um dos pilares de sistemas distribuídos é que nenhum sistema está totalmente
 seguro de falhas, o que pode ser feito é mitigar estas falhas. Um
 \emph{cluster} Swarm rodando em mais de uma máquina física tem algumas
 funcionalidades que auxiliam para garantir que um serviço nunca pare. Por
@@ -123,15 +124,15 @@ ocorra uma falha em uma das máquinas ou em uma das instâncias do serviço, ele
 precisa somente desabilitar a instância com problemas para eliminar o ponto de
 falha.
 
-A nível de serviço, foi adicionado uma forma manutenção das conexões com
+Em nível de serviço, foi adicionado uma forma manutenção das conexões com
 outros componentes, que permite que outros componentes sejam reiniciados e
-a conexão é reestabelecida em alguns milisegundos. Isto se deve ao RabbitMQ,
+a conexão é reestabelecida em alguns milissegundos. Isto se deve ao RabbitMQ,
 pois ele tem algumas garantias quanto a tolerância a falhas, ele faz a
 persistência de mensagens não processadas para o disco, caso ocorra alguma
 falha brusca, como uma queda de energia, ao iniciar novamente, as mensagens
-enfileradas para processamento são restauradas para a fila. Esta persistência
+enfileiradas para processamento são restauradas para a fila. Esta persistência
 não foi habilitada somente para chamadas \ac{RPC}, e consequentemente
-chamadas de \acp{API}, porque não haveria um rementente para a mensagem,
+chamadas de \acp{API}, porque não haveria um remetente para a mensagem,
 levando em conta que a conexão teria sido perdida com a desconexão física
 do hardware, o que elimina a utilidade de manter estas mensagens.
 
@@ -139,8 +140,8 @@ do hardware, o que elimina a utilidade de manter estas mensagens.
 
 Na arquitetura de microsserviços, a performance individual de cada parte
 do sistema deixa de ser o foco, sendo as análises de performance realizadas
-a nível de sistema. Otimizações pontuais não são negligenciadas, mas é
-possivel contornar problemas de performance em produção aumentando a
+em nível de sistema. Otimizações pontuais não são negligenciadas, mas é
+possível contornar problemas de performance em produção aumentando a
 quantidade de instâncias de um serviço sendo executadas. Isto permite que
 seja reduzida a pressão sobre a equipe de desenvolvimento quanto a correções
 de problemas de performance, uma vez que estas correções não precisam ser
@@ -170,24 +171,25 @@ serviços que não utilizam a \ac{MQ} como meio de entrada, como o
 \emph{API Gateway}, é utilizado o endereço \ac{DNS} fornecido pelo Swarm
 para cada serviço, o qual realiza a distribuição das conexões entre as
 instâncias do serviço no modelo \emph{round-robin}, que entrega o
-endereço de rede de um dos containers rodando a cada requisição, alternando
+endereço de rede de um dos contêineres rodando a cada requisição, alternando
 entre eles.
 
-A estrutura apresentou alguns problemas, como alto acoplamento e a
-comunicação sincrona entre os componentes. O alto acoplamento entre
-os componentes internos do serviço causaram alguma dificuldade de
-realização de testes unitários, por ser necessário a criação de
-componentes simulados para realização dos testes. Outro problema foi a
-comunicação sincrona entre os componentes, que interferiu diretamente
-na performance do serviço, por cada instância do serviço ficar bloqueada
-até a finalização do processamento de uma requisição.
+O sistema como um todo, da forma como foi desenhado, atende os requisitos
+apresentados para o projeto, mas a estrutura interna dos microsserviços
+apresentou alguns problemas, como alto acoplamento e a comunicação síncrona
+entre os componentes. O alto acoplamento entre os componentes internos do
+serviço causaram alguma dificuldade de realização de testes unitários, por
+ser necessário a criação de componentes simulados para realização dos testes.
+Outro problema foi a comunicação síncrona entre os componentes, que
+interferiu diretamente na performance do serviço, devido a cada instância do
+serviço ficar bloqueada até a finalização do processamento de uma requisição.
 
 Para resolver este problema, uma alternativa estudada seria reestruturação
 dos serviços utilizando uma arquitetura de atores. Os atores são componentes
 da aplicação que se comunicam entre si por meio de passagem de mensagens,
-similar a comunicação via \ac{MQ} entre seriços. Este formato tem a vantagem
-que os atores podem ser executados em diferentes threads ou até mesmo
-diferentes processos, além de permitir a criação de testes unitários
-somente com a simulação das mensagens de entrada e validação dos retornos.
-Isto está planejado para ser realizado a curto prazo, pois a redução de
-uso de recursos de cada serviço é significativa.
+similar a comunicação via \ac{MQ} entre serviços. Este formato tem a vantagem
+que os atores podem ser executados em diferentes threads ou processos,
+além de permitir a criação de testes unitários somente com a simulação das
+mensagens de entrada e validação dos retornos. Isto está planejado para ser
+realizado a curto prazo, pois as melhorias na manutenção do código e a
+redução de uso de recursos de cada serviço é significativa.

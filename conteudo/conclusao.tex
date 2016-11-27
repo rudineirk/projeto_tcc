@@ -1,3 +1,53 @@
-\chapter{CONCLUSÃO} \label{sec:capitulos}
+\chapter{CONCLUSÃO}
+\label{chp:conclusao}
 
-conclusao conclusao conclusao
+Este trabalho teve como objetivo a criação de uma interface de administração
+de servidores baseada em arquitetura de microsserviços. A necessidade do
+mesmo surgiu com base em um planejamento feito para a nova iteração de um
+produto de administração de servidores, que sofria com problemas de
+dificuldade de manutenção e adição de novas funcionalidades. O projeto
+procurou implementar esta nova versão com uma base sólida de tecnologias,
+utilizando práticas modernas de desenvolvimento de \emph{software}, tais como
+a arquitetura de microsserviços.
+
+O desenvolvimento de um projeto utilizando a arquitetura de microsserviços
+pode se provar como um grande desafio, pois envolve uma grande quantidade
+de tecnologias e conceitos. Conceitos de sistemas distribuídos são aplicados
+de forma concreta nesta arquitetura, por se tratar da distribuição das regras
+de negócio em aplicações dedicadas que se comunicam entre si, para prover
+a funcionalidade final.
+
+Na aplicação da arquitetura, foram utilizados ferramentas disponíveis e
+provadas, como Docker e Swarm para gerenciamento e distribuição dos serviços,
+o que se provou na prática como uma excelente escolha. Isto se deve a
+estrutura de comunicação, que utiliza RabbitMQ, que prove uma arquitetura
+resilente e escalável, sem aumentar significativamente o consumo de recursos
+da máquina de execução do sistema.
+
+As dificuldades encontradas foram principalmente relacionadas ao grande leque
+de tecnologias, formas de comunicação entre serviços e estruturação dos
+componentes. A comunicação em especial se provou como o ponto mais complexo
+da arquitetura de microsserviços, por se tratar de uma mudança de paradigma
+em relação a estrutura comum de estruturação de aplicações, que é síncrona.
+Para comunicação entre microsserviços, é necessário a utilização de protocolos
+assíncronos, como o \ac{AMQP}, para tirar proveito das melhores vantagens
+da arquitetura.
+
+O desenvolvimento de novos serviços, sem o auxílio de bibliotecas de apoio,
+para abstrair estes paradigmas assíncronos, pode ser desafiador. Para isto,
+a estrutura interna dos microsserviços foi estruturada para isolar as regras
+de negócio da comunicação com outros componentes, como a interação
+com o \ac{MQ} e com o banco de dados. Esta arquitetura interna dos serviços
+se provou funcional, mas houve problemas relacionados a testes unitários
+e o bloqueamento de recursos, que ocorreram devido ao acoplamento e a
+comunicação síncrona entre os componentes internos dos serviços.
+
+Para a continuidade deste trabalho, está planejado a alteração da arquitetura
+interna dos serviços, passando a utilizar atores, que são componentes que
+se comunicam de forma assíncrona. A utilização deste novo formato deve
+eliminar problemas de bloqueamento da instância do serviço durante uma
+requisição e reduzir o consumo de recursos do sistema como um todo. Do
+ponto de vista de produto, para a disponibilização do objeto deste trabalho
+para o mercado, ainda é necessário o desenvolvimento dos serviços que
+proveram as funcionalidades esperadas, utilizando a arquitetura desenvolvida
+para este trabalho, além de uma interface gráfica para o usuário final.

@@ -1,7 +1,7 @@
 \chapter{ARQUITETURA}
 \label{chp:arquitetura}
 
-A idéia para a realização deste trabalho se deve a uma necessidade que uma
+A ideia para a realização deste trabalho se deve a uma necessidade que uma
 empresa teve de desenvolver uma nova versão do produto que esta vende. A
 versão anterior não estava atendendo algumas necessidades, como facilidade
 de manutenção e de integração de novas funcionalidades.
@@ -10,14 +10,14 @@ A arquitetura da nova versão deste produto se baseia em microsserviços,
 por esta arquitetura facilitar a separação de regras de negócio por meio do
 isolamento do código em serviços. A funcionalidade que cada microsserviço
 entrega pode ser reutilizada para composição de outras aplicações,
-possibilitando o reuso de lógica de forma simples, sem sobrecarregar
+possibilitando o reúso de lógica de forma simples, sem sobrecarregar
 os recursos da máquina.
 
 O produto em questão, precisa prover duas principais funcionalidades, uma
 é uma interface web de administração de servidores, e outra é uma
 \ac{API} \ac{HTTP} para integração com terceiros. Para o desenvolvimento da
 interface, é possível reutilizar as mesmas \acp{API}, por isto o desenvolvimento
-do protótipo inicial se focou em abordar o software que é executado no servidor
+do protótipo inicial se focou em abordar o \emph{software} que é executado no servidor
 e nas \acp{API} que ele expõe.
 
 Para a entrega das funcionalidades do sistema, é necessário que os microsserviços
@@ -45,7 +45,7 @@ por utilizar o protocolo \ac{AMQP}, um padrão bem estabelecido de comunicação
 e por ser muito utilizado por diversas empresas.
 
 Este formato funcionou bem na comunicação entre serviços, por permitir comunicação
-síncrona e assíncrona entre serviços. Comunicação sincrona é utilizada nas operações
+síncrona e assíncrona entre serviços. Comunicação síncrona é utilizada nas operações
 de resultado imediato, como manipulação de um recurso, por exemplo, para criação
 da \ac{API} de gerenciamento de usuários, que tem operações \ac{CRUD}, que
 permitem a criação e manipulação de usuários.
@@ -62,7 +62,7 @@ presente no momento do envio da mesma, o que pode ocorrer em situações de
 manutenção ou atualização de um serviço, sendo que estas mensagens são
 armazenadas temporariamente pelo \ac{MQ}. Este formato é chamado de
 \emph{Work Queues}, onde dados são enfileirados para processamento
-posterior. A aplicação desta lógica é muito comunm em situações onde o
+posterior. A aplicação desta lógica é muito comum em situações onde o
 produtor das mensagens gera dados mais rápido do que o consumidor consegue
 processar. Este problema normalmente é resolvido utilizando mais instâncias
 do consumidor, distribuindo as mensagens da \emph{Work Queues} entre as
@@ -102,7 +102,7 @@ Do ponto de vista funcional, esta implementação atendia os requisitos, mas
 criou um problema, que foi a necessidade de sempre que for adicionado um
 serviço seria necessário alterar o \emph{API Gateway} para adicionar o mapeamento
 das \acp{API} do mesmo. Por este motivo foi adicionado um sistema de registro
-de microserviços. O sistema de registro de microserviços permite que os
+de microsserviços. O sistema de registro de microsserviços permite que os
 microsserviços registrem suas \acp{API} no \emph{API Gateway} dinamicamente,
 permitindo subir novos serviços no sistema sem reiniciar o \emph{API Gateway}
 e sem perda de requisições.
@@ -111,7 +111,7 @@ e sem perda de requisições.
 
 Para armazenamento de dados, foi avaliado a utilização de bancos de dados
 relacionais e bancos \emph{NoSQL} ou não estruturados. Para este projeto, foi
-escolhido o modelo \emph{NoSQL} de banco de dados, por cada microsserviço
+escolhido o modelo \emph{NoSQL} de banco de dados, devido a cada microsserviço
 ser responsável pelos dados relativos a sua regra de negócio, o que torna
 desnecessário criar relacionamentos complexos entre dados via banco,
 por causa da regra de isolamento dos domínios de aplicação.
@@ -128,7 +128,7 @@ de validação de dados para o microsserviço.
 
 Para este trabalho foram avaliados os bancos de dados estruturados MySQL e
 PostgreSQL, e os bancos de dados \emph{NoSQL} MongoDB, CouchDB, Couchbase,
-Cassandra e RethinkDB. Os banco de dados estruturados foram eliminados
+Cassandra e RethinkDB. Os bancos de dados estruturados foram eliminados
 pelos motivos citados acima, apesar de atenderem em situações de cadastros
 simples, nos testes de inserção de grandes quantidades de dados, como
 dados de ligações de um sistema de telefonia, tiveram sérios problemas de
@@ -136,9 +136,9 @@ performance.
 
 Os bancos de dados Couchbase e CouchDB foram eliminados por causa de falta
 de suporte dos \emph{drivers} para as linguagens. O banco Cassandra foi
-eliminado por ser focado em ambientes onde existem clusters com distribuição
-de carga de banco de dados, o que não se aplica neste sistema, e por
-ser complexo de ser operado, devido ao foco a clusters.
+eliminado por ser focado em ambientes onde existem \emph{clusters}
+com distribuição de carga de banco de dados, o que não se aplica neste
+sistema, e por ser complexo de ser operado, devido ao foco a \emph{clusters}.
 
 Por último, foram avaliados os bancos MongoDB e RethinkDB, que são muito
 similares, por serem orientados a documentos \ac{JSON}. O banco escolhido
@@ -148,7 +148,7 @@ ponto avaliado foi não haver nenhuma grande empresa utilizando o RethinkDB, e
 por ele ser desenvolvido por uma empresa pequena e não muito conhecida.
 Este último ponto de preocupação sobre o RethinkDB se confirmou na prática,
 pois próximo a dois meses após esta avaliação, a empresa responsável por ele
-anúnciou que estaria abandonando o projeto.
+anunciou que abandonaria o projeto.
 
 \section{ESTRUTURA INTERNA SERVIÇOS}
 
@@ -157,20 +157,20 @@ Na primeira implementação dos serviços, foi realizada a utilização dos
 funcionou bem nos primeiros microsserviços, mas causava a duplicação de código de
 inicialização destes \emph{drivers}. Embora alguns autores defendam que
 os microsserviços não devam compartilhar código, isto vai contra alguns
-fundamentos do desenvolvimento de software, como a reutilização de código.
+fundamentos do desenvolvimento de \emph{software}, como a reutilização de código.
 
 Como solução para este problema, foram criadas bibliotecas de apoio que
 abstraem as bibliotecas de comunicação e interação com o banco, o que
-diminuiu muito a barreira de conhecimento necessário para criar um novo
-serviço. Isto se deve ao fato de que as bibliotecas permitem que quem vai
-desenvolver o microsserviço não precise entender os detalhes do funcionamento das
+diminuiu muito a barreira de conhecimento necessário para criar um serviço.
+Isto se deve ao fato de que as bibliotecas permitem que quem vai desenvolver
+o microsserviço não precise entender os detalhes do funcionamento das
 bibliotecas de comunicação, que operam a um nível mais baixo de abstração.
 
 Para separação da lógica dentro da arquitetura foi utilizado uma separação
 em três níveis na arquitetura interna do serviço, conforme pode ser visualizado
 na Figura \ref{fig:arch-servico}. O \emph{Endpoint} é a parte responsável
 por receber mensagens e devolver respostas para o \ac{MQ}. O \emph{Service}
-é o local onde as regras de negócio do microserviço são desenvolvidas. O
+é o local onde as regras de negócio do microsserviço são desenvolvidas. O
 \ac{DAO} é onde a lógica de armazenamento e busca dos dados no banco de
 dados é realizada.
 
@@ -185,7 +185,7 @@ dados é realizada.
 
 Esta estrutura funcionou de forma adequada, pois permitiu manter os domínios
 das aplicações isoladas, utilizando um nível de abstração dos componentes
-que não compromente a manutenção e facilita o desenvolvimento de novas
+que não compromete a manutenção e facilita o desenvolvimento de novas
 funcionalidades. A declaração das \acp{API}, conforme mencionado na seção
 do \emph{API Gateway}, fica no \emph{Endpoint}, sendo ele responsável
 por toda interação com sistemas externos ao microsserviço. No capítulo
