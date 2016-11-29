@@ -68,6 +68,28 @@ não necessariamente será instalado automaticamente a última versão no
 servidor que roda o \emph{software}, podendo ser aplicadas atualizações com uma
 frequência menor.
 
+\begin{figure}[H]
+	\centering
+	\caption{Tempo de abientação de novos desenvolvedores}
+	\includegraphics[width=0.7\textwidth]{figuras/prod-ambientacao.png}
+
+	\label{fig:prod-ambientacao}
+	\footnotesize Fonte: \fonteOAutor
+\end{figure}
+
+Os resultados da aplicação desta arquitetura e das ferramentas de apoio,
+utilizadas para simplificar o processo de desenvolvimento, podem ser
+medidas com base no tempo necessário para um novo desenvolvedor começar
+a produzir novas funcionalidades, em uma velocidade similar aos outros
+membros da equipe. Conforme pode ser visualizado na Figura
+\ref{fig:prod-ambientacao}, o tempo no sistema anterior era relativamente
+alto, um valor próximo a 5 meses, devido aos problemas arquiteturais e de
+tecnologias aplicadas. No novo sistema, esse valor cai para pouco mais
+de um mês. Esta métrica leva em conta que o novo membro da equipe não
+conhece o sistema, mas que já tenha experiência com a linguagem de
+programação utilizada. Na próxima seção será apresentado as ferramentas
+de gerenciamento dos serviços em produção.
+
 \section{GERENCIAMENTO DOS SERVIÇOS}
 
 Para gerenciamento dos contêineres Docker, foi utilizada a ferramenta Swarm,
