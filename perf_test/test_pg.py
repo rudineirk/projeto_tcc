@@ -1,0 +1,26 @@
+#!/usr/bin/python2
+
+import random
+import uuid
+from time import time
+
+import psycopg2
+
+data = []
+for i in range(10000):
+    data.append([uuid.uuid4(), random.randint(1, 10000)])
+
+db = psycopg2.connect("host=localhost dbname=test user=test password=test")
+cur = db.cursor()
+
+t_start = time()
+for d in data:
+    cur.execute(
+        "INSERT INTO test (name, number) VALUES ('{0}', {1});"
+        .format(*d)
+    )
+    db.commit()
+
+t_end = time()
+db.close()
+print "time: {0} ms".format((t_end - t_start) * 1000)

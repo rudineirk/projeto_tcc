@@ -118,7 +118,7 @@ por causa da regra de isolamento dos domínios de aplicação.
 
 Outra vantagem na utilização de bancos \emph{NoSQL} é a performance, por
 estes bancos não dependerem de diversas validações de integridade dos dados
-que os bancos de dados tradicionais utilizam, eles tem uma grande vantagem
+que os bancos de dados tradicionais utilizam, eles tem uma certa vantagem
 no quesito performance de leitura e escrita. Uma desvantagem deste ponto é
 que a responsabilidade de validação da integridade dos dados é repassada para
 a aplicação que utiliza os dados. Esta desvantagem pode também ser uma
@@ -128,11 +128,33 @@ de validação de dados para o microsserviço.
 
 Para este trabalho foram avaliados os bancos de dados estruturados MySQL e
 PostgreSQL, e os bancos de dados \emph{NoSQL} MongoDB, CouchDB, Couchbase,
-Cassandra e RethinkDB. Os bancos de dados estruturados foram eliminados
-pelos motivos citados acima, apesar de atenderem em situações de cadastros
-simples, nos testes de inserção de grandes quantidades de dados, como
-dados de ligações de um sistema de telefonia, tiveram sérios problemas de
-performance.
+Cassandra e RethinkDB. As versões dos bancos utilizados nesta análise
+podem ser visualizados na Tabela \ref{tab:db-versions}. Para dados não
+relacionados, a performance dos bancos de dados \ac{SQL} e \emph{NoSQL}
+é similar, mas para dados mais complexos o principal fator que degrada
+bancos \ac{SQL} em relação aos \emph{NoSQL} são as dificuldades de
+representar os dados de forma correta.
+
+\begin{table}[htbp]
+\centering
+\caption{Versões dos bandos de dados avaliados}
+\label{tab:db-versions}
+%\vspace{0.4cm}
+\begin{tabular}{l|l} \hline
+	Banco de dados & Versão \\
+	\hline \hline
+	MySQL & \emph{fork} MariaDB 10.1 &
+	PostgreSQL & 9.6 &
+	MongoDB & 3.2 &
+	RethinkDB & 2.3 &
+  CouchDB & 1.6 &
+  Couchbase & 4.5 &
+  Cassandra & 3.9 &
+	\hline
+\end{tabular}
+
+\\ \footnotesize Fonte: \fonteOAutor
+\end{table}
 
 Os bancos de dados Couchbase e CouchDB foram eliminados por causa de falta
 de suporte dos \emph{drivers} para as linguagens. O banco Cassandra foi
@@ -140,15 +162,44 @@ eliminado por ser focado em ambientes onde existem \emph{clusters}
 com distribuição de carga de banco de dados, o que não se aplica neste
 sistema, e por ser complexo de ser operado, devido ao foco a \emph{clusters}.
 
-Por último, foram avaliados os bancos MongoDB e RethinkDB, que são muito
-similares, por serem orientados a documentos \ac{JSON}. O banco escolhido
-entre os dois foi o MongoDB, por alguns motivos. O primeiro ponto avaliado
-foi performance, onde o MongoDB ganha por uma diferença significativa. Outro
-ponto avaliado foi não haver nenhuma grande empresa utilizando o RethinkDB, e
-por ele ser desenvolvido por uma empresa pequena e não muito conhecida.
-Este último ponto de preocupação sobre o RethinkDB se confirmou na prática,
-pois próximo a dois meses após esta avaliação, a empresa responsável por ele
-anunciou que abandonaria o projeto.
+Para realização dos testes de performance, foram selecionados os bancos MySQL,
+PostgreSQL, MongoDB e RethinkDB. Todos os testes foram implementados na
+linguagem Python, utilizando os drivers oficiais. Os testes desconsideram
+o tempo de geração dos dados de teste e o tempo de abertura e fechamento
+da conexão com os bancos. Os dados de teste foram compostos por entidades que
+continham uma \emph{string} de tamanho fixo e um número inteiro. Os resultados
+podem ser visualizados na Tabela \ref{tab:db-metrics}.
+
+\begin{table}[htbp]
+\centering
+\caption{Métricas de inserção de dados nos bancos selecionados}
+\label{tab:db-metrics}
+%\vspace{0.4cm}
+\begin{tabular}{l|l|l|l} \hline
+  & \multicolumn{3}{c}{Quantidade de dados} \\
+  \hline
+	Banco de Dados & 10000 & 100000 & 500000 \\
+	\hline \hline
+	MySQL & 1816ms & 17986ms & 92119ms &
+	PostgreSQL & 2217ms & 22136ms & 111918ms &
+	MongoDB & 1620ms & 16700ms & 74330ms &
+	RethinkDB & 2370ms & 18660ms & 105316ms &
+	\hline
+\end{tabular}
+
+\\ \footnotesize Fonte: \fonteOAutor
+\end{table}
+
+Após obter os resultados de performance, a avaliação foi limitada aos bancos
+MongoDB e RethinkDB, que são muito similares, por serem orientados a
+documentos \ac{JSON}. O banco escolhido entre os dois foi o MongoDB, por
+alguns motivos. O primeiro ponto avaliado foi performance, onde o MongoDB
+ganha por uma diferença significativa. Outro ponto avaliado foi não haver
+nenhuma grande empresa utilizando o RethinkDB, e por ele ser desenvolvido
+por uma empresa pequena e não muito conhecida. Este último ponto de
+preocupação sobre o RethinkDB se confirmou na prática, pois próximo a dois
+meses após esta avaliação, a empresa responsável por ele anunciou que
+abandonaria o projeto.
 
 \section{ESTRUTURA INTERNA SERVIÇOS}
 
