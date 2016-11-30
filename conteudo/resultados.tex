@@ -215,3 +215,75 @@ além de permitir a criação de testes unitários somente com a simulação das
 mensagens de entrada e validação dos retornos. Isto está planejado para ser
 realizado a curto prazo, pois as melhorias na manutenção do código e a
 redução de uso de recursos de cada serviço é significativa.
+
+\section{TESTES COM API}
+
+Para demonstração do funcionamento da arquitetura, foi desenvolvido um
+serviço de cadastro de usuários, utilizando a arquitetura de microsserviços.
+Este serviço expõe seus métodos via \ac{MQ}, utilizando o RabbitMQ como server.
+Os métodos do serviço foram mapeados, via \emph{API Gateway}, para uma
+\ac{API} \ac{HTTP}, para uso de terceiros e para acesso via interface.
+
+Esta \ac{API} utiliza o padrão \ac{CRUD}, utilizando como recurso o usuário,
+tendo como campos o usuário de acesso, a senha, o nome (separados
+em primeiro e último nome) e o e-mail do usuário. Na Figura
+\ref{fig:test-create} é possível verificar a criação de um usuário, que
+foi realizada utilizando o método \emph{POST} do protocolo \ac{HTTP}.
+
+\begin{figure}[H]
+	\centering
+	\caption{Criação de um usuário via \ac{API}}
+	\includegraphics[width=0.7\textwidth]{figuras/test-create.png}
+
+	\label{fig:test-create}
+	\footnotesize Fonte: \fonteOAutor
+\end{figure}
+
+A \ac{API} já possui validação de campos, que verifica o formato dos dados
+e a presença de campos obrigatórios. Um exemplo de uma chamada da \ac{API}
+com campos faltando pode ser visualizada na Figura \ref{fig:test-validator},
+onde é feito uma requisição de criação de um usuário sem os campos de nome
+e e-mail do usuário. Essa requisição gera uma mensagem de erro que descreve
+quais campos não foram preenchidos, que pode ser utilizado para exibição
+na interface, ou para terceiros que estão se integrando com o sistema
+conseguirem identificar falhas na integração.
+
+\begin{figure}[H]
+	\centering
+	\caption{Validação dos dados da requisição para a \ac{API}}
+	\includegraphics[width=0.7\textwidth]{figuras/test-validator.png}
+
+	\label{fig:test-validator}
+	\footnotesize Fonte: \fonteOAutor
+\end{figure}
+
+Após criado o usuário, as informações deste usuário ficam disponíveis na
+\ac{API}, sendo necessário somente adicionar o identificador único do usuário
+no final da \ac{URL}. Isto é necessário para a \ac{API} identificar qual
+item do recurso, neste caso um usuário da lista de usuários, o cliente da
+\ac{API} está tentando acessar. Na Figura \ref{fig:test-get-single} é exibido
+o resultado da busca das informações de um usuário, na qual foi utilizado o
+método \ac{HTTP} \emph{GET}.
+
+\begin{figure}[H]
+	\centering
+	\caption{Busca das informações de um usuário via \ac{API}}
+	\includegraphics[width=0.7\textwidth]{figuras/test-get-single.png}
+
+	\label{fig:test-get-single}
+	\footnotesize Fonte: \fonteOAutor
+\end{figure}
+
+Caso o cliente da \ac{API} precise da lista de usuários do sistema, ela pode
+ser acessada utilizando a \ac{URL} base do recurso. Um exemplo de listagem
+de usuários na respectiva \ac{API} pode ser visualizado na Figura
+\ref{fig:test-get-all}.
+
+\begin{figure}[H]
+	\centering
+	\caption{Busca da lista de usuários via \ac{API}}
+	\includegraphics[width=0.7\textwidth]{figuras/test-get-all.png}
+
+	\label{fig:test-get-all}
+	\footnotesize Fonte: \fonteOAutor
+\end{figure}
