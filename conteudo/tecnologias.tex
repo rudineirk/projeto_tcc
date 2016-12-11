@@ -22,7 +22,8 @@ O modelo clássico de desenvolvimento de qualquer projeto é composto por um
 produto. Empresas como Google, Amazon e Netflix utilizaram por muito tempo
 esta arquitetura, principalmente pelo baixo custo de infraestrutura inicial,
 tendo em vista que o custo de manutenção envolve somente a manutenção deste
-único binário e de seus dados.
+único binário\footnote{Uma aplicação contina em um único processo do
+sistema operacional.} e de seus dados.
 
 Segundo \citeonline{Erl2008}, este modelo é válido e recomendado para novos
 projetos, considerando que nem sempre as linhas de separação entre as regras
@@ -104,28 +105,27 @@ Autonomia de um serviço refere-se ao fato que falhas em partes de aplicação
 são um risco que não pode ser mitigado de forma simples. Para isto, serviços
 devem estar preparados para situações de falha em outros serviços, onde
 o serviço precisa entregar sua funcionalidade independente de outros serviços
-estarem operacionais. No caso de sistemas monolíticos, uma falha
-em uma parte da aplicação poderia matar o processo e indisponibilizar
-a aplicação completamente. No caso de sistemas implementados com \ac{SOA}, os
-serviços devem continuar a disponibilizar, na medida do possível, suas
-funcionalidades mesmo que um serviço o qual este depende, apresente algum tipo
-de falha.
+estarem operando. No caso de sistemas monolíticos, uma falha em uma parte
+da aplicação poderia encerrar prematuramente o processo e indisponibilizar
+a aplicação completamente. No caso de sistemas implementados com \ac{SOA},
+os serviços devem disponibilizar, na medida do possível, suas funcionalidades
+mesmo que um serviço o qual este depende, apresente algum tipo de falha.
 
 Inexistência de manutenção de estados, segundo \citeonline{Richardson2007}, é
 um conceito que visa eliminar os problemas da manutenção de estado, os quais
-incluem aumento no consumo de recursos e tempo de computação.  Isto pode ser
-evitado caso não seja mantido estados, para tal, cada mensagem na
-comunicação deve carregar todas as informações necessárias para realização
+incluem aumento no consumo de recursos e tempo de computação. Isto pode ser
+evitado caso o serviço não mantenha dados em memória, para tal, cada mensagem
+na comunicação deve carregar todas as informações necessárias para realização
 da operação. Este conceito de comunicação é aplicado em diversos protocolos
 de comunicação, como o \ac{HTTP}, os quais, por limitações físicas, não podem
-manter estados a fim de aumentar sua resistência a falhas em casos de erros
+manter dados a fim de aumentar sua resistência a falhas em casos de falhas
 de comunicação.
 
 Descoberta de serviços, conforme explica \citeonline{Newman2015}, é a
 forma como um sistema, composto por diversos serviços, consegue descobrir onde
-estes serviços estão rodando e como acessá-los. Isto pode ser feito por
+estes serviços estão executando e como acessá-los. Isto pode ser feito por
 meio de um registro de serviços, que armazena uma lista de serviços
-atualmente em execução. Esta funcionalidade também é utilizada para alta
+em execução. Esta funcionalidade também é utilizada para alta
 disponibilidade e distribuição de carga, uma vez que este registro pode
 apontar para mais de uma instância do mesmo serviço. Um exemplo prático das
 vantagens deste princípio é uma manobra de manutenção em um servidor, onde
@@ -137,7 +137,9 @@ de serviços, onde um serviço que expõe uma regra de negócio pode ser compost
 por funcionalidades expostas por outros serviços. Na Figura
 \ref{fig:soa-bussiness-rules} pode ser visualizado um diagrama, que exemplifica
 a composição de uma aplicação a partir de serviços que disponibilizam seções
-das regras de negócio.
+das regras de negócio. Os processos da regra de negócio são utilizados para
+compor uma camada de regra de negócio independente dos serviços, que é a
+aplicação final exposta para o usuário.
 
 \begin{figure}[H]
 	\centering
@@ -177,23 +179,23 @@ realizadas as entregas de novas versões. Isto envolve alterações no
 gerenciamento dos ambientes de operação, no versionamento do software como um
 todo e no armazenamento de dados da aplicação. Na Figura
 \ref{fig:venn-microservices} é apresentado intersecção de conceitos que
-trabalham em conjunto para criar os microsserviços.
+atuam em conjunto para criar os microsserviços.
 
 \begin{figure}[H]
 	\centering
 	\caption{Diagrama de conceitos de Microsserviços}
-	\includegraphics[width=1.0\textwidth]{figuras/venn-microservices.png}
+	\includegraphics[width=0.8\textwidth]{figuras/venn-microservices.png}
 
 	\label{fig:venn-microservices}
 	\footnotesize Fonte: \citeonline{Goldsmith2015}
 \end{figure}
 
-O baixo acoplamento nesse formato de arquitetura é levado um passo a frente.
-Segundo \citeonline{Newman2015}, realizando a separação de domínios da
+O baixo acoplamento nesse formato de arquitetura se torna mais evitente,
+segundo \citeonline{Newman2015}, por ser realizado a separação de domínios da
 aplicação por meio de isolamento dos executáveis e do código que compõe os
-serviços, esta arquitetura permite que serviços sejam escritos em linguagens
-diferentes, o que permite utilizar tecnologias diferentes caso exista
-a necessidade.
+serviços. Isto permite que serviços sejam escritos utilizando tecnologias
+diferentes, o que torna possível escrever serviços em linguagens de
+programação diferentes, caso exista a necessidade.
 
 Esta separação da aplicação, em nível de regras de negócio, é chamada
 de \ac{DDD}, e não é exclusiva de microsserviços. Segundo
@@ -224,8 +226,8 @@ Os benefícios na produtividade e na qualidade do software entregue pode
 ser claramente vistos na tese de mestrado de \citeonline{Lopes2015}. Neste
 estudo é apresentado uma migração da arquitetura dos produtos de uma empresa
 para microsserviços, na qual houve aumentos significativos na velocidade de
-entrega de software funcional e na redução da quantidade de \emph{bugs}
-encontrados em produção.
+entrega de software funcional e na redução da quantidade de erros
+encontradas em produção.
 
 \section{TECNOLOGIAS APLICADAS}
 
@@ -247,7 +249,7 @@ de \acp{API} orientadas a recursos. Alguns exemplos de recursos são usuários,
 \emph{tickets} de um sistema de controle de \emph{bugs} e notas fiscais de um
 software de \ac{ERP}.
 
-Cada recurso dentro da \ac{API} pode ter um conjunto de ações que podem ser
+Cada recurso da \ac{API} pode ter um conjunto de ações que podem ser
 aplicadas sobre ele, que são apresentadas por meio de métodos \ac{HTTP} ou
 por sub-\acp{URL} para ações mais específicas. O conjunto de ações mais
 comuns é o \ac{CRUD}, as quais são operações básicas de manipulação de dados,
@@ -259,19 +261,19 @@ Um excelente exemplo de aplicação, como apresentado por
 um serviço de armazenamento de arquivos e dados. Nesta aplicação, são
 utilizados dois recursos principais, os \emph{Buckets} e os \emph{Objects},
 onde \emph{Objects} são as unidades de armazenamento de dados e \emph{Buckets}
-são contêineres que contém múltiplas unidades de armazenamento, sendo cada
+são containers que contém múltiplas unidades de armazenamento, sendo cada
 um destes recursos manipulados por \acp{API} dedicadas para criação e
 manipulação dos mesmos.
 
-O padrão \ac{REST} funciona muito bem em conjunto com microsserviços, por
+O padrão \ac{REST} pode ser utilizado em conjunto com microsserviços, por
 aplicar algumas práticas de separação de funcionalidades por meio de
-isolamento de recursos relacionados. Um exemplo de aplicação utilizando esta
-estrutura está descrita no artigo de \citeonline{Ignacio2009}, onde é
-apresentado um estudo de caso da criação de uma \ac{API} no estilo \ac{REST},
-para pesquisa em sistemas de busca de web sites. O recurso apresentado nesta
-\ac{API} é o alvo desta consulta, o qual é repassado para outros
-microsserviços, que funcionam como intermediários para pesquisa em motores
-de busca disponíveis no mercado.
+isolamento de recursos relacionados similares a microsserviços. Um exemplo
+de aplicação utilizando esta estrutura é descrita no artigo de
+\citeonline{Ignacio2009}, onde é apresentado um estudo de caso da criação
+de uma \ac{API} no estilo \ac{REST}, para pesquisa em sistemas de busca de
+web sites. O recurso apresentado nesta \ac{API} é o alvo desta consulta,
+o qual é repassado para outros microsserviços, que funcionam como
+intermediários para pesquisa em motores de busca disponíveis no mercado.
 
 \subsection{Banco de dados}
 
@@ -280,7 +282,7 @@ acoplamento das rotinas do sistema é o isolamento da base de dados de cada
 domínio de aplicação. A recomendação é cada serviço ter sua própria base de
 dados e seja o único responsável por ela, impedindo assim que outros serviços
 realizem alterações indevidas nos dados de outros domínios. Na Figura
-\ref{fig:db-monolith-microservices} é apresentado um diagrama comparativo do
+\ref{fig:db-monolith-microservices}, é apresentado um diagrama comparativo do
 armazenamento de dados de uma arquitetura monolítica e de microsserviços:
 
 \begin{figure}[H]
@@ -297,17 +299,17 @@ de dados, onde as associações entre os diversos dados do sistema são
 aplicadas ao armazenamento de dados. Isto gera alguns problemas, sendo o mais
 grave a incerteza de quais partes da aplicação utilizam uma seção dos dados,
 o que pode causar como consequência inconsistências na gravação e leitura
-dos mesmos.
+deles.
 
 Conforme explica \citeonline{Newman2015}, este problema não deve existir
-dentro da arquitetura de microsserviços, pois o acesso aos dados de outros
+na arquitetura de microsserviços, pois o acesso aos dados de outros
 domínios da aplicação devem ser feitos por meio do microsserviço responsável.
 Para tal, são utilizados sistemas de comunicação entre os serviços, como
 as \acp{MQ}, que funcionam como \acp{API} internas da aplicação.
 
 \subsection{Message queues}
 
-\emph{Message Queue} é um formato de envio e distribuição de mensagens
+\emph{Message Queue} (MQ) é um formato de envio e distribuição de mensagens
 entre processos, no qual é utilizado padrões independentes de linguagens
 de programação específicas, que permitem a comunicação entre sistemas que
 utilizam diferentes tecnologias. Esta comunicação é feita por meio de
@@ -319,11 +321,11 @@ Segundo \citeonline{Videla2012}, exitem 3 principais padrões de comunicação
 utilizados em \acp{MQ}, sendo o primeiro chamado \emph{request-reply}, onde
 mensagens são enviadas de um processo para o outro e para cada mensagem o
 produtor espera receber uma mensagem de resposta do receptor. Pode ser feita
-uma analogia a uma chamada de função de uma linguagem de programação, onde os
+uma analogia a uma chamada de função de uma linguagem de programação, que os
 parâmetros são a mensagem enviada pelo produtor e o retorno da função é a
 mensagem de resposta.
 
-O segundo padrão é o \emph{work queue}, onde as mensagens são enviadas pelo
+O segundo padrão é o \emph{work queue}, no qual as mensagens são enviadas pelo
 produtor, mas este não espera uma resposta do receptor. Este formato é
 utilizado para tratamento de dados em que o momento de execução do
 processamento destes não é determinístico, ou seja, o produtor não utiliza
@@ -336,8 +338,8 @@ um produtor (o \emph{publisher}) que envia uma mensagem para um tópico, no
 qual assinantes sobrescreveram para receber qualquer mensagem que seja
 enviado para este, como apresentado na Figura \ref{fig:mq-pubsub}. Este
 formato de comunicação se assemelha ao conceito de \emph{broadcast} de redes
-de computadores, onde uma mensagem é enviada sem um destinatário específico,
-e todos que estiverem ouvindo podem receber esta mensagem.
+de computadores, no qual uma mensagem é enviada sem um destinatário
+específico, e todos que estiverem ouvindo podem receber esta mensagem.
 
 \begin{figure}[H]
 	\centering
@@ -379,25 +381,25 @@ mensagens destinadas a este podem ser armazenadas temporariamente. Uma
 desvantagem é a inclusão de um ponto único de falha, uma vez que o serviço
 de \ac{MQ} se torna crítico para operação dos serviços.
 
-\subsection{Contêineres Linux}
+\subsection{Containers Linux}
 
-Contêineres são uma nova tecnologia de criação de ambientes isolados que tem
+Containers são uma tecnologia de criação de ambientes isolados que tem
 como objetivo substituir máquinas virtuais em algumas situações. Segundo
-\citeonline{Matthias2015}, máquinas virtuais e contêineres compartilham o
+\citeonline{Matthias2015}, máquinas virtuais e containers compartilham o
 conceito de isolamento de ambientes, mas este é o limite das semelhanças
-entre as duas tecnologias, pois a primeira foca na emulação de uma máquina
-física completa, e o segundo foca somente no isolamento de arquivos e
+entre as duas tecnologias, pois a primeira busca a emulação de uma máquina
+física completa, e o segundo usa somente o isolamento de arquivos e
 bibliotecas utilizadas por uma aplicação.
 
 As camadas destas tecnologias podem ser visualizadas na Figura
-\ref{fig:docker-vs-vm}, sendo que os contêineres apresentam somente as camadas
+\ref{fig:docker-vs-vm}, sendo que os containers apresentam somente as camadas
 de bibliotecas do sistema e a aplicação em si. As máquinas virtuais, além das
-mesmas camadas dos contêineres, apresentam a camada de virtualização de
+mesmas camadas dos containers, apresentam a camada de virtualização de
 hardware e do sistema operacional.
 
 \begin{figure}[H]
 	\centering
-	\caption{Comparativo de máquinas virtual e contêineres Docker}
+    \caption{Comparativo de máquinas virtual e containers Docker}
 	\includegraphics[width=0.8\textwidth]{figuras/docker-vs-vm.png}
 
 	\label{fig:docker-vs-vm}
@@ -410,9 +412,9 @@ de segurança não permitiram a proliferação destas ferramentas antes da cria�
 do Docker.
 
 Segundo \citeonline{Matthias2015}, o Docker é um conjunto de ferramentas de
-criação e distribuição de contêineres, que utiliza algumas tecnologias
+criação e distribuição de containers, que utiliza algumas tecnologias
 disponíveis no \emph{kernel} Linux para executar as aplicações com segurança
-dentro de um \emph{sandbox}. A criação de contêineres é feita por meio de
+dentro de um \emph{sandbox}. A criação de containers é feita por meio de
 imagens, as quais são distribuídas em repositórios públicos, que
 disponibilizam imagens prontas para diversos serviços e tecnologias. Tendo
 em vista a necessidade de empresas privadas de manter seu código seguro,
@@ -420,26 +422,26 @@ os desenvolvedores do Docker também criaram ferramentas que possibilitam a
 criação e utilização de repositórios privados de imagens.
 
 Conforme explica \citeonline{Turnbull2015} o isolamento de bibliotecas e
-dependências por meio de contêineres permite executar aplicações distintas
+dependências por meio de containers permite executar aplicações distintas
 dentro da mesma máquina sem que exista conflitos de versões dos requisitos
 para executar estas aplicações. Isto é feito por meio da utilização de
-instalações de sistemas operacionais mínimas dentro de cada contêiner, sem
+instalações de sistemas operacionais mínimas dentro de cada container, sem
 \emph{kernel} e arquivos desnecessários para operação das aplicações.
 
-Normalmente seria utilizado muito espaço para manter um sistema completo para
+Normalmente é utilizado muito espaço para manter um sistema completo para
 cada serviço da aplicação, conforme explica \citeonline{Matthias2015}, a
 solução para este problema foi a criação de camadas de sistemas de arquivos,
-onde cada imagem é composto por camadas que podem ser reutilizadas por imagens
+onde cada imagem é composta por camadas que podem ser reutilizadas por imagens
 derivadas. Por exemplo, a distribuição Linux Debian disponibiliza imagens
 base, que são utilizados pelos criadores da imagem do banco de dados
 PostgreSQL e da imagem do servidor web Apache. Ao utilizar estas duas últimas
-imagens na mesma máquina, o espaço em disco da camada do Debian será utilizada
-uma única vez, para cada contêiner será adicionado somente a diferença de
-espaço em disco necessário para os arquivos específicos da imagem do contêiner.
+imagens na mesma máquina, o espaço em disco da camada do Debian é utilizada
+uma única vez, para cada container é adicionado somente a diferença de
+espaço em disco necessário para os arquivos específicos da imagem do container.
 
-Ao executar o contêiner, as camadas da imagem são montadas no disco em modo
-somente leitura, sendo que alterações realizadas dentro do contêiner são
-armazenadas separadamente para cada contêiner. Este processo é invisível para
+Ao executar o container, as camadas da imagem são montadas no disco em modo
+somente de leitura, sendo que alterações realizadas dentro do container são
+armazenadas separadamente para cada container. Este processo é invisível para
 a aplicação, a qual enxerga somente um sistema de arquivos normal.
 
 Por todos os serviços compartilharem o mesmo \emph{kernel}, o isolamento
@@ -447,13 +449,13 @@ precisa ser também em nível de processos. Segundo \citeonline{Matthias2015},
 o \emph{kernel} Linux implementa uma tecnologia chamada \emph{cgroups},
 que é uma forma de criar subárvores de processos isoladas dentro
 do \emph{kernel}, as quais têm sua própria numeração de processos. Desta
-forma cada contêiner não consegue interferir com processos do host e de
-outros contêineres. Para os contêineres se comunicarem, o Docker
+forma cada container não consegue interferir com processos do host e de
+outros containers. Para os containers se comunicarem, o Docker
 disponibiliza uma rede virtual que permite a comunicação, simulando o
 formato de comunicação de rede das arquiteturas com máquinas virtuais.
 
 Para o desenvolvimento da interface de administração de servidores modular,
 foi escolhido a arquitetura de microsserviços, por suas vantagens apresentadas
 neste capítulo. O conjunto de conceitos e tecnologias descritos anteriormente
-serão utilizados nos próximos capítulos, os quais iniciam com a descrição do
+são utilizados nos próximos capítulos, os quais iniciam com a descrição do
 desenvolvimento com o desenho da arquitetura do sistema.

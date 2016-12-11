@@ -7,10 +7,10 @@ de administração como produtos, os quais têm como principal foco expor as
 funcionalidades dos serviços do servidor, de forma que facilite a tarefa de
 administração. Essas ferramentas são essenciais para o bom desempenho do
 trabalho desses profissionais. Caso aconteça uma falha na ferramenta, isto
-pode ocasionar em erros no serviço administrado, que podem gerar retrabalho
+pode ocasionar erros no serviço administrado, que podem gerar retrabalho
 e custos diversos.
 
-Esse trabalho se baseia no desenvolvimento da segunda iteração de uma
+Este trabalho se baseia no desenvolvimento da segunda versão de uma
 interface de administração de servidores. O projeto desta segunda versão
 foi iniciado sem se basear no código existente da primeira versão, por esta
 apresentar alguns problemas críticos estruturais. Isto se deve ao fato da
@@ -20,18 +20,18 @@ desenvolvimento de um produto próprio. Esse produto iniciou com base em
 \emph{scripts} desenvolvidos antes da empresa ter funcionários dedicados a
 desenvolvimento, sem os cuidados devidos de estruturação de código e escolhas
 de tecnologias, sendo estas as principais causa dos problemas estruturais
-existentes no produto. Esse trabalho procura responder a seguinte pergunta:
+existentes no produto. Este trabalho procura responder a seguinte pergunta:
 É possível criar uma interface de administração de servidores utilizando
 práticas modernas de desenvolvimento de \emph{software}?
 
 Segundo \citeonline{Hochstadt2006}, a reescrita de um sistema que tem seu
 início baseado em \emph{scripts} nem sempre resolve problemas existentes,
-além de poder criar problemas que não existiam antes. A forma correta de
-aproximar um problema de manutenção de um sistema legado é a reanálise das
-regras de negócio associadas ao mesmo, para então ser tomada a decisão de
-correção do sistema antigo ou reescrita deste. Para este projeto, a análise
-foi realizada previamente e foi decidido pela reescrita do sistema, mas esta
-análise não faz parte do escopo deste trabalho.
+além da possibilidade de criar problemas que não existiam antes. A forma
+correta de aproximar um problema de manutenção de um sistema legado é a
+reanálise das regras de negócio associadas ao mesmo, para então ser tomada
+a decisão de correção do sistema antigo ou reescrita deste. Para este projeto,
+a análise foi realizada previamente e foi decidido pela reescrita do sistema,
+mas esta análise não faz parte do escopo deste trabalho.
 
 O desenvolvimento de uma interface de administração de servidores Linux
 envolve diversas tecnologias e uma gama de serviços que devem ser
@@ -49,10 +49,10 @@ de comunicação entre si. O isolamento de domínios da aplicação diminui a
 inércia do fluxo de entrega de \emph{software} funcional, uma vez que podem ser
 feitas entregas pequenas e rápidas, diminuindo assim o \emph{Time to Market}.
 
-O principal objetivo deste projeto é desenvolver uma interface de
-administração de servidores modular, utilizando técnicas de desenvolvimento
-de \emph{software} modernas. Para tal, são realizadas as seguintes etapas que compõe
-a execução do mesmo:
+O principal objetivo deste trabalho é desenvolver uma interface de
+administração de servidores baseada em uma arquitetura modular, utilizando
+técnicas de desenvolvimento de \emph{software} modernas. Para tal, são
+realizadas as seguintes etapas que compõe a execução do mesmo:
 
 \begin{alineas}
   \item analisar arquiteturas de \emph{software} e técnicas de estruturação \\
@@ -60,8 +60,8 @@ a execução do mesmo:
   \item escolher tecnologias que serão utilizadas;
   \item desenhar a arquitetura inicial da interface de administração de \\
     servidores modular;
-  \item desenvolver o protótipo da aplicação da arquitetura;
-  \item realizar um estudo de caso da aplicação da arquitetura escolhida.
+  \item desenvolver o protótipo da aplicação da arquitetura e analisar os
+    resultados;
 \end{alineas}
 
 Para a execução deste trabalho são aplicadas duas metodologias, a primeira

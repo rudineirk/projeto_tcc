@@ -92,9 +92,9 @@ de gerenciamento dos serviços em produção.
 
 \section{GERENCIAMENTO DOS SERVIÇOS}
 
-Para gerenciamento dos contêineres Docker, foi utilizada a ferramenta Swarm,
+Para gerenciamento dos containers Docker, foi utilizada a ferramenta Swarm,
 que é uma solução de \emph{clusters} nativa do Docker, que permite criação de
-serviços com base em contêineres de forma simplificada. Essa ferramenta é
+serviços com base em containers de forma simplificada. Essa ferramenta é
 responsável por baixar, instalar e manter os serviços rodando, além de
 permitir o gerenciamento dos mesmos. Como o Docker e o Swarm tem somente
 ferramentas de gerenciamento via linha de comando, foi adicionado uma
@@ -103,7 +103,7 @@ interface de gerenciamento web chamada Portainer, que pode ser vista na Figura
 
 \begin{figure}[H]
 	\centering
-	\caption{Gerenciamento dos contêineres Docker}
+    \caption{Gerenciamento dos containers Docker}
 	\includegraphics[width=1.0\textwidth]{figuras/portainer-containers.png}
 
 	\label{fig:portainer-containers}
@@ -119,7 +119,7 @@ de problemas e falhas nos serviços que compõe o sistema.
 
 \begin{figure}[H]
 	\centering
-	\caption{Monitoramento de consumo de recursos do contêiner}
+    \caption{Monitoramento de consumo de recursos do container}
 	\includegraphics[width=0.7\textwidth]{figuras/portainer-graph.png}
 
 	\label{fig:portainer-graph}
@@ -129,7 +129,7 @@ de problemas e falhas nos serviços que compõe o sistema.
 O Swarm permite também a criação de \emph{clusters} de máquinas, o que
 possibilita a distribuição de instâncias de serviços entre diferentes
 computadores dentro do \emph{cluster} de forma transparente. Do ponto de
-vista de gerenciamento dos contêineres, o serviço será executado no
+vista de gerenciamento dos containers, o serviço será executado no
 Swarm, não importando em que máquina física ele está instalado. Como pode
 ocorrer falhas na máquina física ou nos próprios serviços, foram estudadas
 algumas formas de tolerância a estas falhas no sistema, que são apresentadas
@@ -193,7 +193,7 @@ serviços que não utilizam a \ac{MQ} como meio de entrada, como o
 \emph{API Gateway}, é utilizado o endereço \ac{DNS} fornecido pelo Swarm
 para cada serviço, o qual realiza a distribuição das conexões entre as
 instâncias do serviço no modelo \emph{round-robin}, que entrega o
-endereço de rede de um dos contêineres rodando a cada requisição, alternando
+endereço de rede de um dos containers rodando a cada requisição, alternando
 entre eles.
 
 O sistema como um todo, da forma como foi desenhado, atende os requisitos

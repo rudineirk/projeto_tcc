@@ -3,9 +3,9 @@
 
 Este trabalho teve como objetivo a criação de uma interface de administração
 de servidores baseada em arquitetura de microsserviços. A necessidade do
-mesmo surgiu com base em um planejamento feito para a nova iteração de um
-produto de administração de servidores, que sofria com problemas de
-dificuldade de manutenção e adição de novas funcionalidades. O projeto
+mesmo surgiu com base em um planejamento feito para a nova versão de um
+produto de administração de servidores, que apresentava problemas como
+dificuldade de manutenção e adição de novas funcionalidades. Este trabalho
 procurou implementar esta nova versão com uma base sólida de tecnologias,
 utilizando práticas modernas de desenvolvimento de \emph{software}, tais como
 a arquitetura de microsserviços.
@@ -18,15 +18,15 @@ de negócio em aplicações dedicadas que se comunicam entre si, para prover
 a funcionalidade final.
 
 Na aplicação da arquitetura, foram utilizados ferramentas disponíveis e
-provadas, como Docker e Swarm para gerenciamento e distribuição dos serviços,
-o que se provou na prática como uma excelente escolha. Isto se deve a
-estrutura de comunicação, que utiliza RabbitMQ, que prove uma arquitetura
-resiliente e escalável, sem aumentar significativamente o consumo de recursos
-da máquina de execução do sistema.
+muito utilizadas, como Docker e Swarm para gerenciamento e distribuição
+dos serviços, o que se provou na prática, por atenderem as necessidades
+deste trabalho. Isto se deve a estrutura de comunicação, que utiliza RabbitMQ,
+que prove uma arquitetura resistente a falhas e escalável, sem aumentar
+significativamente o consumo de recursos da máquina de execução do sistema.
 
 As dificuldades encontradas foram principalmente relacionadas ao grande leque
-de tecnologias, formas de comunicação entre serviços e estruturação dos
-componentes. A comunicação em especial se provou como o ponto mais complexo
+de tecnologias, em especial as formas de comunicação entre serviços e
+estruturação dos componentes. A comunicação é o ponto mais complexo
 da arquitetura de microsserviços, por se tratar de uma mudança de paradigma
 em relação a estrutura comum de estruturação de aplicações, que é síncrona.
 Para comunicação entre microsserviços, é necessário a utilização de protocolos
