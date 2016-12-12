@@ -1,7 +1,7 @@
 \chapter{RESULTADOS OBTIDOS}
 \label{chp:resultados}
 
-Neste capítulo será apresentado os resultados destes trabalho, abordando os
+Neste capítulo são apresentados os resultados deste trabalho, abordando os
 ganhos de produtividade com esta arquitetura, o gerenciamento dos
 microsserviços, a performance, escalabilidade e tolerância a falhas do sistema.
 
@@ -10,16 +10,18 @@ microsserviços, a performance, escalabilidade e tolerância a falhas do sistema
 Um dos grandes problemas da versão anterior do sistema era a dificuldade da
 manutenção e adição de agregar novas funcionalidades no sistema. A aplicação
 de padrões de projeto e de arquitetura de \emph{software} consistentes,
-como a arquitetura de microsserviços, tem como objetivo diminuir a quantidade
-de trabalho e conhecimento requerida para realização de alterações no código
+como a arquitetura de microsserviços, tem como objetivo diminuir o esforço
+e conhecimento requerido para realização de alterações no código
 de uma aplicação.
 
 Conforme pode ser visualizado na Figura \ref{fig:prod-dev}, no modelo antigo
 do sistema, a criação de uma nova \ac{API} de cadastro simples consumiria
-10 horas da equipe de desenvolvimento, contando os passos de planejamento,
+10 horas da equipe de desenvolvimento, considerando as fases de planejamento,
 desenvolvimento, testes e liberação da aplicação para produção. Com a
 utilização da arquitetura de microsserviços, este tempo foi reduzido para
-menos de 2 horas.
+menos de 2 horas. Esta redução se deve a utilização da arquitetura de
+microsserviços, por ser necessário escrever menos código e não depender
+de entregas de outras partes do sistema para levar um módulo a produção.
 
 \begin{figure}[H]
 	\centering
@@ -36,7 +38,7 @@ repositório para todo o código do sistema. Este formato de utilização de
 repositórios é chamada de \emph{monorepo}. A principal vantagem deste
 formato é o aumento da produtividade do desenvolvedor por não ser necessário
 acessar diversos repositórios para visualizar todo o código que uma aplicação
-utiliza. Outra grande vantagem é ser possível realizar alterações que afetam
+utiliza. Outra grande vantagem é a possibilidade realizar alterações que afetam
 múltiplos serviços com um único \emph{commit}, ou seja, dentro de um mesmo
 conjunto de alterações de código.
 
@@ -44,29 +46,29 @@ Um erro de conceitualização de \emph{monorepos}, é o fato de o código de
 funcionalidades diferentes estar dentro de um mesmo repositório categoriza
 a aplicação como monolítica, o que não é correto, pois é possível
 realizar esta separação em nível de arquitetura de \emph{software}. Isto é
-demostrado na prática por este modelo ser aplicado em empresas que são
+demostrado na prática por este modelo aplicado em empresas que são
 referências na área de desenvolvimento de \emph{software}, como a Google,
 o Facebook e o Twitter, as quais mantém todo o código da empresa em um
 único repositório.
 
-Este formato não é perfeito, pois há algumas dificuldades para manutenção
-de versões anteriores de produtos, que é uma situação comum quando é
-liberado uma nova versão e a anterior ainda não encerrou seu ciclo de vida,
-ou seja, ainda é necessário a realização de correções de \emph{bugs}
-na versão anterior. Uma alternativa a este formato seria utilizar um
-repositório por serviço ou um repositório por produto, mas as vantagens
-de utilizar \emph{monorepos} no lugar de diversos repositórios ainda
-prevaleceu para este sistema.
+Existem alguns pontos negativos com relação a este formato, pois há
+algumas dificuldades para manutenção de versões anteriores de produtos,
+que é uma situação comum quando é liberado uma nova versão e a anterior
+ainda não encerrou seu ciclo de vida, ou seja, ainda é necessário a
+realização de correções de \emph{bugs} na versão anterior. Uma alternativa
+a este formato seria utilizar um repositório por serviço ou um repositório
+por produto, mas as vantagens de utilizar \emph{monorepos} no lugar de
+diversos repositórios ainda prevaleceu para este sistema.
 
 Para facilitar a entrega rápida de \emph{software}, foi aplicado ferramentas de
 construção dos binários dos serviços de forma automatizada, que disponibilizam
 o \emph{software} para aplicação em produção a cada conjunto de alterações que é
 enviado para o servidor de controle de versões do código. Esta técnica é
 chamada de \emph{Continuous Delivery}, onde as últimas alterações de código
-sempre estarão disponíveis para instalação em um servidor em produção, mas
-não necessariamente será instalado automaticamente a última versão no
-servidor que roda o \emph{software}, podendo ser aplicadas atualizações com uma
-frequência menor.
+são disponibilizadas para instalação em um servidor em produção imediatamente
+após a construção do binário, mas não necessariamente é instalado
+automaticamente a última versão no servidor que roda o \emph{software},
+podendo ser aplicadas atualizações com uma frequência menor.
 
 \begin{figure}[H]
 	\centering
@@ -84,22 +86,26 @@ a produzir novas funcionalidades, em uma velocidade similar aos outros
 membros da equipe. Conforme pode ser visualizado na Figura
 \ref{fig:prod-ambientacao}, o tempo no sistema anterior era relativamente
 alto, um valor próximo a 5 meses, devido aos problemas arquiteturais e de
-tecnologias aplicadas. No novo sistema, esse valor cai para pouco mais
-de um mês. Esta métrica leva em conta que o novo membro da equipe não
-conhece o sistema, mas que já tenha experiência com a linguagem de
-programação utilizada. Na próxima seção será apresentado as ferramentas
-de gerenciamento dos serviços em produção.
+tecnologias aplicadas.
+
+No novo sistema, esse valor cai para pouco mais de um mês. Esta métrica
+leva em conta que o novo membro da equipe não conhece o sistema, mas que
+já tenha experiência com a linguagem de programação utilizada. A amostragem
+desta métrica foram dois funcionários, que após o treinamento na linguagem
+de programação, começaram a desenvolver funcionalidades para o sistema,
+utilizando a arquitetura de microsserviços. Na próxima seção é apresentado
+as ferramentas de gerenciamento dos serviços em produção.
 
 \section{GERENCIAMENTO DOS SERVIÇOS}
 
 Para gerenciamento dos containers Docker, foi utilizada a ferramenta Swarm,
-que é uma solução de \emph{clusters} nativa do Docker, que permite criação de
-serviços com base em containers de forma simplificada. Essa ferramenta é
-responsável por baixar, instalar e manter os serviços rodando, além de
-permitir o gerenciamento dos mesmos. Como o Docker e o Swarm tem somente
-ferramentas de gerenciamento via linha de comando, foi adicionado uma
-interface de gerenciamento web chamada Portainer, que pode ser vista na Figura
-\ref{fig:portainer-containers}.
+conforme descreve \citeonline{Matthias2015}, é uma solução de \emph{clusters}
+nativa do Docker, que permite criação de serviços com base em containers de
+forma simplificada. Essa ferramenta é responsável por baixar, instalar e
+manter os serviços rodando, além de permitir o gerenciamento dos mesmos.
+Como o Docker e o Swarm tem somente ferramentas de gerenciamento via linha de
+comando, foi adicionado uma interface de gerenciamento web chamada Portainer,
+que pode ser vista na Figura \ref{fig:portainer-containers}.
 
 \begin{figure}[H]
 	\centering
@@ -129,7 +135,7 @@ de problemas e falhas nos serviços que compõe o sistema.
 O Swarm permite também a criação de \emph{clusters} de máquinas, o que
 possibilita a distribuição de instâncias de serviços entre diferentes
 computadores dentro do \emph{cluster} de forma transparente. Do ponto de
-vista de gerenciamento dos containers, o serviço será executado no
+vista de gerenciamento dos containers, o serviço é executado no
 Swarm, não importando em que máquina física ele está instalado. Como pode
 ocorrer falhas na máquina física ou nos próprios serviços, foram estudadas
 algumas formas de tolerância a estas falhas no sistema, que são apresentadas
@@ -140,11 +146,12 @@ na seção seguinte.
 Um dos pilares de sistemas distribuídos é que nenhum sistema está totalmente
 seguro de falhas, o que pode ser feito é mitigar estas falhas. Um
 \emph{cluster} Swarm rodando em mais de uma máquina física tem algumas
-funcionalidades que auxiliam para garantir que um serviço nunca pare. Por
-distribuir as instâncias de um serviço entre as máquinas do cluster, caso
-ocorra uma falha em uma das máquinas ou em uma das instâncias do serviço, ele
-precisa somente desabilitar a instância com problemas para eliminar o ponto de
-falha.
+funcionalidades que auxiliam para garantir que um serviço esteja o máximo
+de tempo possível em execução, independente de falhas em uma instância do
+serviço ou na máquina em que ele está executando. Por distribuir as instâncias
+de um serviço entre as máquinas do cluster, caso ocorra uma falha em uma das
+máquinas ou em uma das instâncias do serviço, ele precisa somente desabilitar
+a instância com problemas para eliminar o ponto de falha.
 
 Em nível de serviço, foi adicionado uma forma manutenção das conexões com
 outros componentes, que permite que outros componentes sejam reiniciados e
@@ -154,9 +161,8 @@ persistência de mensagens não processadas para o disco, caso ocorra alguma
 falha brusca, como uma queda de energia, ao iniciar novamente, as mensagens
 enfileiradas para processamento são restauradas para a fila. Esta persistência
 não foi habilitada somente para chamadas \ac{RPC}, e consequentemente
-chamadas de \acp{API}, porque não haveria um remetente para a mensagem,
-levando em conta que a conexão teria sido perdida com a desconexão física
-do hardware, o que elimina a utilidade de manter estas mensagens.
+chamadas de \acp{API}, porque a conexão de rede com o remetente não é mantida,
+o que elimina a utilidade das mensagens.
 
 \section{PERFORMANCE}
 
@@ -164,18 +170,18 @@ Na arquitetura de microsserviços, a performance individual de cada parte
 do sistema deixa de ser o foco, sendo as análises de performance realizadas
 em nível de sistema. Otimizações pontuais não são negligenciadas, mas é
 possível contornar problemas de performance em produção aumentando a
-quantidade de instâncias de um serviço sendo executadas. Isto permite que
-seja reduzida a pressão sobre a equipe de desenvolvimento quanto a correções
+quantidade de instâncias de um serviço em execução. Isto permite que
+seja reduzida a pressão sobre a equipe de desenvolvimento quanto à correções
 de problemas de performance, uma vez que estas correções não precisam ser
 aplicadas imediatamente.
 
-Para alterar a quantidade de instâncias rodando no Swarm, é possível utilizar
+Para alterar a quantidade de instâncias executando no Swarm, é possível utilizar
 o Portainer para alterar a quantidade de instâncias de um serviço que está
 rodando no Swarm, exemplificado na Figura \ref{fig:portainer-replicas}.
 Para aumentar a quantidade de instâncias de um serviço utilizando esta
 ferramenta, é preciso alterar o campo \emph{Replicas} e salvar as novas
-configurações. Em uma questão de segundo, o Swarm deve subir
-automaticamente as novas instâncias do serviço.
+configurações. Dentro de alguns segundos, o Swarm deve iniciar os containers
+das novas instâncias do serviço automaticamente.
 
 \begin{figure}[H]
 	\centering
@@ -210,7 +216,7 @@ Para resolver este problema, uma alternativa estudada seria reestruturação
 dos serviços utilizando uma arquitetura de atores. Os atores são componentes
 da aplicação que se comunicam entre si por meio de passagem de mensagens,
 similar a comunicação via \ac{MQ} entre serviços. Este formato tem a vantagem
-que os atores podem ser executados em diferentes threads ou processos,
+que os atores podem ser executados em diferentes \emph{threads} ou processos,
 além de permitir a criação de testes unitários somente com a simulação das
 mensagens de entrada e validação dos retornos. Isto está planejado para ser
 realizado a curto prazo, pois as melhorias na manutenção do código e a
@@ -287,3 +293,16 @@ de usuários na respectiva \ac{API} pode ser visualizado na Figura
 	\label{fig:test-get-all}
 	\footnotesize Fonte: \fonteOAutor
 \end{figure}
+
+Neste capítulo foram apresentados os resultados de produtividade, as
+ferramentas de gerenciamento do sistema e alguns testes práticos
+com uma \ac{API} implementada utilizando a arquitetura de microsserviços.
+Os resultados apresentados, com relação a produtividade e velocidade de
+entrega de software funcional, demonstraram uma melhoria significativa
+com relação ao sistema antigo, que utilizava uma arquitetura monolítica.
+A utilização de ferramentas como Docker, Swarm e Portainer facilitaram
+a visualização do estado do sistema e a identificação de problemas,
+além de simplificar a manutenção dos serviços. No próximo capítulo é
+concluido o trabalho, revisando alguns pontos importantes e fazendo
+uma análise do resultado do trabalho, finalizando com considerações
+de melhorias futuras para a arquitetura.
