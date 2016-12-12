@@ -1,7 +1,7 @@
-\chapter{ARQUITETURA}
+\chapter{ARQUITETURA DOS SERVIÇOS DA INTERFACE DE ADMINISTRAÇÃO}
 \label{chp:arquitetura}
 
-A ideia para a realização deste trabalho se deve a uma necessidade que uma
+A motivação para a realização deste trabalho se deve a uma necessidade que uma
 empresa teve de desenvolver uma nova versão do produto que esta vende. A
 versão anterior não estava atendendo algumas necessidades, como facilidade
 de manutenção e de integração de novas funcionalidades.
@@ -16,41 +16,43 @@ os recursos da máquina.
 O produto em questão, precisa prover duas principais funcionalidades, uma
 é uma interface web de administração de servidores, e outra é uma
 \ac{API} \ac{HTTP} para integração com terceiros. Para o desenvolvimento da
-interface, é possível reutilizar as mesmas \acp{API}, por isto o desenvolvimento
-do protótipo inicial se focou em abordar o \emph{software} que é executado no servidor
-e nas \acp{API} que ele expõe.
+interface gráfica para usuários, é possível reutilizar as mesmas \acp{API},
+por isto o trabalho de desenvolvimento do protótipo inicial engloba o
+\emph{software} que é executado no servidor e as \acp{API} que ele expõe,
+aplicando a arquitetura.
 
 Para a entrega das funcionalidades do sistema, é necessário que os microsserviços
 se comuniquem entre si, para executar regras de negócio que fazem parte de outros
 serviços, a fim de compor a regra de negócio que o usuário necessita. Foram
-realizados testes com algumas possíveis soluções, que serão descritas na seção
+realizados testes com algumas possíveis soluções, que são descritas na seção
 a seguir.
 
 \section{COMUNICAÇÃO ENTRE SERVIÇOS}
 
 A primeira tentativa de comunicação entre os serviços foi feita utilizando
 \acp{API} \ac{HTTP}, sendo que algumas destas \acp{API} eram expostas para
-utilização para terceiros. A comunicação desta forma é simples de ser desenvolvida,
+uso de terceiros. A comunicação desta forma é simples de ser desenvolvida,
 mas apresenta algumas limitações que não foi possível contornar, como a identificação
-da localização dos serviços para comunicação e o fato que somente era possível
-ser realizada comunicação de forma síncrona entre os serviços.
+da localização dos serviços para comunicação e o fato que somente é possível
+realizar a comunicação de forma síncrona entre os serviços.
 
-Na estrutura seguinte, foi avaliado a utilização de um \ac{MQ} como meio de
-comunicação entre os serviços. Como alterativas, haviam protocolos de \ac{MQ}
-que utilizavam um \emph{broker} e outros \emph{brokerless}, ou seja, que
-utilizavam um servidor de distribuição de mensagens ou se comunicavam diretamente
-entre si. Como os protocolos \emph{brokerless} apresentavam alguns dos problemas
-das \acp{API} \ac{HTTP}, foi escolhido o RabbitMQ como servidor de \ac{MQ},
-por utilizar o protocolo \ac{AMQP}, um padrão bem estabelecido de comunicação,
-e por ser muito utilizado por diversas empresas.
+Na sequência, para adicionar um meio de comunicação assíncrona entre serviços,
+foi avaliado a utilização de um \ac{MQ} como meio de comunicação entre os
+serviços. Como alternativas, haviam protocolos de \ac{MQ} que utilizavam um
+\emph{broker} e outros \emph{brokerless}, ou seja, que utilizavam um servidor
+de distribuição de mensagens ou se comunicavam diretamente entre si. Como os
+protocolos \emph{brokerless} apresentavam alguns dos problemas das \acp{API}
+\ac{HTTP}, foi escolhido o RabbitMQ como servidor de \ac{MQ}, por utilizar o
+protocolo \ac{AMQP}, um padrão bem estabelecido de comunicação, e por ser
+muito utilizado por diversas empresas.
 
 Este formato funcionou bem na comunicação entre serviços, por permitir comunicação
 síncrona e assíncrona entre serviços. Comunicação síncrona é utilizada nas operações
 de resultado imediato, como manipulação de um recurso, por exemplo, para criação
-da \ac{API} de gerenciamento de usuários, que tem operações \ac{CRUD}, que
-permitem a criação e manipulação de usuários.
+da \ac{API} de gerenciamento de usuários, que tem as operações \emph{Create Retrive
+Update Delete} (CRUD), que permitem a criação e manipulação de usuários.
 
-Mensagens assíncronas são utilizadas onde o remetente da mensagem não requer uma
+Mensagens assíncronas são utilizadas quando o remetente da mensagem não requer uma
 resposta imediata para uma operação. Um serviço de controle de chamadas de um
 sistema de telefonia é um bom exemplo, pois ele pode se comunicar com outro
 serviço de tarifação de chamadas de forma assíncrona, pois o registro destas
@@ -98,23 +100,31 @@ A arquitetura de comunicação entre os componentes pode ser vista na Figura
 	\footnotesize Fonte: \fonteOAutor
 \end{figure}
 
+Conforme pode ser visualizado na figura, os serviços podem se comunicar por
+meio da \ac{MQ}, expondo como \acp{API} os métodos \acp{RPC}. Para expor
+as \acp{API} \ac{HTTP}, o \emph{API Gateway} realiza a chamada dos métodos
+\acp{RPC} dos serviços por meio da \ac{MQ}, utilizando o mapeamento das
+\acp{URL} para indicar qual serviço e método deve acessado para expor as
+funcionalidades.
+
 Do ponto de vista funcional, esta implementação atendia os requisitos, mas
-criou um problema, que foi a necessidade de sempre que for adicionado um
-serviço seria necessário alterar o \emph{API Gateway} para adicionar o mapeamento
-das \acp{API} do mesmo. Por este motivo foi adicionado um sistema de registro
-de microsserviços. O sistema de registro de microsserviços permite que os
-microsserviços registrem suas \acp{API} no \emph{API Gateway} dinamicamente,
-permitindo subir novos serviços no sistema sem reiniciar o \emph{API Gateway}
-e sem perda de requisições.
+criou um problema, que foi a necessidade de sempre que for adicionado uma
+nova \acp{API} externa seria necessário alterar o \emph{API Gateway} para
+adicionar o mapeamento das \acp{API} do serviço relacionado. Por este motivo
+foi adicionado um sistema de registro de microsserviços. O sistema de
+registro de microsserviços permite que os microsserviços registrem suas
+\acp{API} no \emph{API Gateway} dinamicamente, permitindo subir novos
+serviços no sistema sem reiniciar o \emph{API Gateway} e sem perda de
+requisições.
 
 \section{ARMAZENAMENTO DE DADOS}
 
 Para armazenamento de dados, foi avaliado a utilização de bancos de dados
-relacionais e bancos \emph{NoSQL} ou não estruturados. Para este projeto, foi
-escolhido o modelo \emph{NoSQL} de banco de dados, devido a cada microsserviço
-ser responsável pelos dados relativos a sua regra de negócio, o que torna
-desnecessário criar relacionamentos complexos entre dados via banco,
-por causa da regra de isolamento dos domínios de aplicação.
+relacionais e bancos \emph{NoSQL}, também chamados de bancos não estruturados.
+Para este projeto, foi escolhido o modelo \emph{NoSQL} de banco de dados,
+devido a cada microsserviço ser responsável pelos dados relativos a sua regra
+de negócio, o que torna desnecessário criar relacionamentos complexos entre
+dados via banco, por causa da regra de isolamento dos domínios de aplicação.
 
 Outra vantagem na utilização de bancos \emph{NoSQL} é a performance, por
 estes bancos não dependerem de diversas validações de integridade dos dados
@@ -126,14 +136,11 @@ oportunidade, pois é possível realizar a validação dos dados em uma
 linguagem mais familiar para o desenvolvedor, ao repassar a responsabilidade
 de validação de dados para o microsserviço.
 
-Para este trabalho foram avaliados os bancos de dados estruturados MySQL e
-PostgreSQL, e os bancos de dados \emph{NoSQL} MongoDB, CouchDB, Couchbase,
-Cassandra e RethinkDB. As versões dos bancos utilizados nesta análise
-podem ser visualizados na Tabela \ref{tab:db-versions}. Para dados não
-relacionados, a performance dos bancos de dados \ac{SQL} e \emph{NoSQL}
-é similar, mas para dados mais complexos o principal fator que degrada
-bancos \ac{SQL} em relação aos \emph{NoSQL} são as dificuldades de
-representar os dados de forma correta.
+Para este trabalho foram realizados testes com os bancos de dados
+estruturados MySQL e PostgreSQL, e os bancos de dados \emph{NoSQL}
+MongoDB, CouchDB, Couchbase, Cassandra e RethinkDB. As versões dos
+bancos utilizados nesta análise podem ser visualizados na Tabela
+\ref{tab:db-versions}.
 
 \begin{table}[htbp]
 \centering
@@ -156,18 +163,34 @@ representar os dados de forma correta.
 \\ \footnotesize Fonte: \fonteOAutor
 \end{table}
 
-Os bancos de dados Couchbase e CouchDB foram eliminados por causa de falta
-de suporte dos \emph{drivers} para as linguagens. O banco Cassandra foi
-eliminado por ser focado em ambientes onde existem \emph{clusters}
-com distribuição de carga de banco de dados, o que não se aplica neste
-sistema, e por ser complexo de ser operado, devido ao foco a \emph{clusters}.
+Uma grande diferença na forma como são utilizados os bancos de dados é a
+forma como dados relacionados são organizados. Em bancos de dados
+relacionais, os dados são organizados em tabelas e estas tabelas são
+relacionadas entre si por meio de chaves estrangeiras. Nos bancos
+\emph{NoSQL}, os dados relacionados são armazenados dentro de um único
+documento, que contém todos os dados de uma entidade. Isto gera uma
+certa vantagem em performance para os bancos \emph{NoSQL}, por ser
+necessário buscar os dados de uma entidade em um único lugar. No
+caso de entidades distintas, a vantagem é reduzida, por ambos tipos
+de banco de dados operam de forma similar nestes casos.
+
+Na análise funcional dos bancos de dados, os bancos Couchbase e CouchDB
+foram eliminados por causa de falta de suporte dos \emph{drivers} para
+as linguagens. O banco Cassandra foi eliminado por ser focado em ambientes
+onde existem \emph{clusters} com distribuição de carga de banco de dados,
+o que não se aplica neste sistema, e por ser complexo de ser operado,
+devido ao foco a \emph{clusters}.
 
 Para realização dos testes de performance, foram selecionados os bancos MySQL,
 PostgreSQL, MongoDB e RethinkDB. Todos os testes foram implementados na
 linguagem Python, utilizando os drivers oficiais. Os testes desconsideram
 o tempo de geração dos dados de teste e o tempo de abertura e fechamento
-da conexão com os bancos. Os dados de teste foram compostos por entidades que
-continham uma \emph{string} de tamanho fixo e um número inteiro. Os resultados
+da conexão com os bancos. O ambiente de teste foi uma máquina com um processador
+Intel Core i7-4810MQ, com 8GB de memória RAM e um HD SSD com velociade de escrita
+de 450MB/s, sendo que o banco de dados e o processo que realiza a inserção
+dos dados ambos executando na mesma máquina, não existindo comunicação de rede.
+Os dados de teste foram compostos por entidades que continham uma \emph{string}
+de tamanho fixo e um número inteiro. Os resultados do teste de inserção de dados
 podem ser visualizados na Tabela \ref{tab:db-metrics}.
 
 \begin{table}[htbp]
@@ -193,22 +216,24 @@ podem ser visualizados na Tabela \ref{tab:db-metrics}.
 Após obter os resultados de performance, a avaliação foi limitada aos bancos
 MongoDB e RethinkDB, que são muito similares, por serem orientados a
 documentos \ac{JSON}. O banco escolhido entre os dois foi o MongoDB, por
-alguns motivos. O primeiro ponto avaliado foi performance, onde o MongoDB
-ganha por uma diferença significativa. Outro ponto avaliado foi não haver
-nenhuma grande empresa utilizando o RethinkDB, e por ele ser desenvolvido
-por uma empresa pequena e não muito conhecida. Este último ponto de
-preocupação sobre o RethinkDB se confirmou na prática, pois próximo a dois
-meses após esta avaliação, a empresa responsável por ele anunciou que
+alguns motivos. O primeiro ponto avaliado foi performance, em que o MongoDB
+apresenta uma vantagem significativa em relação aos outros bancos. Outro ponto
+avaliado foi não haver nenhuma grande empresa utilizando o RethinkDB, e por
+ele ser desenvolvido por uma empresa pequena e não muito conhecida. Este último
+ponto de preocupação sobre o RethinkDB se confirmou na prática, pois próximo
+a dois meses após esta avaliação, a empresa responsável por ele anunciou que
 abandonaria o projeto.
 
 \section{ESTRUTURA INTERNA SERVIÇOS}
 
 Na primeira implementação dos serviços, foi realizada a utilização dos
 \emph{drivers} de acesso ao banco de dados e \ac{MQ} diretamente, o que
-funcionou bem nos primeiros microsserviços, mas causava a duplicação de código de
-inicialização destes \emph{drivers}. Embora alguns autores defendam que
-os microsserviços não devam compartilhar código, isto vai contra alguns
-fundamentos do desenvolvimento de \emph{software}, como a reutilização de código.
+funcionou bem nos primeiros microsserviços, mas causava a reescrita de
+código de inicialização destes \emph{drivers}. Embora alguns autores defendam
+que os microsserviços não devam compartilhar código, isto vai contra alguns
+fundamentos do desenvolvimento de \emph{software}, como a reutilização de
+código, por não estar sendo reutilizao o código de conexão com o \ac{MQ}
+e com o banco.
 
 Como solução para este problema, foram criadas bibliotecas de apoio que
 abstraem as bibliotecas de comunicação e interação com o banco, o que
@@ -219,11 +244,12 @@ bibliotecas de comunicação, que operam a um nível mais baixo de abstração.
 
 Para separação da lógica dentro da arquitetura foi utilizado uma separação
 em três níveis na arquitetura interna do serviço, conforme pode ser visualizado
-na Figura \ref{fig:arch-servico}. O \emph{Endpoint} é a parte responsável
-por receber mensagens e devolver respostas para o \ac{MQ}. O \emph{Service}
-é o local onde as regras de negócio do microsserviço são desenvolvidas. O
-\ac{DAO} é onde a lógica de armazenamento e busca dos dados no banco de
-dados é realizada.
+na Figura \ref{fig:arch-servico}. A primeira camada é o \emph{Endpoint},
+que é a parte responsável por abstrair o recebimento de mensagens e
+devolução de respostas para o \ac{MQ}. A segunda camada é chamada
+\emph{Service}, que é o local onde as regras de negócio do microsserviço
+são desenvolvidas. A última camada é o \ac{DAO}, onde a lógica de armazenamento
+e busca dos dados no banco de dados é realizada.
 
 \begin{figure}[H]
 	\centering
@@ -234,11 +260,17 @@ dados é realizada.
 	\footnotesize Fonte: \fonteOAutor
 \end{figure}
 
-Esta estrutura funcionou de forma adequada, pois permitiu manter os domínios
-das aplicações isoladas, utilizando um nível de abstração dos componentes
-que não compromete a manutenção e facilita o desenvolvimento de novas
-funcionalidades. A declaração das \acp{API}, conforme mencionado na seção
-do \emph{API Gateway}, fica no \emph{Endpoint}, sendo ele responsável
-por toda interação com sistemas externos ao microsserviço. No capítulo
-seguinte será apresentado os resultados obtidos neste trabalho, além de
-melhorias futuras para o sistema.
+Esta estrutura permitiu manter os domínios das aplicações isoladas,
+utilizando um nível de abstração dos componentes que não compromete
+a manutenção e facilita o desenvolvimento de novas funcionalidades.
+A declaração das \acp{API}, conforme mencionado na seção do
+\emph{API Gateway}, fica no \emph{Endpoint}, sendo ele responsável
+por toda interação com sistemas externos ao microsserviço.
+
+Neste capítulo foi apresentado as escolhas tecnológicas e a arquitetura
+utilizada na implementação da interface de administração de servidores
+modular, abordando algumas dificuldades encontradas e detalhes da
+implementação necessários o funcionamento da arquitetura de microsserviços,
+como a estruturação interna dos serviços e da comunicação entre estes.
+No capítulo seguinte são apresentados os resultados obtidos neste
+trabalho, além de melhorias futuras para o sistema.
